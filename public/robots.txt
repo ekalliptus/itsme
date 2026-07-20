@@ -1,11 +1,11 @@
-# robots.txt - https://ekalliptus.id/
+# robots.txt - https://bio.ekalliptus.com/
 
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /private/
 
-Sitemap: https://ekalliptus.id/sitemap-index.xml
+Sitemap: https://bio.ekalliptus.com/sitemap-index.xml
 
 User-agent: Googlebot
 Allow: /
