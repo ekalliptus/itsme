@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 *.md
+!docs/superpowers/specs/*.md
 *.pdf
 .astro/
 .superpowers/
