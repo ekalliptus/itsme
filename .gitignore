@@ -23,7 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 *.md
-!docs/superpowers/specs/*.md
+!docs/superpowers/specs/2026-07-20-portfolio-data-audit-design.md
 *.pdf
 .astro/
 .superpowers/
