@@ -20,7 +20,7 @@ const {
   pageSchema,
 } = Astro.props;
 
-const SITE = 'https://ekalliptus.id';
+const SITE = 'https://bio.ekalliptus.com';
 const canonicalUrl = `${SITE}${Astro.url.pathname}`;
 const ogImage = `${SITE}${image}`;
 
@@ -47,19 +47,18 @@ const personSchema = {
   name: 'Haikal Akhalul Azhar',
   alternateName: 'єкαℓℓιρтus',
   jobTitle: 'Software Engineer',
-  description: 'Software Engineer, IT Support Specialist, and Editor based in Tegal, Indonesia with 5+ years of experience in Flutter, React, Next.js, and Laravel.',
+  description: 'Software Engineer, IT Support Specialist, and Editor based in Tegal, Indonesia with 8+ years of experience in Flutter, React, Next.js, and Laravel.',
   url: `${SITE}/`,
   image: `${SITE}/img/ekal-og.webp`,
   email: 'support@ekalliptus.com',
   nationality: 'Indonesian',
-  knowsLanguage: ['en', 'id'],
+  knowsLanguage: ['en'],
   sameAs: [
-    'https://github.com/anrdart',
-    'https://www.linkedin.com/in/alulanr/',
-    'https://twitter.com/ekalliptus',
+    'https://github.com/ekalliptus',
+    'https://www.linkedin.com/in/ekalliptus/',
   ],
   worksFor: { '@type': 'Organization', name: 'Media Pro' },
-  alumniOf: { '@type': 'EducationalOrganization', name: 'Bina Sarana Informatika University' },
+  alumniOf: { '@type': 'EducationalOrganization', name: 'Universitas Bina Sarana Informatika' },
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Tegal',
@@ -89,11 +88,6 @@ const websiteSchema = {
   description: 'Portfolio of Haikal Akhalul Azhar - Software Engineer based in Indonesia.',
   inLanguage: 'en-US',
   author: { '@type': 'Person', name: 'Haikal Akhalul Azhar' },
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: { '@type': 'EntryPoint', urlTemplate: `${SITE}/projects?q={search_term_string}` },
-    'query-input': 'required name=search_term_string',
-  },
 };
 ---
 <!DOCTYPE html>
@@ -118,14 +112,11 @@ const websiteSchema = {
   <!-- Language & locale -->
   <meta http-equiv="content-language" content="en-US" />
   <link rel="alternate" href={canonicalUrl} hreflang="en" />
-  <link rel="alternate" href={canonicalUrl} hreflang="id" />
   <link rel="alternate" href={canonicalUrl} hreflang="x-default" />
 
   <!-- Geographic (GEO) -->
   <meta name="geo.region" content="ID-JT" />
   <meta name="geo.placename" content="Tegal, Indonesia" />
-  <meta name="geo.position" content="-6.8694;109.1402" />
-  <meta name="ICBM" content="-6.8694, 109.1402" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -139,16 +130,6 @@ const websiteSchema = {
   <meta property="og:image:alt" content={title} />
   <meta property="og:site_name" content="Haikal Akhalul Azhar" />
   <meta property="og:locale" content="en_US" />
-
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@ekalliptus" />
-  <meta name="twitter:creator" content="@ekalliptus" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={ogImage} />
-  <meta name="twitter:image:alt" content={title} />
-  <meta name="twitter:domain" content="ekalliptus.id" />
 
   <!-- Favicon & manifest -->
   <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
