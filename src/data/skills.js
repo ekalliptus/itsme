@@ -1,6 +1,5 @@
 // src/data/skills.js
-// Stack grounded in github.com/anrdart - 59 repos:
-// TypeScript, Python, JavaScript, HTML, Astro, Dart, PHP, Vue, Shell/Bash, C, CSS
+// Skills represented across published work and public repositories.
 export const SKILLS_DATA = [
   // Mobile
   { name: "Flutter",     icon: "/img/skills/flutter.svg",     category: "mobile"   },
