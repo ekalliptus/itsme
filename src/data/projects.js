@@ -25,7 +25,7 @@ export const PROJECTS = [
   {
     icon: '🌐',
     name: 'Media Pro',
-    description: 'Premium global digital marketing agency - web development, Google Ads, Meta Ads, SEO, and consulting. Trusted by 25,000-plus brands across 40-plus countries with over 10 years of experience.',
+    description: 'Digital marketing agency website presenting web development, Google Ads, Meta Ads, SEO, and consulting services.',
     tags: ['WordPress', 'PHP', 'JavaScript', 'SEO'],
     liveUrl: 'https://mediapro.work',
     category: 'agency',
@@ -45,7 +45,7 @@ export const PROJECTS = [
   {
     icon: '🎓',
     name: 'Al Hidayah Islamic School',
-    description: 'Modern school management system with student enrollment, academic tracking, and parent portal. Features responsive design and comprehensive admin dashboard.',
+    description: 'Official Al Hidayah Boarding School website presenting admissions, school programs, facilities, news, and contact information.',
     tags: ['WordPress', 'HTML', 'CSS', 'JavaScript'],
     liveUrl: 'https://alhidayahschool.sch.id',
     category: 'education',
@@ -71,15 +71,6 @@ export const PROJECTS = [
   },
   {
     icon: '📖',
-    name: 'Rumah Quran Al Fatihah',
-    description: 'Platform Rumah Quran Al Fatihah - pusat belajar Quran dengan sistem pendaftaran program, jadwal, dan progress tracking santri.',
-    tags: ['WordPress', 'PHP', 'JavaScript'],
-    liveUrl: 'https://rumahquranalfatihah.com',
-    category: 'education',
-    previewImage: '/img/projects/rumahquranalfatihah-com.png',
-  },
-  {
-    icon: '📖',
     name: 'Rumah Tahfidz Al Fatihah',
     description: 'Platform Rumah Tahfidz Al Fatihah - asrama penghafal Quran dengan sistem registrasi dan monitoring hafalan santri.',
     tags: ['WordPress', 'PHP', 'JavaScript'],
@@ -95,15 +86,6 @@ export const PROJECTS = [
     liveUrl: 'https://pesantrenalfatihah.com',
     category: 'education',
     previewImage: '/img/projects/pesantrenalfatihah-com.png',
-  },
-  {
-    icon: '🏠',
-    name: 'Al Fatihah Homeschooling',
-    description: 'Program homeschooling Islami Al Fatihah dengan kurikulum fleksibel, pembelajaran berbasis nilai Islam, dan pendampingan keluarga.',
-    tags: ['WordPress', 'PHP', 'JavaScript'],
-    liveUrl: 'https://alfatihahhomeschooling.com',
-    category: 'education',
-    previewImage: '/img/projects/alfatihahhomeschooling-com.png',
   },
   {
     icon: '📚',
@@ -144,15 +126,6 @@ export const PROJECTS = [
     previewImage: '/img/projects/wakafsumur-org.png',
   },
   {
-    icon: '💳',
-    name: 'Donasi Wakaf Sumur',
-    description: 'Portal donasi dedicated Wakaf Sumur - antarmuka yang dioptimalkan untuk pengalaman donasi yang mudah, transparan, dan terpercaya.',
-    tags: ['WordPress', 'PHP', 'JavaScript'],
-    liveUrl: 'https://donasi.wakafsumur.com',
-    category: 'finance',
-    previewImage: '/img/projects/donasi-wakafsumur-com.png',
-  },
-  {
     icon: '🕋',
     name: 'Bayar Kafarat',
     description: 'Platform online pembayaran kafarat (tebusan pelanggaran sumpah/puasa) yang shariah-compliant dengan distribusi transparan ke yang berhak.',
@@ -177,7 +150,7 @@ export const PROJECTS = [
     tags: ['WordPress', 'PHP', 'JavaScript'],
     liveUrl: 'https://bayarzakat.com',
     category: 'finance',
-    previewImage: '/img/projects/bayarzakat-com.png',
+    previewImage: null,
   },
   {
     icon: '🌙',
@@ -357,7 +330,7 @@ export const PROJECTS = [
   {
     icon: '🍫',
     name: 'Miemie Brownie',
-    description: 'Website Miemie Brownie dengan sistem absensi pegawai dan manajemen toko - dibangun dengan PHP sebagai proyek aplikasi bisnis.',
+    description: 'Online storefront for Miemie Brownie, presenting its brownie products, brand information, and ordering channels in Tegal.',
     tags: ['PHP', 'MySQL', 'JavaScript'],
     liveUrl: 'https://miemiebrownie.com',
     category: 'commerce',
@@ -386,7 +359,7 @@ export const PROJECTS = [
   {
     icon: '👨‍💻',
     name: 'Jagoanzaidev',
-    description: 'Portfolio dan personal brand website Zaidan - showcasing skills, projects, dan layanan pengembangan web. Dibangun ulang dengan Astro + React + Tailwind di Cloudflare.',
+    description: 'Indonesian learning platform for practical server administration guides, infrastructure fundamentals, and developer resources.',
     tags: ['Astro', 'React', 'TailwindCSS', 'Cloudflare'],
     liveUrl: 'https://jagoanzaidev.web.id',
     category: 'services',

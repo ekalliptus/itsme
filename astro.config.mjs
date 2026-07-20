@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://ekalliptus.id',
+  site: 'https://bio.ekalliptus.com',
   integrations: [sitemap()],
   prefetch: {
     prefetchAll: true,

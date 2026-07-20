@@ -9,14 +9,14 @@ const pageSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
   name: 'Haikal Akhalul Azhar - Software Engineer Portfolio',
-  url: 'https://ekalliptus.id/',
+  url: 'https://bio.ekalliptus.com/',
   description: 'Portfolio of Haikal Akhalul Azhar, Software Engineer based in Tegal, Indonesia.',
   dateModified: new Date().toISOString().split('T')[0],
   mainEntity: {
     '@type': 'Person',
     name: 'Haikal Akhalul Azhar',
     jobTitle: 'Software Engineer',
-    url: 'https://ekalliptus.id/',
+    url: 'https://bio.ekalliptus.com/',
   },
 };
 
@@ -27,7 +27,7 @@ const pillars = [
     label: 'WHO I AM',
     href: '/about',
     title: 'A software engineer who ships products people actually use.',
-    desc: 'Five years building cross-platform mobile apps and full-stack web - clean architecture, smooth UI, and an eye for the details that make software feel finished.',
+    desc: 'Eight years building cross-platform mobile apps and full-stack web - clean architecture, smooth UI, and an eye for the details that make software feel finished.',
     cta: 'About me',
   },
   {
@@ -42,7 +42,7 @@ const pillars = [
     no: '03',
     label: 'MY WORK',
     href: '/projects',
-    title: `${projectCount}+ products delivered for clients across Indonesia.`,
+    title: `${projectCount} products delivered for clients across Indonesia.`,
     desc: 'Digital agencies, Islamic platforms, e-commerce, donation systems, and public services - real websites running in production for real organizations.',
     cta: 'See the work',
   },
@@ -98,11 +98,11 @@ const pillars = [
     <div class="container">
       <div class="hero-stats reveal">
         <div class="hero-stat">
-          <span class="hero-stat-num">5+</span>
+          <span class="hero-stat-num">8+</span>
           <span class="hero-stat-label">Years experience</span>
         </div>
         <div class="hero-stat">
-          <span class="hero-stat-num">{projectCount}+</span>
+          <span class="hero-stat-num">{projectCount}</span>
           <span class="hero-stat-label">Projects shipped</span>
         </div>
         <div class="hero-stat">

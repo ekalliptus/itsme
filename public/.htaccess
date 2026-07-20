@@ -80,9 +80,9 @@
 # Canonical: redirect www to non-www and enforce HTTPS in one step
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{HTTP_HOST} ^www\.itsme\.ekalliptus\.id$ [OR]
+    RewriteCond %{HTTP_HOST} !^bio\.ekalliptus\.com$ [NC,OR]
     RewriteCond %{HTTPS} !=on
-    RewriteRule ^ https://itsme.ekalliptus.id%{REQUEST_URI} [R=301,L]
+    RewriteRule ^ https://bio.ekalliptus.com%{REQUEST_URI} [R=301,L]
 </IfModule>
 
 # Enhanced Security headers for SEO and security
