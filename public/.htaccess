@@ -99,11 +99,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Remove trailing slashes for consistency
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{THE_REQUEST} /+[^?\s]*?/+[?\s]
-    RewriteRule ^(.*)/ /$1 [L,R=301]
-    
     # Handle missing files gracefully (404 to homepage for SPA behavior)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

@@ -4,35 +4,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import LazyImage from '../components/LazyImage.astro';
 
 const pageSchema = {
-  '@context': 'https://schema.org',
   '@type': 'AboutPage',
   name: 'About Haikal Akhalul Azhar',
-  url: 'https://bio.ekalliptus.com/about',
+  url: 'https://bio.ekalliptus.com/about/',
   description: 'Software Engineer, IT Support Specialist, and Editor based in Tegal, Indonesia with 8+ years of experience.',
-  mainEntity: {
-    '@type': 'Person',
-    name: 'Haikal Akhalul Azhar',
-    jobTitle: 'Software Engineer',
-    description: 'Passionate Software Engineer focused on Flutter mobile apps and full-stack web development using React, Next.js, and Laravel.',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Tegal',
-      addressCountry: 'ID',
-    },
-    hasOccupation: [
-      { '@type': 'Occupation', name: 'Software Engineer' },
-      { '@type': 'Occupation', name: 'IT Support Specialist' },
-      { '@type': 'Occupation', name: 'Editor' },
-    ],
-    offers: {
-      '@type': 'Offer',
-      itemOffered: {
-        '@type': 'Service',
-        name: 'Software Engineering Services',
-        description: 'Custom web and mobile application development using Flutter, React, Next.js, and Laravel.',
-      },
-    },
-  },
+  mainEntity: { '@id': 'https://bio.ekalliptus.com/#person' },
 };
 
 const expertise = [
@@ -61,7 +37,7 @@ const expertise = [
 <BaseLayout
   title="About - Haikal Akhalul Azhar"
   description="Software Engineer, IT Support Specialist, and Editor based in Tegal, Indonesia with 8+ years of experience building cross-platform mobile and web solutions."
-  pageSchema={pageSchema}
+  pageNodes={[pageSchema]}
 >
   <div class="container section">
     <p class="section-label reveal">Who I Am</p>

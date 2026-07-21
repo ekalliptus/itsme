@@ -1,22 +1,18 @@
 ---
 // src/pages/index.astro
-import { execSync } from 'node:child_process';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { PROJECTS } from '../data/projects.js';
+import { PAGE_CONTENT_PATHS, resolveContentDate } from '../lib/content-dates.js';
 
 const projectCount = PROJECTS.length;
-
-// Stable ISO 8601 datetime of the last commit touching this page's content.
-// Stays consistent across builds and satisfies Google's schema date requirement.
-const lastModified = execSync('git log -1 --format=%cI -- src/pages/index.astro src/data', { encoding: 'utf-8' }).trim();
+const lastModified = resolveContentDate(PAGE_CONTENT_PATHS['/']);
 
 const pageSchema = {
-  '@context': 'https://schema.org',
   '@type': 'ProfilePage',
   name: 'Haikal Akhalul Azhar - Software Engineer Portfolio',
   url: 'https://bio.ekalliptus.com/',
   description: 'Portfolio of Haikal Akhalul Azhar, Software Engineer based in Tegal, Indonesia.',
-  dateModified: lastModified,
+  ...(lastModified ? { dateModified: lastModified } : {}),
   mainEntity: {
     '@type': 'Person',
     name: 'Haikal Akhalul Azhar',
@@ -30,7 +26,7 @@ const pillars = [
   {
     no: '01',
     label: 'WHO I AM',
-    href: '/about',
+    href: '/about/',
     title: 'A software engineer who ships products people actually use.',
     desc: 'Eight years building cross-platform mobile apps and full-stack web - clean architecture, smooth UI, and an eye for the details that make software feel finished.',
     cta: 'About me',
@@ -38,7 +34,7 @@ const pillars = [
   {
     no: '02',
     label: 'HOW I WORK',
-    href: '/skills',
+    href: '/skills/',
     title: 'A stack I know deeply, picked to fit the problem.',
     desc: 'Flutter and Dart on mobile. React, Next.js, Astro, and Laravel on the web. I lean on tools I understand end-to-end, so what I ship stays quick, maintainable, and reliable.',
     cta: 'My stack',
@@ -46,7 +42,7 @@ const pillars = [
   {
     no: '03',
     label: 'MY WORK',
-    href: '/projects',
+    href: '/projects/',
     title: `${projectCount} products delivered for clients across Indonesia.`,
     desc: 'Digital agencies, Islamic platforms, e-commerce, donation systems, and public services - real websites running in production for real organizations.',
     cta: 'See the work',
@@ -54,7 +50,7 @@ const pillars = [
   {
     no: '04',
     label: 'CONTACT',
-    href: '/contact',
+    href: '/contact/',
     title: 'Got something to build? Let’s talk.',
     desc: 'Open for freelance projects, full-time roles, and consulting. Share what you have in mind and we’ll scope it from first idea to shipped product.',
     cta: 'Get in touch',
@@ -64,7 +60,7 @@ const pillars = [
 <BaseLayout
   title="Haikal Akhalul Azhar - Software Engineer | IT Support Specialist | Editor"
   description="Software Engineer, IT Support Specialist, and Editor based in Tegal, Indonesia. Specializing in Flutter, React, Next.js, and Laravel development."
-  pageSchema={pageSchema}
+  pageNodes={[pageSchema]}
 >
   <!-- ── HERO ─────────────────────────────────────────────── -->
   <section class="hero">
@@ -88,14 +84,14 @@ const pillars = [
       </p>
 
       <p class="hero-desc reveal">
-        Haikal Akhalul Azhar - a software engineer building cross-platform
-        mobile apps and full-stack web products with Flutter, React, Next.js, and
-        Laravel. Clean architecture, smooth UI, and details that make it feel finished.
+        Haikal Akhalul Azhar is a software engineer based in Tegal, Indonesia,
+        building cross-platform mobile apps and full-stack web products with Flutter,
+        React, Next.js, and Laravel. Available for freelance, full-time, and consulting work.
       </p>
 
       <div class="hero-cta reveal">
-        <a href="/projects" class="btn btn-primary">View work</a>
-        <a href="/contact" class="btn btn-outline">Hire me</a>
+        <a href="/projects/" class="btn btn-primary">View work</a>
+        <a href="/contact/" class="btn btn-outline">Hire me</a>
       </div>
     </div>
 
@@ -382,34 +378,47 @@ const pillars = [
   // the hero text paints first, then the field loads when the browser is idle.
   let heroField: { dispose: () => void } | null = null;
   let fieldLoading = false;
+  let fieldGeneration = 0;
+  let idleHandle: number | null = null;
+  let timeoutHandle: number | null = null;
 
-  function loadField() {
-    if (heroField || fieldLoading) return;
-    const canvas = document.getElementById('hero-field') as HTMLCanvasElement | null;
-    if (!canvas) return;
-    // Skip the cost entirely for users who prefer reduced motion on slow links
+  async function loadField(canvas: HTMLCanvasElement, generation: number) {
+    if (heroField || fieldLoading || !canvas.isConnected) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
         (navigator as any).connection?.saveData) return;
 
     fieldLoading = true;
-    import('../scripts/hero-field.js').then(({ initHeroField }) => {
-      const c = document.getElementById('hero-field') as HTMLCanvasElement | null;
-      if (!c) { fieldLoading = false; return; }
-      heroField = initHeroField(c);
-      if (heroField) requestAnimationFrame(() => c.classList.add('ready'));
+    try {
+      const { initHeroField } = await import('../scripts/hero-field.js');
+      if (generation !== fieldGeneration || !canvas.isConnected) return;
+      heroField = initHeroField(canvas);
+      if (heroField) requestAnimationFrame(() => canvas.classList.add('ready'));
+    } catch {
+      // CSS background remains as the no-WebGL fallback.
+    } finally {
       fieldLoading = false;
-    });
+    }
   }
 
   function scheduleField() {
+    const canvas = document.getElementById('hero-field') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const generation = ++fieldGeneration;
     const ric = (window as any).requestIdleCallback as
       | ((cb: () => void, opts?: { timeout: number }) => number)
       | undefined;
-    if (ric) ric(loadField, { timeout: 2000 });
-    else setTimeout(loadField, 600);
+    if (ric) idleHandle = ric(() => loadField(canvas, generation), { timeout: 2000 });
+    else timeoutHandle = window.setTimeout(() => loadField(canvas, generation), 600);
   }
 
   function disposeField() {
+    fieldGeneration++;
+    if (idleHandle !== null && (window as any).cancelIdleCallback) {
+      (window as any).cancelIdleCallback(idleHandle);
+    }
+    if (timeoutHandle !== null) clearTimeout(timeoutHandle);
+    idleHandle = null;
+    timeoutHandle = null;
     if (heroField) { heroField.dispose(); heroField = null; }
   }
 

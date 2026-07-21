@@ -10,25 +10,31 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
-  pageSchema?: object; // page-specific JSON-LD, injected by each page
+  pageNodes?: object[]; // page-specific JSON-LD graph nodes
 }
 
 const {
   title,
   description = 'Haikal Akhalul Azhar - Software Engineer, IT Support Specialist, and Editor based in Tegal, Indonesia. Specializing in Flutter, React, Next.js, and Laravel development.',
   image = '/img/ekal-og.webp',
-  pageSchema,
+  pageNodes = [],
 } = Astro.props;
 
 const SITE = 'https://bio.ekalliptus.com';
-const canonicalUrl = `${SITE}${Astro.url.pathname}`;
+const path = Astro.url.pathname === '/' ? '/' : `${Astro.url.pathname.replace(/\/+$/, '')}/`;
+const canonicalUrl = `${SITE}${path}`;
 const ogImage = `${SITE}${image}`;
 
-// Dynamic BreadcrumbList - skipped on home page (no segments)
-const segments = Astro.url.pathname.split('/').filter(Boolean);
-const breadcrumbSchema = segments.length > 0 ? {
-  '@context': 'https://schema.org',
+const PERSON_ID = `${SITE}/#person`;
+const WEBSITE_ID = `${SITE}/#website`;
+const HOME_ID = `${SITE}/#webpage`;
+const PAGE_ID = `${canonicalUrl}#webpage`;
+const BREADCRUMB_ID = `${canonicalUrl}#breadcrumb`;
+
+const segments = path.split('/').filter(Boolean);
+const breadcrumbNode = segments.length > 0 ? {
   '@type': 'BreadcrumbList',
+  '@id': BREADCRUMB_ID,
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
     ...segments.map((seg, i) => ({
@@ -40,10 +46,9 @@ const breadcrumbSchema = segments.length > 0 ? {
   ],
 } : null;
 
-// Sitewide schemas
-const personSchema = {
-  '@context': 'https://schema.org',
+const personNode = {
   '@type': 'Person',
+  '@id': PERSON_ID,
   name: 'Haikal Akhalul Azhar',
   alternateName: 'єкαℓℓιρтus',
   jobTitle: 'Software Engineer',
@@ -71,6 +76,14 @@ const personSchema = {
     'TailwindCSS', 'Docker', 'Git', 'Linux', 'Mobile Development', 'Web Development',
     'IT Support', 'Clean Architecture', 'UI/UX Design', 'Software Engineering',
   ],
+  mainEntityOfPage: { '@id': HOME_ID },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    '@id': `${SITE}/#contact`,
+    contactType: 'professional inquiries',
+    email: 'support@ekalliptus.com',
+    availableLanguage: ['English'],
+  },
   hasOccupation: {
     '@type': 'Occupation',
     name: 'Software Engineer',
@@ -79,16 +92,36 @@ const personSchema = {
   },
 };
 
-const websiteSchema = {
-  '@context': 'https://schema.org',
+const websiteNode = {
   '@type': 'WebSite',
+  '@id': WEBSITE_ID,
   name: 'Haikal Akhalul Azhar',
   alternateName: 'єкαℓℓιρтus Portfolio',
   url: `${SITE}/`,
   description: 'Portfolio of Haikal Akhalul Azhar - Software Engineer based in Indonesia.',
   inLanguage: 'en-US',
-  author: { '@type': 'Person', name: 'Haikal Akhalul Azhar' },
+  author: { '@id': PERSON_ID },
 };
+
+const pageNode = {
+  '@type': path === '/' ? 'ProfilePage' : 'WebPage',
+  '@id': PAGE_ID,
+  url: canonicalUrl,
+  name: title,
+  description,
+  isPartOf: { '@id': WEBSITE_ID },
+  about: { '@id': PERSON_ID },
+  ...(breadcrumbNode ? { breadcrumb: { '@id': BREADCRUMB_ID } } : {}),
+};
+
+const graph = [
+  personNode,
+  websiteNode,
+  ...(path === '/' ? [] : [{ '@type': 'ProfilePage', '@id': HOME_ID, url: `${SITE}/` }]),
+  pageNode,
+  ...(breadcrumbNode ? [breadcrumbNode] : []),
+  ...pageNodes,
+];
 ---
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -148,21 +181,10 @@ const websiteSchema = {
 
   <!-- Fonts: self-hosted via @fontsource-variable/montserrat (imported in global.css) -->
 
-  <!-- JSON-LD: Person -->
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
-
-  <!-- JSON-LD: WebSite -->
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
-
-  <!-- JSON-LD: BreadcrumbList (dynamic per route) -->
-  {breadcrumbSchema && (
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-  )}
-
-  <!-- JSON-LD: page-specific (injected by individual pages) -->
-  {pageSchema && (
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
-  )}
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  })} />
 
   <ClientRouter />
 </head>

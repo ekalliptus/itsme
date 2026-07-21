@@ -47,3 +47,17 @@ The screenshot script opens public project URLs with Playwright and stores PNG f
 ## Deployment
 
 `bun run build` produces `dist/`. Cloudflare serves that directory via `wrangler.jsonc`; Apache deployments use `public/.htaccess`, copied into `dist/` by Astro.
+
+### AI crawler policy
+
+Cloudflare may prepend managed crawler directives to the deployed `robots.txt`. The approved policy allows retrieval crawlers while keeping ordinary Google and Bing Search crawling enabled.
+
+After deployment:
+
+1. Open Cloudflare Dashboard → Security → Bots → AI Crawl Control.
+2. Disable the blanket managed block or allow the approved retrieval crawlers.
+3. Fetch `https://bio.ekalliptus.com/robots.txt`.
+4. Confirm `Googlebot` and `Bingbot` are allowed.
+5. Confirm approved retrieval crawlers are not disallowed by a managed section.
+
+This dashboard setting is external to the repository. Allowing a crawler does not guarantee search rankings, citations, or AI Overview inclusion.
