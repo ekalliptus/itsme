@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "screenshots": "node scripts/screenshot-projects.mjs",
-    "test": "vitest --run"
+    "test": "vitest --run",
+    "test:seo": "astro build && vitest --run tests/seo-output.test.js"
   },
   "devDependencies": {
     "fast-check": "^4.5.2",

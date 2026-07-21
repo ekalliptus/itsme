@@ -27,6 +27,7 @@ const ogImage = `${SITE}${image}`;
 
 const PERSON_ID = `${SITE}/#person`;
 const WEBSITE_ID = `${SITE}/#website`;
+const HOME_ID = `${SITE}/#webpage`;
 const PAGE_ID = `${canonicalUrl}#webpage`;
 const BREADCRUMB_ID = `${canonicalUrl}#breadcrumb`;
 
@@ -75,7 +76,7 @@ const personNode = {
     'TailwindCSS', 'Docker', 'Git', 'Linux', 'Mobile Development', 'Web Development',
     'IT Support', 'Clean Architecture', 'UI/UX Design', 'Software Engineering',
   ],
-  mainEntityOfPage: { '@id': `${SITE}/#webpage` },
+  mainEntityOfPage: { '@id': HOME_ID },
   contactPoint: {
     '@type': 'ContactPoint',
     '@id': `${SITE}/#contact`,
@@ -116,6 +117,7 @@ const pageNode = {
 const graph = [
   personNode,
   websiteNode,
+  ...(path === '/' ? [] : [{ '@type': 'ProfilePage', '@id': HOME_ID, url: `${SITE}/` }]),
   pageNode,
   ...(breadcrumbNode ? [breadcrumbNode] : []),
   ...pageNodes,
