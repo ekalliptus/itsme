@@ -94,6 +94,7 @@ export class HeroField {
     this._onResize = this._onResize.bind(this);
     this._onPointerMove = this._onPointerMove.bind(this);
     this._onPointerLeave = this._onPointerLeave.bind(this);
+    this._onContextLost = this._onContextLost.bind(this);
     this._tick = this._tick.bind(this);
   }
 
@@ -114,6 +115,7 @@ export class HeroField {
     window.addEventListener('resize', this._onResize);
     window.addEventListener('pointermove', this._onPointerMove, { passive: true });
     window.addEventListener('pointerleave', this._onPointerLeave);
+    this.canvas.addEventListener('webglcontextlost', this._onContextLost);
 
     this._setupVisibility();
 
@@ -126,24 +128,16 @@ export class HeroField {
   }
 
   _initRenderer() {
-    // Probe WebGL up front. Three.js logs its own console.error when a context
-    // can't be created (e.g. headless bots, software rendering) before throwing,
-    // which try/catch here can't suppress. Testing first means we bail cleanly
-    // without ever instantiating the renderer, so no errors hit the console.
-    const test = this.canvas.getContext
-      ? (this.canvas.getContext('webgl') || this.canvas.getContext('experimental-webgl'))
-      : null;
-    if (!test) return false;
-    // Release the probe context so the renderer can claim its own.
-    const lose = test.getExtension && test.getExtension('WEBGL_lose_context');
-    if (lose && lose.loseContext) lose.loseContext();
+    const probe = document.createElement('canvas');
+    const context = probe.getContext('webgl') || probe.getContext('experimental-webgl');
+    if (!context) return false;
 
     try {
       this.renderer = new THREE.WebGLRenderer({
         canvas: this.canvas,
         alpha: true,
         antialias: true,
-        powerPreference: 'high-performance',
+        powerPreference: 'default',
       });
     } catch (e) {
       return false;
@@ -222,6 +216,11 @@ export class HeroField {
 
   _onPointerLeave() {
     this.pointerActive = 0;
+  }
+
+  _onContextLost(event) {
+    event.preventDefault();
+    this.pause();
   }
 
   _updatePointer() {
@@ -309,6 +308,7 @@ export class HeroField {
     window.removeEventListener('resize', this._onResize);
     window.removeEventListener('pointermove', this._onPointerMove);
     window.removeEventListener('pointerleave', this._onPointerLeave);
+    this.canvas.removeEventListener('webglcontextlost', this._onContextLost);
     this.geometry?.dispose();
     this.material?.dispose();
     this.renderer?.dispose();

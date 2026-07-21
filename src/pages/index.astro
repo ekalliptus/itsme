@@ -378,34 +378,47 @@ const pillars = [
   // the hero text paints first, then the field loads when the browser is idle.
   let heroField: { dispose: () => void } | null = null;
   let fieldLoading = false;
+  let fieldGeneration = 0;
+  let idleHandle: number | null = null;
+  let timeoutHandle: number | null = null;
 
-  function loadField() {
-    if (heroField || fieldLoading) return;
-    const canvas = document.getElementById('hero-field') as HTMLCanvasElement | null;
-    if (!canvas) return;
-    // Skip the cost entirely for users who prefer reduced motion on slow links
+  async function loadField(canvas: HTMLCanvasElement, generation: number) {
+    if (heroField || fieldLoading || !canvas.isConnected) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
         (navigator as any).connection?.saveData) return;
 
     fieldLoading = true;
-    import('../scripts/hero-field.js').then(({ initHeroField }) => {
-      const c = document.getElementById('hero-field') as HTMLCanvasElement | null;
-      if (!c) { fieldLoading = false; return; }
-      heroField = initHeroField(c);
-      if (heroField) requestAnimationFrame(() => c.classList.add('ready'));
+    try {
+      const { initHeroField } = await import('../scripts/hero-field.js');
+      if (generation !== fieldGeneration || !canvas.isConnected) return;
+      heroField = initHeroField(canvas);
+      if (heroField) requestAnimationFrame(() => canvas.classList.add('ready'));
+    } catch {
+      // CSS background remains as the no-WebGL fallback.
+    } finally {
       fieldLoading = false;
-    });
+    }
   }
 
   function scheduleField() {
+    const canvas = document.getElementById('hero-field') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const generation = ++fieldGeneration;
     const ric = (window as any).requestIdleCallback as
       | ((cb: () => void, opts?: { timeout: number }) => number)
       | undefined;
-    if (ric) ric(loadField, { timeout: 2000 });
-    else setTimeout(loadField, 600);
+    if (ric) idleHandle = ric(() => loadField(canvas, generation), { timeout: 2000 });
+    else timeoutHandle = window.setTimeout(() => loadField(canvas, generation), 600);
   }
 
   function disposeField() {
+    fieldGeneration++;
+    if (idleHandle !== null && (window as any).cancelIdleCallback) {
+      (window as any).cancelIdleCallback(idleHandle);
+    }
+    if (timeoutHandle !== null) clearTimeout(timeoutHandle);
+    idleHandle = null;
+    timeoutHandle = null;
     if (heroField) { heroField.dispose(); heroField = null; }
   }
 
