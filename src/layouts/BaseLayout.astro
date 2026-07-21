@@ -21,11 +21,12 @@ const {
 } = Astro.props;
 
 const SITE = 'https://bio.ekalliptus.com';
-const canonicalUrl = `${SITE}${Astro.url.pathname}`;
+const path = Astro.url.pathname === '/' ? '/' : `${Astro.url.pathname.replace(/\/+$/, '')}/`;
+const canonicalUrl = `${SITE}${path}`;
 const ogImage = `${SITE}${image}`;
 
 // Dynamic BreadcrumbList - skipped on home page (no segments)
-const segments = Astro.url.pathname.split('/').filter(Boolean);
+const segments = path.split('/').filter(Boolean);
 const breadcrumbSchema = segments.length > 0 ? {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
