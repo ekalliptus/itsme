@@ -8,7 +8,6 @@ const projectCount = PROJECTS.length;
 const lastModified = resolveContentDate(PAGE_CONTENT_PATHS['/']);
 
 const pageSchema = {
-  '@context': 'https://schema.org',
   '@type': 'ProfilePage',
   name: 'Haikal Akhalul Azhar - Software Engineer Portfolio',
   url: 'https://bio.ekalliptus.com/',
@@ -61,7 +60,7 @@ const pillars = [
 <BaseLayout
   title="Haikal Akhalul Azhar - Software Engineer | IT Support Specialist | Editor"
   description="Software Engineer, IT Support Specialist, and Editor based in Tegal, Indonesia. Specializing in Flutter, React, Next.js, and Laravel development."
-  pageSchema={pageSchema}
+  pageNodes={[pageSchema]}
 >
   <!-- ── HERO ─────────────────────────────────────────────── -->
   <section class="hero">

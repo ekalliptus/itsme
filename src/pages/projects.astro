@@ -5,24 +5,24 @@ import ProjectCard from '../components/ProjectCard.astro';
 import { PROJECTS, PROJECT_CATEGORIES } from '../data/projects.js';
 
 const pageSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: 'Projects - Haikal Akhalul Azhar',
-  url: 'https://bio.ekalliptus.com/projects/',
-  description: 'Portfolio of professional software engineering projects by Haikal Akhalul Azhar.',
-  author: { '@type': 'Person', name: 'Haikal Akhalul Azhar' },
-  hasPart: PROJECTS.map(p => ({
-    '@type': 'WebSite',
-    name: p.name,
-    description: p.description,
-    url: p.liveUrl,
+  '@type': 'ItemList',
+  '@id': 'https://bio.ekalliptus.com/projects/#project-list',
+  name: 'Selected portfolio projects',
+  itemListElement: PROJECTS.map((project, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      name: project.name,
+      description: project.description,
+      url: project.liveUrl,
+    },
   })),
 };
 ---
 <BaseLayout
   title="Projects - Haikal Akhalul Azhar"
   description={`Portfolio of ${PROJECTS.length} professional software engineering projects: web development, Islamic platforms, e-commerce, and more.`}
-  pageSchema={pageSchema}
+  pageNodes={[pageSchema]}
 >
   <div class="container section">
     <p class="section-label reveal">My Work</p>

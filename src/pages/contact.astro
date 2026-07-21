@@ -3,23 +3,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const pageSchema = {
-  '@context': 'https://schema.org',
   '@type': 'ContactPage',
   name: 'Contact Haikal Akhalul Azhar',
   url: 'https://bio.ekalliptus.com/contact/',
   description: 'Get in touch with Haikal Akhalul Azhar for freelance projects, full-time opportunities, and consulting.',
-  mainEntity: {
-    '@type': 'Person',
-    name: 'Haikal Akhalul Azhar',
-    email: 'support@ekalliptus.com',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'customer support',
-      email: 'support@ekalliptus.com',
-      availableLanguage: ['English'],
-      areaServed: 'ID',
-    },
-  },
+  mainEntity: { '@id': 'https://bio.ekalliptus.com/#person' },
 };
 
 const socials = [
@@ -30,7 +18,7 @@ const socials = [
 <BaseLayout
   title="Contact - Haikal Akhalul Azhar"
   description="Get in touch with Haikal Akhalul Azhar. Available for freelance projects, full-time opportunities, and consulting."
-  pageSchema={pageSchema}
+  pageNodes={[pageSchema]}
 >
   <div class="container section">
     <p class="section-label reveal">Contact</p>
