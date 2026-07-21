@@ -1,14 +1,11 @@
 ---
 // src/pages/index.astro
-import { execSync } from 'node:child_process';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { PROJECTS } from '../data/projects.js';
+import { PAGE_CONTENT_PATHS, resolveContentDate } from '../lib/content-dates.js';
 
 const projectCount = PROJECTS.length;
-
-// Stable ISO 8601 datetime of the last commit touching this page's content.
-// Stays consistent across builds and satisfies Google's schema date requirement.
-const lastModified = execSync('git log -1 --format=%cI -- src/pages/index.astro src/data', { encoding: 'utf-8' }).trim();
+const lastModified = resolveContentDate(PAGE_CONTENT_PATHS['/']);
 
 const pageSchema = {
   '@context': 'https://schema.org',
@@ -16,7 +13,7 @@ const pageSchema = {
   name: 'Haikal Akhalul Azhar - Software Engineer Portfolio',
   url: 'https://bio.ekalliptus.com/',
   description: 'Portfolio of Haikal Akhalul Azhar, Software Engineer based in Tegal, Indonesia.',
-  dateModified: lastModified,
+  ...(lastModified ? { dateModified: lastModified } : {}),
   mainEntity: {
     '@type': 'Person',
     name: 'Haikal Akhalul Azhar',
