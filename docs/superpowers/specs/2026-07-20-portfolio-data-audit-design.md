@@ -14,7 +14,7 @@ Make the portfolio accurate, consistent, privacy-conscious, and production-ready
 - Link GitHub to `https://github.com/ekalliptus`.
 - Link LinkedIn to `https://www.linkedin.com/in/ekalliptus/`.
 - Remove X/Twitter links and metadata.
-- Use `support@ekalliptus.com` publicly and as the FormSubmit destination.
+- Use `halo@ekalliptus.com` publicly and as the FormSubmit destination.
 - Keep the roles Software Engineer, IT Support Specialist, and Editor.
 - State `8+ years` of professional experience.
 - Keep the available-for-work status.

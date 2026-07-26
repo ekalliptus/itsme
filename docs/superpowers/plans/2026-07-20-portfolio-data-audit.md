@@ -255,7 +255,7 @@ const socials = [
 Set:
 
 ```astro
-action="https://formsubmit.co/support@ekalliptus.com"
+action="https://formsubmit.co/halo@ekalliptus.com"
 <input type="hidden" name="_next" value="https://bio.ekalliptus.com/contact?sent=true" />
 ```
 

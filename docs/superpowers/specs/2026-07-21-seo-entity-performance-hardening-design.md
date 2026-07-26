@@ -60,7 +60,7 @@ Remove anonymous duplicate Person objects. Remove About-page `Offer` and `Servic
 ## Contact semantics
 
 - Use `professional inquiries`, not `customer support`.
-- Keep `support@ekalliptus.com` as the approved contact address.
+- Keep `halo@ekalliptus.com` as the approved contact address.
 - Advertise English as the professional contact language.
 - Keep geography off the ContactPoint unless a service area is explicitly approved later.
 
