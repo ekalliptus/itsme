@@ -11,6 +11,7 @@ const EXCLUDED_PROJECTS = [
   'Donasi Wakaf Sumur',
   'Rumah Quran Al Fatihah',
   'Al Fatihah Homeschooling',
+  'Wuzz Express',
 ];
 
 describe('Projects Data', () => {
@@ -38,8 +39,8 @@ describe('Projects Data', () => {
     );
   });
 
-  it('publishes exactly 41 verified projects', () => {
-    expect(PROJECTS).toHaveLength(41);
+  it('publishes exactly 40 verified projects', () => {
+    expect(PROJECTS).toHaveLength(40);
   });
 
   it('excludes duplicate and unavailable projects', () => {

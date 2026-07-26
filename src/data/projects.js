@@ -375,15 +375,6 @@ export const PROJECTS = [
     previewImage: '/img/projects/tenta-id.png',
   },
   {
-    icon: '📦',
-    name: 'Wuzz Express',
-    description: 'Layanan pengiriman barang antar kota, provinsi, dan pulau - platform pemesanan dengan tracking dan manajemen pengiriman. Dibangun dengan Next.js dan Postgres.',
-    tags: ['Next.js', 'React', 'PostgreSQL', 'TypeScript'],
-    liveUrl: 'https://wuzz-express.vercel.app',
-    category: 'services',
-    previewImage: '/img/projects/wuzz-express-vercel-app.png',
-  },
-  {
     icon: '🐄',
     name: 'Ahzelan',
     description: 'Website konsultan peternakan Ahzelan - layanan konsultasi dan pendampingan peternakan di era digital. Dibangun dengan Astro + React di Cloudflare.',
