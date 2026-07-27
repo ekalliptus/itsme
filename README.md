@@ -33,7 +33,7 @@ bun run preview
 - Profile and SEO metadata: `src/layouts/BaseLayout.astro`
 - Static images: `public/img/`
 
-Project preview paths must reference existing files under `public/img/projects/` or use `previewImage: null` for the built-in fallback.
+`src/data/projects.js` is a curated catalog: every entry is original work published from the public GitHub accounts `ekalliptus` or `web-alf`, has a verified live website, and carries a screenshot under `public/img/projects/`. WordPress sites, third-party forks, coursework, and projects without a reachable domain stay out. Adding an entry means adding its screenshot and updating `EXPECTED_COUNT` in `tests/projects.test.js`.
 
 ## Project screenshots
 
