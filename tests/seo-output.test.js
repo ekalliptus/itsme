@@ -61,6 +61,18 @@ describe('generated SEO output', () => {
     expect(list.itemListElement.map(item => item.item.url)).toEqual(PROJECTS.map(project => project.liveUrl));
   });
 
+  it('derives every visible project count from the catalog', () => {
+    const names = PROJECTS.map(project => project.name);
+    const { graph } = graphFor('/projects/');
+    const list = graph.find(node => node['@type'] === 'ItemList');
+    expect(list.itemListElement.map(item => item.item.name)).toEqual(names);
+
+    for (const route of ['/', '/about/', '/skills/', '/projects/']) {
+      const text = readFileSync(fileFor(route), 'utf8');
+      expect(text).not.toMatch(/\b(40|41) projects\b/);
+    }
+  });
+
   it('ships Cloudflare headers with a FormSubmit-compatible CSP', () => {
     expect(existsSync('public/_headers')).toBe(true);
     const headers = readFileSync('public/_headers', 'utf8');

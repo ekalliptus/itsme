@@ -3,6 +3,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SkillsSphere from '../components/SkillsSphere.astro';
 import { SKILLS_DATA } from '../data/skills.js';
+import { PROJECTS } from '../data/projects.js';
+
+const projectCount = PROJECTS.length;
 
 const pageSchema = {
   '@type': 'WebPage',
@@ -26,8 +29,8 @@ const categories = [
     <h1 class="section-title reveal">The tools behind<br><span class="accent">the work.</span></h1>
     <p class="section-desc reveal">
       Drag the sphere to explore. Every node is something I've shipped with across
-      41 projects - from Flutter apps and Astro sites to Python tooling
-      and Three.js scenes. I pick the tool that fits the problem, not the trend,
+      {projectCount} published products - from Flutter apps and Astro sites to Python
+      tooling and Three.js scenes. I pick the tool that fits the problem, not the trend,
       and go deep enough to make what I build fast and reliable.
     </p>
 
