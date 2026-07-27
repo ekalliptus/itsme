@@ -2,6 +2,9 @@
 // src/pages/about.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LazyImage from '../components/LazyImage.astro';
+import { PROJECTS } from '../data/projects.js';
+
+const projectCount = PROJECTS.length;
 
 const pageSchema = {
   '@type': 'AboutPage',
@@ -74,7 +77,7 @@ const expertise = [
             I'm a <strong>Software Engineer</strong> who likes building things end to end - mobile apps in Flutter, web platforms in Astro and TypeScript, and the backends that hold them together. Clean architecture and a UI that feels finished are non-negotiables for me, not afterthoughts.
           </p>
           <p class="bio-text">
-            Across <strong>41 projects</strong> I've shipped everything from Islamic donation platforms and school systems to social-media tooling and interactive 3D sites. I reach for <strong>Vue, Next.js, Laravel, Go, and Python</strong> depending on what the problem actually needs, not what's trending that week.
+            Across <strong>{projectCount} published products</strong> I've shipped everything from donation platforms and travel booking sites to link-in-bio tooling and interactive 3D interfaces. I reach for <strong>Astro, React, Go, and Flutter</strong> depending on what the problem actually needs, not what's trending that week.
           </p>
           <p class="bio-text">
             I'm just as happy below the app layer - Linux, Docker, Bash, and the occasional Hackintosh or Android-kernel rabbit hole. That IT-support instinct means I care about software that keeps running, and I'm always up for collaborating on open-source work.

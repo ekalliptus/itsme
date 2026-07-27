@@ -21,25 +21,27 @@ const pageSchema = {
 ---
 <BaseLayout
   title="Projects - Haikal Akhalul Azhar"
-  description={`Portfolio of ${PROJECTS.length} professional software engineering projects: web development, Islamic platforms, e-commerce, and more.`}
+  description={`Portfolio of ${PROJECTS.length} shipped software engineering products: web platforms, donation systems, and developer tools.`}
   pageNodes={[pageSchema]}
 >
   <div class="container section">
     <p class="section-label reveal">My Work</p>
     <h1 class="section-title reveal">Selected<br><span class="accent">work.</span></h1>
     <p class="section-desc reveal">
-      {PROJECTS.length} products shipped to production - web platforms, Islamic digital
-      services, e-commerce, and public-facing tools for clients across Indonesia.
+      {PROJECTS.length} products shipped to production - digital agency sites, donation
+      platforms, travel booking, and developer tools, each running on its own domain.
     </p>
 
-    <!-- Category filter tabs -->
-    <div class="filter-tabs reveal" role="tablist" aria-label="Filter projects by category">
+    <!-- Category filters. These are toggle buttons, not ARIA tabs: they filter a
+         single grid in place rather than swapping tab panels. -->
+    <div class="filter-tabs reveal" role="group" aria-label="Filter projects by category">
       {PROJECT_CATEGORIES.map(cat => (
         <button
+          type="button"
           class:list={['filter-btn', { active: cat.id === 'all' }]}
           data-filter={cat.id}
-          role="tab"
-          aria-selected={cat.id === 'all' ? 'true' : 'false'}
+          aria-pressed={cat.id === 'all' ? 'true' : 'false'}
+          aria-controls="projects-grid"
         >
           {cat.label}
           <span class="filter-count" data-count={cat.id}>
@@ -123,13 +125,26 @@ const pageSchema = {
 }
 
 .project-wrap {
-  transition: opacity 250ms ease, transform 250ms ease;
+  transition: opacity 220ms var(--ease), transform 220ms var(--ease);
   content-visibility: auto;
   contain-intrinsic-size: auto 360px;
 }
 
+/* Exiting: still in layout, so the fade is visible. */
+.project-wrap.leaving {
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+}
+
+/* Exited: removed from layout and from the focus order. */
 .project-wrap.hidden {
   display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-wrap { transition: none; }
+  .project-wrap.leaving { opacity: 1; transform: none; }
 }
 
 .no-results {
@@ -143,30 +158,50 @@ const pageSchema = {
 </style>
 
 <script>
+  const EXIT_MS = 220;
+
   function initFilter() {
     const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
     const cards = document.querySelectorAll<HTMLElement>('.project-wrap');
     const noResults = document.getElementById('no-results');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let token = 0;
+
+    function apply(filter: string) {
+      const run = ++token;
+      let visible = 0;
+      const leaving: HTMLElement[] = [];
+
+      cards.forEach(card => {
+        const show = filter === 'all' || card.dataset.category === filter;
+        if (show) {
+          visible++;
+          card.classList.remove('hidden', 'leaving');
+        } else if (!card.classList.contains('hidden')) {
+          card.classList.add('leaving');
+          leaving.push(card);
+        }
+      });
+
+      const hide = () => {
+        if (run !== token) return;   // a newer filter click already took over
+        leaving.forEach(card => card.classList.add('hidden'));
+      };
+
+      if (reduceMotion) hide();
+      else setTimeout(hide, EXIT_MS);
+
+      if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+    }
 
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter ?? 'all';
-
-        // Update active button
         btns.forEach(b => {
-          b.classList.toggle('active', b === btn);
-          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+          const active = b === btn;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-pressed', active ? 'true' : 'false');
         });
-
-        // Show/hide cards
-        let visible = 0;
-        cards.forEach(card => {
-          const show = filter === 'all' || card.dataset.category === filter;
-          card.classList.toggle('hidden', !show);
-          if (show) visible++;
-        });
-
-        if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+        apply(btn.dataset.filter ?? 'all');
       });
     });
   }
