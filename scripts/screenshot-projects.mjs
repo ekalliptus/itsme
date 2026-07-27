@@ -2,9 +2,9 @@
 // Automated screenshot system for /projects preview cards.
 //
 // Reads every project's liveUrl from src/data/projects.js, opens each live site
-// in a headless Chromium, captures a full-page-height PNG at desktop width, and
-// writes it to public/img/projects/<slug>.png. The ProjectCard then renders the
-// real screenshot instead of the "Preview coming soon" placeholder.
+// in a headless Chromium, captures an above-the-fold PNG at 1280x800, and writes
+// it to public/img/projects/<slug>.png. ProjectCard renders that screenshot
+// inside its browser-chrome frame.
 //
 // Usage:
 //   node scripts/screenshot-projects.mjs          # capture missing only
