@@ -131,14 +131,18 @@
     white-space: nowrap;
     color: var(--text);
     opacity: 0;
-    transform: translateY(26px);
+    transform: translateY(10px);
     will-change: opacity, transform;
   }
-  /* current word visible + centered; outgoing word fades up and out */
+  /* Current word centered; outgoing word drifts up while the next fades in.
+     The travel is short and the curves match, so the two states cross over
+     instead of one snapping out before the other arrives. */
   .pl-word.is-in  { opacity: 1; transform: translateY(0); }
-  .pl-word.is-out { opacity: 0; transform: translateY(-26px); }
+  .pl-word.is-out { opacity: 0; transform: translateY(-10px); }
   .pl-words.animate .pl-word {
-    transition: opacity 420ms var(--ease), transform 520ms cubic-bezier(0.76, 0, 0.24, 1);
+    transition:
+      opacity 460ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .pl-word-brand {
     font-family: serif;
@@ -195,7 +199,7 @@
     html.classList.add('pl-lock');
     pl.dataset.state = 'counting';
 
-    const STEP = 760;                         // ms per word (480ms slide + ~280ms hold)
+    const STEP = 820;                         // ms per word (460ms crossfade + ~360ms hold)
     const total = words.length * STEP;        // full ticker duration
     const timers: ReturnType<typeof setTimeout>[] = [];
 
@@ -227,11 +231,17 @@
       // Hand off to the hero opening as the panels lift.
       html.classList.remove('pl-intro');
       html.classList.add('pl-opening');
-      // panels: 180ms delay + 1100ms travel ≈ 1280ms
+
+      // Panels finish at 180ms delay + 1100ms travel = 1280ms, so the overlay
+      // can go away then.
+      timers.push(setTimeout(() => { pl.dataset.state = 'done'; }, 1280));
+
+      // The hero choreography runs 1300ms with delays up to 1100ms. Dropping
+      // `pl-opening` earlier cancels those animations mid-flight and snaps the
+      // hero into place, so hold the class until the last one has landed.
       timers.push(setTimeout(() => {
-        pl.dataset.state = 'done';
         html.classList.remove('pl-first', 'pl-opening');
-      }, 1500));
+      }, 2500));
     }
   }
 
