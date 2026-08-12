@@ -50,7 +50,7 @@ const personNode = {
   '@type': 'Person',
   '@id': PERSON_ID,
   name: 'Haikal Akhalul Azhar',
-  alternateName: 'єкαℓℓιρтus',
+  alternateName: ['ekalliptus', 'єкαℓℓιρтus'],
   jobTitle: 'Software Engineer',
   description: 'Software Engineer, IT Support Specialist, and Editor based in Tegal, Indonesia with 8+ years of experience in Flutter, React, Next.js, and Laravel.',
   url: `${SITE}/`,
@@ -96,10 +96,11 @@ const websiteNode = {
   '@type': 'WebSite',
   '@id': WEBSITE_ID,
   name: 'Haikal Akhalul Azhar',
-  alternateName: 'єкαℓℓιρтus Portfolio',
+  alternateName: 'Haikal Akhalul Azhar Portfolio',
   url: `${SITE}/`,
   description: 'Portfolio of Haikal Akhalul Azhar - Software Engineer based in Indonesia.',
   inLanguage: 'en-US',
+  publisher: { '@id': PERSON_ID },
   author: { '@id': PERSON_ID },
 };
 
@@ -164,6 +165,14 @@ const graph = [
   <meta property="og:site_name" content="Haikal Akhalul Azhar" />
   <meta property="og:locale" content="en_US" />
 
+  <!-- Site name (helps Google derive the SERP site name) -->
+  <meta name="application-name" content="Haikal Akhalul Azhar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+  <meta name="twitter:image:alt" content={title} />
+
   <!-- Favicon & manifest -->
   <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png" />
@@ -177,7 +186,7 @@ const graph = [
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Haikal Dev" />
+  <meta name="apple-mobile-web-app-title" content="Haikal Akhalul Azhar" />
 
   <!-- Fonts: self-hosted via @fontsource-variable/montserrat (imported in global.css) -->
 

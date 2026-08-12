@@ -1,0 +1,17 @@
+# Cloudflare Pages redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# Astro builds with trailingSlash: 'always', producing /about/index.html.
+# By default Cloudflare Pages serves BOTH /about and /about/ with HTTP 200,
+# creating duplicate-content variants that show up in Google Search Console
+# as "Page with redirect" and "Alternate page with proper canonical tag".
+# These explicit 301s collapse every variant onto a single canonical URL.
+
+# Trailing-slash enforcement for page routes
+/about     /about/     301
+/skills    /skills/    301
+/projects  /projects/  301
+/contact   /contact/   301
+
+# Collapse /index.html onto the root
+/index.html  /  301
