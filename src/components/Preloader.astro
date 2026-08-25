@@ -1,9 +1,5 @@
 ---
-// src/components/Preloader.astro
-// Bold kinetic intro - original work, studio-style energy (RESN-ish), not a copy.
-// A giant full-bleed counter sweeps 0->100 behind an accent progress sheet,
-// then the overlay lifts with a clip-path wipe while the hero rises in.
-// Shows ONLY on the genuine first load of a session (gated by html.pl-first).
+// Shows once per session unless reduced motion is enabled.
 ---
 <!-- Runs before the rest of <body> paints: decide if the intro should show.
      Gating here (not the deferred module) avoids a flash of the overlay on
@@ -13,12 +9,7 @@
     try {
       var seen = sessionStorage.getItem('pl-seen') === '1';
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      // Search visitors are the ones Google measures for LCP. Holding their
-      // first paint for the intro tanks Core Web Vitals, so they skip it.
-      var host = '';
-      try { host = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
-      var fromSearch = /(^|\.)(google|bing|duckduckgo|yahoo|yandex|baidu)\.[a-z.]+$/.test(host);
-      if (!seen && !reduce && !fromSearch) {
+      if (!seen && !reduce) {
         document.documentElement.classList.add('pl-first', 'pl-intro');
       }
     } catch (e) { /* sessionStorage blocked → skip the intro */ }
@@ -33,11 +24,10 @@
   <div class="pl-stage">
     <span class="pl-kicker">Portfolio of</span>
 
-    <!-- kinetic word ticker: words rise through a mask, finishing on the name -->
     <div class="pl-words" id="pl-words" aria-hidden="true">
-      <span class="pl-word" data-word="0">CRAFT</span>
-      <span class="pl-word" data-word="1">BUILD</span>
-      <span class="pl-word" data-word="2">SHIP</span>
+      <span class="pl-word" data-word="0">WEB</span>
+      <span class="pl-word" data-word="1">MOBILE</span>
+      <span class="pl-word" data-word="2">SUPPORT</span>
       <span class="pl-word pl-word-brand" data-word="3">єкαℓℓιρтuѕ</span>
     </div>
 

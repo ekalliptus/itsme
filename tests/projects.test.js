@@ -6,7 +6,7 @@ import { existsSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
 import { PROJECT_CATEGORIES, PROJECTS } from '../src/data/projects.js';
 
-const EXPECTED_COUNT = 11;
+const EXPECTED_COUNT = 10;
 const EXCLUDED_PROJECTS = [
   'Donasi Wakaf Sumur',
   'Rumah Quran Al Fatihah',
@@ -33,6 +33,8 @@ describe('Projects Data', () => {
       expect(project.name.length).toBeGreaterThan(0);
       expect(typeof project.description).toBe('string');
       expect(project.description.length).toBeGreaterThan(0);
+      expect(project.description).not.toMatch(/\b(Situs|Dibangun|Platform belajar|Layanan|Profil resmi)\b/);
+      expect(project.description.length).toBeLessThanOrEqual(160);
       expect(Array.isArray(project.tags)).toBe(true);
       expect(project.tags.length).toBeGreaterThanOrEqual(2);
       expect(project.tags.length).toBeLessThanOrEqual(4);
@@ -46,7 +48,7 @@ describe('Projects Data', () => {
       expect(new URL(project.liveUrl).protocol).toBe('https:');
       expect(CONTENT_CATEGORIES).toContain(project.category);
       expect(typeof project.previewImage).toBe('string');
-      expect(project.previewImage.startsWith('/img/projects/')).toBe(true);
+      expect(project.previewImage).toMatch(/^\/img\/projects\/.+\.webp$/);
       expect(existsSync(`public${project.previewImage}`)).toBe(true);
     },
   );

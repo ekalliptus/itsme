@@ -1,8 +1,5 @@
 // src/data/projects.js
-// Curated catalog. Every entry is original work published from the public
-// GitHub accounts `ekalliptus` or `web-alf`, has a verified live website, and
-// is ordered by portfolio relevance. See
-// docs/superpowers/specs/2026-07-26-project-catalog-card-intro-design.md
+// Curated catalog of public work ordered by portfolio relevance.
 
 export const PROJECT_CATEGORIES = [
   { id: 'all',       label: 'All'       },
@@ -16,7 +13,7 @@ export const PROJECTS = [
   {
     icon: '🏢',
     name: 'Ekalliptus Digital',
-    description: 'Situs agensi digital Ekalliptus - layanan pengembangan web dan aplikasi mobile dengan halaman layanan, portofolio, dan alur kontak. Dibangun dengan Astro dan Supabase di Cloudflare.',
+    description: 'Digital agency website presenting web and mobile development services, selected work, and contact options.',
     tags: ['Astro', 'TypeScript', 'Supabase', 'Cloudflare'],
     liveUrl: 'https://ekalliptus.com',
     category: 'agency',
@@ -25,8 +22,8 @@ export const PROJECTS = [
   {
     icon: '💬',
     name: 'Tentaklik',
-    description: 'Situs produk Tentaklik - platform layanan pelanggan omnichannel dengan halaman layanan, studi kasus, dan konten multibahasa. Dibangun dengan Astro dan Tailwind di Cloudflare.',
-    tags: ['Astro', 'TypeScript', 'TailwindCSS', 'Cloudflare'],
+    description: 'Product website for an omnichannel customer service platform with service pages, case studies, and multilingual content.',
+    tags: ['Astro', 'TypeScript', 'Tailwind CSS', 'Cloudflare'],
     liveUrl: 'https://tentaklik.com',
     category: 'platform',
     previewImage: '/img/projects/tentaklik-com.webp',
@@ -34,7 +31,7 @@ export const PROJECTS = [
   {
     icon: '✈️',
     name: 'Jagatrip',
-    description: 'Situs layanan perjalanan Jagatrip - katalog paket wisata, formulir pemesanan, dan pelacakan prospek yang terhubung ke Google Apps Script. Dibangun dengan Astro di Cloudflare.',
+    description: 'Travel service website with tour packages, booking inquiries, and lead capture connected to Google Apps Script.',
     tags: ['Astro', 'TypeScript', 'Cloudflare'],
     liveUrl: 'https://jagatrip.com',
     category: 'platform',
@@ -43,7 +40,7 @@ export const PROJECTS = [
   {
     icon: '💚',
     name: 'Donasi Niat Baik',
-    description: 'Platform donasi Yayasan Niat Baik - katalog program, alur donasi, dan panel admin dengan API Go serta basis data PostgreSQL yang dijalankan melalui Docker dan Nginx.',
+    description: 'Donation platform for Yayasan Niat Baik with program listings, donation flows, and administrative content management.',
     tags: ['React', 'TypeScript', 'Go', 'PostgreSQL'],
     liveUrl: 'https://donasi.niatbaik.org',
     category: 'platform',
@@ -52,26 +49,17 @@ export const PROJECTS = [
   {
     icon: '💧',
     name: 'Sedekah Air Minum',
-    description: 'Platform donasi air bersih untuk masjid dan pesantren - halaman program, alur donasi, dan panel konten berbasis Supabase. Dibangun dengan Astro dan React di Cloudflare.',
+    description: 'Clean-water donation platform for mosques and Islamic boarding schools with program pages and a donation flow.',
     tags: ['Astro', 'React', 'Supabase', 'Cloudflare'],
     liveUrl: 'https://sedekahairminum.com',
     category: 'platform',
     previewImage: '/img/projects/sedekahairminum-com.webp',
   },
   {
-    icon: '🔗',
-    name: 'Linknyamana',
-    description: 'Layanan link-in-bio untuk kreator dan pelaku usaha - satu halaman tautan dengan kustomisasi tampilan, statistik klik, dan basis data Neon PostgreSQL.',
-    tags: ['Astro', 'React', 'PostgreSQL', 'Cloudflare'],
-    liveUrl: 'https://linknyamana.web.id',
-    category: 'tools',
-    previewImage: '/img/projects/linknyamana-web-id.webp',
-  },
-  {
     icon: '👨‍💻',
     name: 'Jagoan ZAI Dev',
-    description: 'Platform belajar berbahasa Indonesia untuk administrasi server dan dasar infrastruktur - materi terstruktur, panduan praktis, dan navigasi topik.',
-    tags: ['Astro', 'React', 'TailwindCSS', 'Cloudflare'],
+    description: 'Indonesian learning platform with structured material on server administration and infrastructure fundamentals.',
+    tags: ['Astro', 'React', 'Tailwind CSS', 'Cloudflare'],
     liveUrl: 'https://jagoanzaidev.web.id',
     category: 'tools',
     previewImage: '/img/projects/jagoanzaidev-web-id.webp',
@@ -79,8 +67,8 @@ export const PROJECTS = [
   {
     icon: '🌐',
     name: 'Media Pro',
-    description: 'Situs agensi pemasaran digital Media Pro - profil layanan web, Google Ads, Meta Ads, dan SEO dengan struktur konten yang dioptimalkan mesin telusur.',
-    tags: ['Astro', 'TypeScript', 'TailwindCSS', 'Cloudflare'],
+    description: 'Digital marketing agency website covering web development, Google Ads, Meta Ads, and search optimization services.',
+    tags: ['Astro', 'TypeScript', 'Tailwind CSS', 'Cloudflare'],
     liveUrl: 'https://mediapro.work',
     category: 'agency',
     previewImage: '/img/projects/mediapro-work.webp',
@@ -88,8 +76,8 @@ export const PROJECTS = [
   {
     icon: '📖',
     name: 'Penerbit Quran',
-    description: 'Situs penerbit mushaf Quran - katalog produk cetak, informasi layanan penerbitan, dan formulir pemesanan yang terhubung ke Google Apps Script.',
-    tags: ['Astro', 'TailwindCSS', 'Cloudflare'],
+    description: 'Quran publishing website with a printed-product catalog, publishing information, and an order inquiry form.',
+    tags: ['Astro', 'Tailwind CSS', 'Cloudflare'],
     liveUrl: 'https://penerbitquran.com',
     category: 'platform',
     previewImage: '/img/projects/penerbitquran-com.webp',
@@ -97,8 +85,8 @@ export const PROJECTS = [
   {
     icon: '🤝',
     name: 'Yayasan Niat Baik',
-    description: 'Profil resmi Yayasan Niat Baik - program pendidikan, sosial, Quran, dan kemanusiaan yang dibangun ulang menjadi situs statis Astro di Cloudflare.',
-    tags: ['Astro', 'TailwindCSS', 'Cloudflare'],
+    description: 'Organization profile for Yayasan Niat Baik covering education, social welfare, Quran, and humanitarian programs.',
+    tags: ['Astro', 'Tailwind CSS', 'Cloudflare'],
     liveUrl: 'https://niatbaik.org',
     category: 'community',
     previewImage: '/img/projects/niatbaik-org.webp',
@@ -106,7 +94,7 @@ export const PROJECTS = [
   {
     icon: '🛰️',
     name: 'Portfolio Ekalliptus',
-    description: 'Situs portofolio ini - katalog proyek terkurasi, sphere skill Three.js, dan data terstruktur yang diuji otomatis. Dibangun dengan Astro dan Vitest di Cloudflare.',
+    description: 'This portfolio website with a curated project catalog, an interactive Three.js skills visualization, and tested structured data.',
     tags: ['Astro', 'Three.js', 'Vitest', 'Cloudflare'],
     liveUrl: 'https://bio.ekalliptus.com',
     category: 'tools',

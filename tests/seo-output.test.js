@@ -4,7 +4,14 @@ import { describe, expect, it } from 'vitest';
 import { PROJECTS } from '../src/data/projects.js';
 
 const SITE = 'https://bio.ekalliptus.com';
-const routes = ['/', '/about/', '/skills/', '/projects/', '/contact/'];
+const pageTypes = {
+  '/': 'ProfilePage',
+  '/about/': 'AboutPage',
+  '/skills/': 'WebPage',
+  '/projects/': 'CollectionPage',
+  '/contact/': 'ContactPage',
+};
+const routes = Object.keys(pageTypes);
 const fileFor = route => route === '/' ? 'dist/index.html' : `dist${route}index.html`;
 const graphFor = route => {
   const dom = new JSDOM(readFileSync(fileFor(route), 'utf8'));
@@ -27,6 +34,12 @@ describe('generated SEO output', () => {
     expect(document.querySelector('link[rel="canonical"]').href).toBe(canonical);
     expect(document.querySelector('meta[property="og:url"]').content).toBe(canonical);
 
+    const pageEntities = graph.filter(node => node.url === canonical && /Page$/.test(node['@type']));
+    expect(pageEntities).toHaveLength(1);
+    expect(pageEntities[0]['@type']).toBe(pageTypes[route]);
+    expect(pageEntities[0]['@id']).toBe(`${canonical}#webpage`);
+    expect(pageEntities[0].dateModified).toBeTruthy();
+
     const ids = graph.map(node => node['@id']).filter(Boolean);
     expect(new Set(ids).size).toBe(ids.length);
     const localRefs = graph.flatMap(collectIdRefs).filter(id => id.startsWith(SITE));
@@ -45,7 +58,9 @@ describe('generated SEO output', () => {
 
   it('matches sitemap URLs and trustworthy dates', () => {
     const xml = readFileSync('dist/sitemap-0.xml', 'utf8');
-    for (const route of routes) expect(xml).toContain(`<loc>${SITE}${route}</loc>`);
+    const locations = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
+    expect(locations).toEqual(routes.map(route => `${SITE}${route}`).sort());
+    expect(xml).not.toContain(`${SITE}/404/`);
     for (const [, value] of xml.matchAll(/<lastmod>(.*?)<\/lastmod>/g)) {
       const time = new Date(value).getTime();
       expect(Number.isNaN(time)).toBe(false);
@@ -53,9 +68,20 @@ describe('generated SEO output', () => {
     }
   });
 
+  it('keeps the 404 response out of the index', () => {
+    const dom = new JSDOM(readFileSync('dist/404.html', 'utf8'));
+    const document = dom.window.document;
+    expect(document.querySelector('meta[name="robots"]').content).toContain('noindex');
+    expect(document.querySelector('link[rel="canonical"]')).toBeNull();
+    expect(document.querySelector('link[hreflang]')).toBeNull();
+    expect(document.querySelector('script[type="application/ld+json"]')).toBeNull();
+  });
+
   it('represents projects as a contiguous ItemList', () => {
     const { graph } = graphFor('/projects/');
     const list = graph.find(node => node['@type'] === 'ItemList');
+    const page = graph.find(node => node['@type'] === 'CollectionPage');
+    expect(page.mainEntity).toEqual({ '@id': list['@id'] });
     expect(list.itemListElement).toHaveLength(PROJECTS.length);
     expect(list.itemListElement.map(item => item.position)).toEqual(PROJECTS.map((_, index) => index + 1));
     expect(list.itemListElement.map(item => item.item.url)).toEqual(PROJECTS.map(project => project.liveUrl));
@@ -71,6 +97,19 @@ describe('generated SEO output', () => {
       const text = readFileSync(fileFor(route), 'utf8');
       expect(text).not.toMatch(/\b(40|41) projects\b/);
     }
+  });
+
+  it('ships crawlable, accessible skill text without stale branding', () => {
+    const skills = new JSDOM(readFileSync(fileFor('/skills/'), 'utf8')).window.document;
+    expect(skills.querySelectorAll('.skills-list .skill-name').length).toBeGreaterThan(0);
+    for (const route of routes) expect(readFileSync(fileFor(route), 'utf8')).not.toContain('Editor');
+  });
+
+  it('keeps the screenshot pipeline aligned with declared WebP previews', () => {
+    const script = readFileSync('scripts/screenshot-projects.mjs', 'utf8');
+    expect(script).toContain('project.previewImage');
+    expect(script).toContain("type: 'webp'");
+    expect(script).not.toContain("type: 'png'");
   });
 
   it('ships Cloudflare headers with a FormSubmit-compatible CSP', () => {

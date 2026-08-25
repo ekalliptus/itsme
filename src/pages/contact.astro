@@ -2,30 +2,23 @@
 // src/pages/contact.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const pageSchema = {
-  '@type': 'ContactPage',
-  name: 'Contact Haikal Akhalul Azhar',
-  url: 'https://bio.ekalliptus.com/contact/',
-  description: 'Get in touch with Haikal Akhalul Azhar for freelance projects, full-time opportunities, and consulting.',
-  mainEntity: { '@id': 'https://bio.ekalliptus.com/#person' },
-};
-
 const socials = [
-  { label: 'GitHub', href: 'https://github.com/ekalliptus', icon: '⌥' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ekalliptus/', icon: '◈' },
+  { label: 'GitHub', href: 'https://github.com/ekalliptus' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ekalliptus/' },
 ];
 ---
 <BaseLayout
-  title="Contact - Haikal Akhalul Azhar"
-  description="Get in touch with Haikal Akhalul Azhar. Available for freelance projects, full-time opportunities, and consulting."
-  pageNodes={[pageSchema]}
+  title="Contact Haikal Akhalul Azhar"
+  description="Contact Haikal Akhalul Azhar about software engineering, IT support, freelance work, or full-time roles."
+  pageType="ContactPage"
+  pageMainEntityId="https://bio.ekalliptus.com/#person"
 >
   <div class="container section">
     <p class="section-label reveal">Contact</p>
-    <h1 class="section-title reveal">Let's build<br><span class="accent">something.</span></h1>
+    <h1 class="section-title reveal">Tell me about <br><span class="accent">the work.</span></h1>
     <p class="section-desc reveal">
-      Available for freelance projects, full-time roles, and consulting. Send the details
-      below and I'll get back to you with how we can make it happen.
+      Include the scope, timeline, and relevant technical details. I accept inquiries about
+      freelance projects, full-time roles, consulting, and IT support.
     </p>
 
     <div class="contact-layout">
@@ -58,7 +51,7 @@ const socials = [
 
           <div class="form-group">
             <label for="message">Message <span aria-hidden="true">*</span></label>
-            <textarea id="message" name="message" required rows="5" placeholder="Tell me about your project..."></textarea>
+            <textarea id="message" name="message" required rows="5" placeholder="Describe your project or support request"></textarea>
           </div>
 
           <button type="submit" class="btn btn-primary submit-btn">
@@ -77,9 +70,8 @@ const socials = [
                 class="social-link"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={s.label}
+                aria-label={`${s.label} profile (opens in a new tab)`}
               >
-                <span class="social-icon" aria-hidden="true">{s.icon}</span>
                 <span class="social-label">{s.label}</span>
               </a>
             ))}
@@ -181,17 +173,20 @@ const socials = [
 
 <script>
   document.addEventListener('astro:page-load', () => {
-    if (window.location.search.includes('sent=true')) {
-      const form = document.getElementById('contact-form');
-      if (form) {
-        form.innerHTML = `
-          <div style="text-align:center; padding: 40px 0; color: var(--cyan);">
-            <p style="font-size:2rem; margin-bottom: 12px;">✓</p>
-            <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:8px">Message Sent!</h3>
-            <p style="color: var(--text-sec); font-size:14px">I'll get back to you soon.</p>
-          </div>
-        `;
-      }
-    }
+    const form = document.getElementById('contact-form');
+    form?.addEventListener('submit', () => sessionStorage.setItem('contact-submitted', '1'), { once: true });
+
+    const submitted = sessionStorage.getItem('contact-submitted') === '1';
+    if (new URLSearchParams(window.location.search).get('sent') !== 'true' || !submitted || !form) return;
+
+    sessionStorage.removeItem('contact-submitted');
+    form.innerHTML = `
+      <div role="status" tabindex="-1" style="text-align:center; padding: 40px 0; color: var(--cyan);">
+        <p aria-hidden="true" style="font-size:2rem; margin-bottom: 12px;">✓</p>
+        <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:8px">Message submitted</h3>
+        <p style="color: var(--text-sec); font-size:14px">Thank you. Your message has been sent.</p>
+      </div>
+    `;
+    form.querySelector<HTMLElement>('[role="status"]')?.focus();
   });
 </script>

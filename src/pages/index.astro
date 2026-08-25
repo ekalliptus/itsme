@@ -2,65 +2,49 @@
 // src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { PROJECTS } from '../data/projects.js';
-import { PAGE_CONTENT_PATHS, resolveContentDate } from '../lib/content-dates.js';
 
 const projectCount = PROJECTS.length;
-const lastModified = resolveContentDate(PAGE_CONTENT_PATHS['/']);
 
-const pageSchema = {
-  '@type': 'ProfilePage',
-  name: 'Haikal Akhalul Azhar - Software Engineer Portfolio',
-  url: 'https://bio.ekalliptus.com/',
-  description: 'Portfolio of Haikal Akhalul Azhar, Software Engineer based in Tegal, Indonesia.',
-  ...(lastModified ? { dateModified: lastModified } : {}),
-  mainEntity: {
-    '@type': 'Person',
-    name: 'Haikal Akhalul Azhar',
-    jobTitle: 'Software Engineer',
-    url: 'https://bio.ekalliptus.com/',
-  },
-};
-
-// Four pillars - my own structure, OHZI's editorial rhythm
 const pillars = [
   {
     no: '01',
-    label: 'WHO I AM',
+    label: 'PROFILE',
     href: '/about/',
-    title: 'A software engineer who ships products people actually use.',
-    desc: 'Eight years building cross-platform mobile apps and full-stack web - clean architecture, smooth UI, and an eye for the details that make software feel finished.',
+    title: 'Software engineering and IT support from Tegal, Indonesia.',
+    desc: 'I work across web applications, mobile apps, systems troubleshooting, and technical support.',
     cta: 'About me',
   },
   {
     no: '02',
-    label: 'HOW I WORK',
+    label: 'SKILLS',
     href: '/skills/',
-    title: 'A stack I know deeply, picked to fit the problem.',
-    desc: 'Flutter and Dart on mobile. React, Next.js, Astro, and Laravel on the web. I lean on tools I understand end-to-end, so what I ship stays quick, maintainable, and reliable.',
-    cta: 'My stack',
+    title: 'Web, mobile, backend, and infrastructure tools.',
+    desc: 'My public work includes Astro, React, Flutter, Go, PostgreSQL, Docker, Cloudflare, and related tools.',
+    cta: 'View skills',
   },
   {
     no: '03',
-    label: 'MY WORK',
+    label: 'PROJECTS',
     href: '/projects/',
-    title: `${projectCount} products delivered for clients across Indonesia.`,
-    desc: 'Digital agencies, Islamic platforms, e-commerce, donation systems, and public services - real websites running in production for real organizations.',
-    cta: 'See the work',
+    title: `${projectCount} public projects across several domains.`,
+    desc: 'The catalog covers agency sites, donation platforms, travel services, community organizations, and developer tooling.',
+    cta: 'View projects',
   },
   {
     no: '04',
     label: 'CONTACT',
     href: '/contact/',
-    title: 'Got something to build? Let’s talk.',
-    desc: 'Open for freelance projects, full-time roles, and consulting. Share what you have in mind and we’ll scope it from first idea to shipped product.',
-    cta: 'Get in touch',
+    title: 'Discuss a project, role, or support requirement.',
+    desc: 'Send the scope, timeline, and contact details for freelance work, full-time roles, or consulting.',
+    cta: 'Contact me',
   },
 ];
 ---
 <BaseLayout
   title="Haikal Akhalul Azhar - Software Engineer in Tegal, Indonesia"
-  description="Portfolio of Haikal Akhalul Azhar (ekalliptus), a software engineer in Tegal, Indonesia building cross-platform mobile apps and full-stack web products with Flutter, React, Next.js, and Laravel."
-  pageNodes={[pageSchema]}
+  description="Haikal Akhalul Azhar is a software engineer in Tegal building web and mobile products and providing IT support."
+  pageType="ProfilePage"
+  pageMainEntityId="https://bio.ekalliptus.com/#person"
 >
   <!-- ── HERO ─────────────────────────────────────────────── -->
   <section class="hero">
@@ -70,23 +54,23 @@ const pillars = [
     <div class="container hero-inner">
       <p class="hero-eyebrow reveal">
         <span class="hero-status-dot" aria-hidden="true"></span>
-        Software Engineer · Available for work
+        Software Engineer · Tegal, Indonesia
       </p>
 
       <h1 class="hero-heading reveal">
-        <span class="sr-only">Haikal Akhalul Azhar</span>
-        <span aria-hidden="true">I build software<br>that <span class="accent">ships.</span></span>
+        Haikal Akhalul Azhar<br>
+        <span class="accent">builds web and mobile software.</span>
       </h1>
 
-      <p class="hero-sub reveal">
-        <span id="typing-text" aria-live="polite" aria-label="Role"></span>
-        <span class="typing-cursor" aria-hidden="true">_</span>
+      <p class="hero-sub reveal" aria-hidden="true">
+        <span id="typing-text"></span>
+        <span class="typing-cursor">_</span>
       </p>
+      <p class="sr-only">Software Engineer, IT Support Specialist, and AI Enthusiast.</p>
 
       <p class="hero-desc reveal">
-        Haikal Akhalul Azhar is a software engineer based in Tegal, Indonesia,
-        building cross-platform mobile apps and full-stack web products with Flutter,
-        React, Next.js, and Laravel. Available for freelance, full-time, and consulting work.
+        I build web applications and cross-platform mobile apps, support Windows and Linux systems,
+        and use AI-assisted workflows for research, coding, testing, and automation.
       </p>
 
       <div class="hero-cta reveal">
@@ -100,19 +84,11 @@ const pillars = [
       <div class="hero-stats reveal">
         <div class="hero-stat">
           <span class="hero-stat-num">8+</span>
-          <span class="hero-stat-label">Years experience</span>
+          <span class="hero-stat-label">Years of experience</span>
         </div>
         <div class="hero-stat">
           <span class="hero-stat-num">{projectCount}</span>
-          <span class="hero-stat-label">Projects shipped</span>
-        </div>
-        <div class="hero-stat">
-          <span class="hero-stat-num">3</span>
-          <span class="hero-stat-label">Roles wearing one hat</span>
-        </div>
-        <div class="hero-stat">
-          <span class="hero-stat-num">∞</span>
-          <span class="hero-stat-label">Cups of coffee</span>
+          <span class="hero-stat-label">Public projects</span>
         </div>
       </div>
     </div>
@@ -228,7 +204,7 @@ const pillars = [
 /* stat strip */
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   margin-top: 80px;
   padding-top: 40px;

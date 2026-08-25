@@ -3,19 +3,20 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout
-  title="404 - Page Not Found | Haikal Akhalul Azhar"
-  description="The page you were looking for could not be found."
+  title="Page Not Found - Haikal Akhalul Azhar"
+  description="The requested page could not be found."
+  noindex
 >
   <div class="container section error-section">
-    <p class="section-label reveal">404 Error</p>
+    <p class="section-label reveal">404</p>
     <h1 class="section-title reveal">Page not <span class="accent">found.</span></h1>
     <p class="section-desc reveal">
-      The link you followed might be broken, or the page may have been moved or removed.
+      The requested URL does not match a page on this site.
     </p>
 
     <div class="error-actions reveal">
-      <a href="/" class="btn btn-primary">Return Home →</a>
-      <a href="/projects/" class="btn btn-outline">Explore Projects</a>
+      <a href="/" class="btn btn-primary">Go home →</a>
+      <a href="/projects/" class="btn btn-outline">View projects</a>
     </div>
   </div>
 </BaseLayout>

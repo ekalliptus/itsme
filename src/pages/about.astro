@@ -6,45 +6,38 @@ import { PROJECTS } from '../data/projects.js';
 
 const projectCount = PROJECTS.length;
 
-const pageSchema = {
-  '@type': 'AboutPage',
-  name: 'About Haikal Akhalul Azhar',
-  url: 'https://bio.ekalliptus.com/about/',
-  description: 'Software Engineer, IT Support Specialist, and AI Enthusiast based in Tegal, Indonesia with 8+ years of experience.',
-  mainEntity: { '@id': 'https://bio.ekalliptus.com/#person' },
-};
-
 const expertise = [
   {
     icon: '📱',
     title: 'Mobile Development',
-    desc: 'Cross-platform apps in Flutter and Dart - from booking flows to social downloaders - built on clean architecture with smooth UI and state management that scales past the first screen.',
+    desc: 'Cross-platform Flutter and Dart applications with structured state management and reusable interface components.',
   },
   {
     icon: '🌐',
-    title: 'Modern Web',
-    desc: 'Production sites in Astro, TypeScript, Vue, and Next.js, styled with Tailwind and shadcn. Recent work leans into Three.js for interactive 3D and View Transitions for motion that feels native.',
+    title: 'Web Development',
+    desc: 'Websites and web applications built with Astro, React, Next.js, Vue, TypeScript, and Tailwind CSS.',
   },
   {
     icon: '⚙️',
-    title: 'Backend & Tooling',
-    desc: 'APIs and services with Node.js, Express, Laravel, and Go, backed by MySQL and PostgreSQL. Plus Python automation and CLI tools when a script saves a hundred manual steps.',
+    title: 'Backend & Automation',
+    desc: 'APIs and services using Node.js, Laravel, Go, MySQL, and PostgreSQL, plus Python and shell automation for repetitive tasks.',
   },
   {
     icon: '🛠️',
-    title: 'Systems & Support',
-    desc: 'Comfortable below the app layer too - Linux, Docker, Git, Bash, and low-level tinkering from Hackintosh builds to Android kernels. The IT-support instinct that keeps things actually running.',
+    title: 'IT Support',
+    desc: 'Hardware, software, and network troubleshooting across Windows and Linux, including installation, configuration, and system diagnostics.',
   },
 ];
 ---
 <BaseLayout
-  title="About - Haikal Akhalul Azhar"
-  description="Software Engineer, IT Support Specialist, and AI Enthusiast based in Tegal, Indonesia with 8+ years of experience building cross-platform mobile and web solutions."
-  pageNodes={[pageSchema]}
+  title="About Haikal Akhalul Azhar - Software Engineer"
+  description="Background, technical focus, and public work of Haikal Akhalul Azhar, a software engineer and IT support specialist in Tegal."
+  pageType="AboutPage"
+  pageMainEntityId="https://bio.ekalliptus.com/#person"
 >
   <div class="container section">
-    <p class="section-label reveal">Who I Am</p>
-    <h1 class="section-title reveal">Engineer, problem-solver,<br><span class="accent">detail obsessive.</span></h1>
+    <p class="section-label reveal">Profile</p>
+    <h1 class="section-title reveal">Software engineering <br><span class="accent">and IT support.</span></h1>
 
     <div class="about-grid">
       <!-- Profile card -->
@@ -52,7 +45,7 @@ const expertise = [
         <div class="profile-img-wrap">
           <LazyImage
             src="/img/ekal.webp"
-            alt="Haikal Akhalul Azhar"
+            alt="Portrait of Haikal Akhalul Azhar"
             width={280}
             height={280}
             loading="eager"
@@ -74,14 +67,21 @@ const expertise = [
       <div class="about-content">
         <div class="card bio-card reveal">
           <p class="bio-text">
-            I'm a <strong>Software Engineer</strong> who likes building things end to end - mobile apps in Flutter, web platforms in Astro and TypeScript, and the backends that hold them together. Clean architecture and a UI that feels finished are non-negotiables for me, not afterthoughts.
+            I build mobile applications with Flutter and web products with Astro, React, Next.js, TypeScript, and supporting backend services.
           </p>
           <p class="bio-text">
-            Across <strong>{projectCount} published products</strong> I've shipped everything from donation platforms and travel booking sites to link-in-bio tooling and interactive 3D interfaces. I reach for <strong>Astro, React, Go, and Flutter</strong> depending on what the problem actually needs, not what's trending that week.
+            My <strong>{projectCount} public projects</strong> include agency websites, donation platforms, travel services, community organizations, and developer tools.
           </p>
           <p class="bio-text">
-            I'm just as happy below the app layer - Linux, Docker, Bash, and the occasional Hackintosh or Android-kernel rabbit hole. That IT-support instinct means I care about software that keeps running, and I'm always up for collaborating on open-source work.
+            I also troubleshoot Windows and Linux systems, hardware, software, and network issues. AI-assisted workflows support research, implementation, testing, and automation; technical decisions remain reviewed and verified.
           </p>
+
+          <dl class="profile-facts">
+            <div><dt>Primary role</dt><dd>Software Engineer</dd></div>
+            <div><dt>Additional focus</dt><dd>IT Support and AI-assisted development</dd></div>
+            <div><dt>Location</dt><dd>Tegal, Central Java, Indonesia</dd></div>
+            <div><dt>Education</dt><dd>Associate Degree in Information Systems, Universitas Bina Sarana Informatika</dd></div>
+          </dl>
         </div>
 
         <div class="expertise-grid">
@@ -95,15 +95,16 @@ const expertise = [
         </div>
 
         <div class="cv-card card reveal">
-          <h3 class="cv-title">View My Resume</h3>
-          <p class="cv-desc">8+ years of experience delivering React, Next.js, Laravel, and Flutter projects for clients across Indonesia.</p>
+          <h3 class="cv-title">Resume</h3>
+          <p class="cv-desc">Work history, education, technical skills, and selected project experience.</p>
           <a
             href="https://anrdart-my.sharepoint.com/:f:/g/personal/haikalalul_ekalliptus_com/IgC0qjuiQDUxTpPOP-Nhw7XoAWMPrOrwWCVpBOwKT7ILYjE?e=xOrezY"
             class="btn btn-primary"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="View Haikal Akhalul Azhar's resume (opens in a new tab)"
           >
-            View CV ↗
+            View resume <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>
@@ -112,6 +113,31 @@ const expertise = [
 </BaseLayout>
 
 <style>
+.profile-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.profile-facts div { min-width: 0; }
+.profile-facts dt {
+  color: var(--text-mut);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.profile-facts dd {
+  color: var(--text);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
 .about-grid {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -255,7 +281,8 @@ const expertise = [
     position: static;
   }
 
-  .expertise-grid {
+  .expertise-grid,
+  .profile-facts {
     grid-template-columns: 1fr;
   }
 }

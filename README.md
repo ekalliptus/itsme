@@ -33,7 +33,7 @@ bun run preview
 - Profile and SEO metadata: `src/layouts/BaseLayout.astro`
 - Static images: `public/img/`
 
-`src/data/projects.js` is a curated catalog: every entry is original work published from the public GitHub accounts `ekalliptus` or `web-alf`, has a verified live website, and carries a screenshot under `public/img/projects/`. WordPress sites, third-party forks, coursework, and projects without a reachable domain stay out. Adding an entry means adding its screenshot and updating `EXPECTED_COUNT` in `tests/projects.test.js`.
+`src/data/projects.js` is a curated catalog of public work with reachable websites and WebP previews under `public/img/projects/`. WordPress sites, third-party forks, coursework, and projects without a reachable domain stay out. Adding an entry means adding its preview and updating `EXPECTED_COUNT` in `tests/projects.test.js`.
 
 ## Project screenshots
 
@@ -42,11 +42,11 @@ bun run screenshots
 bun run screenshots -- --force
 ```
 
-The screenshot script opens public project URLs with Playwright and stores PNG files in `public/img/projects/`.
+The screenshot script opens public project URLs with Playwright and writes each declared WebP preview in `public/img/projects/`.
 
 ## Deployment
 
-`bun run build` produces `dist/`. Cloudflare serves that directory via `wrangler.jsonc`; Apache deployments use `public/.htaccess`, copied into `dist/` by Astro.
+`bun run build` produces `dist/`. Cloudflare serves that directory via `wrangler.jsonc`.
 
 ### AI crawler policy
 

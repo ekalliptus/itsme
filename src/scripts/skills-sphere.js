@@ -1121,20 +1121,9 @@ export class SkillsSphere {
     }
   }
 
-  /**
-   * Show fallback grid layout when WebGL is not available
-   * @private
-   */
   showFallback() {
-    const fallbackGrid = this.container.querySelector('#skills-fallback');
     const canvas = this.container.querySelector('#skills-sphere-canvas');
-
-    if (fallbackGrid) {
-      fallbackGrid.style.display = 'grid';
-    }
-    if (canvas) {
-      canvas.style.display = 'none';
-    }
+    if (canvas) canvas.style.display = 'none';
   }
 
   /**

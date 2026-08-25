@@ -2,7 +2,7 @@
 // src/components/SkillsSphere.astro
 import { SKILLS_DATA } from '../data/skills.js';
 ---
-<div id="skills-sphere-container" class="skills-sphere-container" role="img" aria-label="Interactive 3D skills visualization">
+<div id="skills-sphere-container" class="skills-sphere-container" aria-label="Interactive 3D skills visualization">
   <!-- Shimmer loader while the WebGL scene + textures boot -->
   <div id="sphere-loader" class="sphere-loader" aria-hidden="true" hidden>
     <span class="skeleton sphere-skeleton"></span>
@@ -10,22 +10,25 @@ import { SKILLS_DATA } from '../data/skills.js';
   </div>
   <canvas id="skills-sphere-canvas" aria-hidden="true"></canvas>
 
-  <!-- Fallback grid if WebGL not available -->
-  <ul class="skills-fallback" id="skills-fallback" role="list" aria-label="Technical skills" style="display:none">
-    {SKILLS_DATA.map(skill => (
-      <li class="skill-item card">
-        <img
-          src={skill.icon}
-          alt={skill.name}
-          width="52"
-          height="52"
-          loading="lazy"
-        />
-        <span class="skill-name">{skill.name}</span>
-      </li>
-    ))}
-  </ul>
+  <noscript>
+    <p class="sphere-noscript">The interactive visualization requires JavaScript. The complete text list remains available below.</p>
+  </noscript>
 </div>
+
+<ul class="skills-list" role="list" aria-label="Technical skills">
+  {SKILLS_DATA.map(skill => (
+    <li class="skill-item card">
+      <img
+        src={skill.icon}
+        alt=""
+        width="36"
+        height="36"
+        loading="lazy"
+      />
+      <span class="skill-name">{skill.name}</span>
+    </li>
+  ))}
+</ul>
 
 <style>
 .skills-sphere-container {
@@ -75,21 +78,20 @@ import { SKILLS_DATA } from '../data/skills.js';
   color: var(--text-mut);
 }
 
-.skills-fallback {
+.skills-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
   list-style: none;
+  margin: 32px 0 0;
   padding: 0;
 }
 
 .skill-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 16px 12px;
-  text-align: center;
+  gap: 10px;
+  padding: 12px;
 }
 
 .skill-name {
@@ -100,8 +102,7 @@ import { SKILLS_DATA } from '../data/skills.js';
 </style>
 
 <script>
-  // three.js is ~119KB gzipped and only powers this one decorative scene, so it
-  // is imported dynamically once the container is actually near the viewport.
+  // Load the decorative scene only when its container nears the viewport.
   type Sphere = { dispose: () => void } | null;
 
   let sphere: Sphere = null;
@@ -137,8 +138,6 @@ import { SKILLS_DATA } from '../data/skills.js';
       // Chunk or WebGL init failed → fall back to the static grid.
       document.getElementById('skills-sphere-canvas')?.remove();
       document.getElementById('sphere-loader')?.remove();
-      const fallback = document.getElementById('skills-fallback');
-      if (fallback) fallback.style.display = 'grid';
       return;
     } finally {
       booting = false;
@@ -160,16 +159,15 @@ import { SKILLS_DATA } from '../data/skills.js';
     if (!gl) {
       document.getElementById('skills-sphere-canvas')?.remove();
       document.getElementById('sphere-loader')?.remove();
-      const fallback = document.getElementById('skills-fallback');
-      if (fallback) fallback.style.display = 'grid';
       return;
     }
 
     // Boot the 3D scene when near viewport via IntersectionObserver
     if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
+      observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          observer.disconnect();
+          observer?.disconnect();
+          observer = null;
           boot();
         }
       }, { rootMargin: '250px' });

@@ -18,18 +18,18 @@ const socials = [
   <!-- CTA band -->
   <div class="container">
     <div class="footer-cta reveal">
-      <p class="footer-cta-label section-label">Let's build</p>
+      <p class="footer-cta-label section-label">Ekalliptus Digital</p>
       <h2 class="footer-cta-title">
-        Have a project worth<br><span class="accent">shipping?</span>
+        Need a website or<br><span class="accent">mobile application?</span>
       </h2>
       <a
         href="https://ekalliptus.com"
         class="btn btn-primary footer-cta-btn"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Start a project - ekalliptus.com"
+        aria-label="Visit Ekalliptus Digital (opens in a new tab)"
       >
-        Start a project
+        Visit Ekalliptus Digital
         <svg class="btn-arrow" viewBox="0 0 32 12" width="32" height="12" aria-hidden="true">
           <line class="btn-arrow-line" pathLength="100" x1="0" y1="6" x2="20" y2="6" />
           <path class="btn-arrow-head" d="M14 1 L22 6 L14 11" />
@@ -43,7 +43,7 @@ const socials = [
     <div class="footer-brand">
       <span class="footer-logo">єкαℓℓιρтus</span>
       <p class="footer-tagline">
-        Software Engineer crafting fast, polished web &amp; mobile products - built to run anywhere.
+        Software engineer building web and mobile products and providing IT support.
       </p>
     </div>
 
@@ -55,7 +55,15 @@ const socials = [
     <nav class="footer-col" aria-label="Social links">
       <span class="footer-col-head">Connect</span>
       {socials.map(l => (
-        <a href={l.href} class="footer-link" target="_blank" rel="noopener noreferrer">{l.label} ↗</a>
+        <a
+          href={l.href}
+          class="footer-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${l.label} profile (opens in a new tab)`}
+        >
+          {l.label} <span aria-hidden="true">↗</span>
+        </a>
       ))}
     </nav>
 

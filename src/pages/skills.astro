@@ -2,36 +2,22 @@
 // src/pages/skills.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SkillsSphere from '../components/SkillsSphere.astro';
-import { SKILLS_DATA } from '../data/skills.js';
-import { PROJECTS } from '../data/projects.js';
-
-const projectCount = PROJECTS.length;
-
-const pageSchema = {
-  '@type': 'WebPage',
-  name: 'Technical Skills - Haikal Akhalul Azhar',
-  url: 'https://bio.ekalliptus.com/skills/',
-  description: 'Technical skills and technologies used by Haikal Akhalul Azhar: Flutter, React, Next.js, Laravel, and more.',
-  about: SKILLS_DATA.map(s => ({ '@type': 'Thing', name: s.name })),
-};
 
 const categories = [
   'Mobile', 'Frontend', 'Backend', 'Database', 'Languages', 'CSS / UI', 'Tools',
 ];
 ---
 <BaseLayout
-  title="Skills - Haikal Akhalul Azhar"
-  description="Technical skills and technologies: Flutter, React, Next.js, Laravel, Node.js, TypeScript, Docker, and more."
-  pageNodes={[pageSchema]}
+  title="Technical Skills - Haikal Akhalul Azhar"
+  description="Web, mobile, backend, database, infrastructure, and IT support skills represented in Haikal Akhalul Azhar's public work."
+  pageType="WebPage"
 >
   <div class="container section">
-    <p class="section-label reveal">How I Work</p>
-    <h1 class="section-title reveal">The tools behind<br><span class="accent">the work.</span></h1>
+    <p class="section-label reveal">Technical Skills</p>
+    <h1 class="section-title reveal">Tools represented in <br><span class="accent">public work.</span></h1>
     <p class="section-desc reveal">
-      Drag the sphere to explore. Every node is something I've shipped with across
-      {projectCount} published products - from Flutter apps and Astro sites to Python
-      tooling and Three.js scenes. I pick the tool that fits the problem, not the trend,
-      and go deep enough to make what I build fast and reliable.
+      Explore the interactive visualization or browse the text list below. The categories cover
+      mobile, frontend, backend, databases, interface tooling, infrastructure, and IT support.
     </p>
 
     <SkillsSphere />

@@ -1,5 +1,5 @@
 // src/data/skills.js
-// Skills represented across published work and public repositories.
+// Skills represented across public work and repositories.
 export const SKILLS_DATA = [
   // Mobile
   { name: "Flutter",     icon: "/img/skills/flutter.svg",     category: "mobile"   },
@@ -9,10 +9,10 @@ export const SKILLS_DATA = [
   { name: "Firebase",    icon: "/img/skills/firebase.svg",     category: "mobile"   },
   // Frontend
   { name: "Astro",       icon: "/img/skills/astro.svg",       category: "frontend" },
-  { name: "React.js",    icon: "/img/skills/reactjs.svg",     category: "frontend" },
+  { name: "React",       icon: "/img/skills/reactjs.svg",     category: "frontend" },
   { name: "Next.js",     icon: "/img/skills/nextjs.svg",      category: "frontend" },
-  { name: "Vue.js",      icon: "/img/skills/vuejs.svg",       category: "frontend" },
-  { name: "NuxtJS",      icon: "/img/skills/nuxtjs.svg",      category: "frontend" },
+  { name: "Vue",         icon: "/img/skills/vuejs.svg",       category: "frontend" },
+  { name: "Nuxt",        icon: "/img/skills/nuxtjs.svg",      category: "frontend" },
   { name: "Three.js",    icon: "/img/skills/threejs.svg",     category: "frontend" },
   { name: "Vite",        icon: "/img/skills/vite.svg",        category: "frontend" },
   // Backend
@@ -41,8 +41,8 @@ export const SKILLS_DATA = [
   { name: "HTML5",       icon: "/img/skills/html5.svg",       category: "language" },
   { name: "CSS3",        icon: "/img/skills/css3.svg",        category: "language" },
   // CSS / UI
-  { name: "TailwindCSS", icon: "/img/skills/tailwindcss.svg", category: "css"      },
-  { name: "Shadcn",      icon: "/img/skills/shadcn.svg",      category: "css"      },
+  { name: "Tailwind CSS",icon: "/img/skills/tailwindcss.svg", category: "css"      },
+  { name: "shadcn/ui",   icon: "/img/skills/shadcn.svg",      category: "css"      },
   { name: "Figma",       icon: "/img/skills/figma.svg",       category: "css"      },
   // Tools
   { name: "Git",         icon: "/img/skills/git.svg",         category: "tools"    },

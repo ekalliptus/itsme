@@ -1,10 +1,5 @@
 // scripts/screenshot-projects.mjs
-// Automated screenshot system for /projects preview cards.
-//
-// Reads every project's liveUrl from src/data/projects.js, opens each live site
-// in a headless Chromium, captures an above-the-fold PNG at 1280x800, and writes
-// it to public/img/projects/<slug>.png. ProjectCard renders that screenshot
-// inside its browser-chrome frame.
+// Captures each project's declared WebP preview image at 1280x800.
 //
 // Usage:
 //   node scripts/screenshot-projects.mjs          # capture missing only
@@ -22,10 +17,7 @@ import { dirname, join } from 'node:path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-// Import the data module (it's plain ESM, so a dynamic import works at runtime).
 const { PROJECTS } = await import(join(ROOT, 'src/data/projects.js'));
-
-const OUT_DIR = join(ROOT, 'public/img/projects');
 
 // ── CLI flags ────────────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
@@ -64,7 +56,11 @@ function fmt(ms) {
 
 async function capture(browser, project) {
   const slug = slugFromUrl(project.liveUrl);
-  const outPath = join(OUT_DIR, `${slug}.png`);
+  const relativePath = project.previewImage.replace(/^\//, '');
+  if (!relativePath.startsWith('img/projects/') || !relativePath.endsWith('.webp')) {
+    throw new Error(`Invalid previewImage for ${project.name}: ${project.previewImage}`);
+  }
+  const outPath = join(ROOT, 'public', relativePath);
 
   if (!FORCE && await exists(outPath)) {
     return { status: 'skip', slug, outPath, ms: 0 };
@@ -88,8 +84,9 @@ async function capture(browser, project) {
     await page.waitForTimeout(SETTLE_MS);
     await page.screenshot({
       path: outPath,
-      fullPage: false,           // above-the-fold viewport only - fits the card
-      type: 'png',
+      fullPage: false,
+      type: 'webp',
+      quality: 82,
     });
     return { status: 'ok', slug, outPath, ms: Date.now() - t0 };
   } catch (err) {
@@ -100,7 +97,7 @@ async function capture(browser, project) {
 }
 
 async function main() {
-  await mkdir(OUT_DIR, { recursive: true });
+  await mkdir(join(ROOT, 'public/img/projects'), { recursive: true });
 
   const targets = PROJECTS.slice(0, LIMIT);
   console.log(`\n  Capturing ${targets.length} project screenshots → public/img/projects/\n`);

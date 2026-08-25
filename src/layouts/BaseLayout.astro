@@ -4,20 +4,29 @@ import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Preloader from '../components/Preloader.astro';
+import { PAGE_CONTENT_PATHS, resolveContentDate } from '../lib/content-dates.js';
 import '../styles/global.css';
+
+type PageType = 'ProfilePage' | 'AboutPage' | 'WebPage' | 'CollectionPage' | 'ContactPage';
 
 interface Props {
   title: string;
   description?: string;
   image?: string;
-  pageNodes?: object[]; // page-specific JSON-LD graph nodes
+  pageType?: PageType;
+  pageMainEntityId?: string;
+  pageNodes?: object[];
+  noindex?: boolean;
 }
 
 const {
   title,
-  description = 'Haikal Akhalul Azhar - Software Engineer, IT Support Specialist, and AI Enthusiast based in Tegal, Indonesia. Specializing in Flutter, React, Next.js, and Laravel development.',
+  description = 'Portfolio of Haikal Akhalul Azhar, a software engineer in Tegal building web and mobile products.',
   image = '/img/ekal-og.webp',
+  pageType = 'WebPage',
+  pageMainEntityId,
   pageNodes = [],
+  noindex = false,
 } = Astro.props;
 
 const SITE = 'https://bio.ekalliptus.com';
@@ -30,6 +39,8 @@ const WEBSITE_ID = `${SITE}/#website`;
 const HOME_ID = `${SITE}/#webpage`;
 const PAGE_ID = `${canonicalUrl}#webpage`;
 const BREADCRUMB_ID = `${canonicalUrl}#breadcrumb`;
+const contentPaths = PAGE_CONTENT_PATHS[path];
+const dateModified = noindex || !contentPaths ? undefined : resolveContentDate(contentPaths);
 
 const segments = path.split('/').filter(Boolean);
 const breadcrumbNode = segments.length > 0 ? {
@@ -52,7 +63,7 @@ const personNode = {
   name: 'Haikal Akhalul Azhar',
   alternateName: ['ekalliptus', 'єкαℓℓιρтus'],
   jobTitle: 'Software Engineer',
-  description: 'Software Engineer, IT Support Specialist, and AI Enthusiast based in Tegal, Indonesia with 8+ years of experience in Flutter, React, Next.js, and Laravel.',
+  description: 'Software engineer and IT support specialist in Tegal, Indonesia, working across web, mobile, systems support, and AI-assisted development.',
   url: `${SITE}/`,
   image: `${SITE}/img/ekal-og.webp`,
   email: 'salam@ekalliptus.com',
@@ -62,7 +73,6 @@ const personNode = {
     'https://github.com/ekalliptus',
     'https://www.linkedin.com/in/ekalliptus/',
   ],
-  worksFor: { '@type': 'Organization', name: 'Media Pro' },
   alumniOf: { '@type': 'EducationalOrganization', name: 'Universitas Bina Sarana Informatika' },
   address: {
     '@type': 'PostalAddress',
@@ -71,10 +81,9 @@ const personNode = {
     addressCountry: 'ID',
   },
   knowsAbout: [
-    'Flutter', 'Dart', 'Android', 'iOS', 'React.js', 'Next.js', 'NuxtJS', 'Vue.js',
-    'Laravel', 'Node.js', 'WordPress', 'JavaScript', 'TypeScript', 'HTML5', 'CSS3',
-    'TailwindCSS', 'Docker', 'Git', 'Linux', 'Mobile Development', 'Web Development',
-    'IT Support', 'Clean Architecture', 'UI/UX Design', 'Software Engineering',
+    'Web Development', 'Mobile Development', 'IT Support',
+    'Hardware and Software Troubleshooting', 'Computer Networking',
+    'Linux Administration', 'AI-assisted Development',
   ],
   mainEntityOfPage: { '@id': HOME_ID },
   contactPoint: {
@@ -88,7 +97,7 @@ const personNode = {
     '@type': 'Occupation',
     name: 'Software Engineer',
     occupationLocation: { '@type': 'Country', name: 'Indonesia' },
-    skills: 'Flutter, Dart, React.js, Next.js, Laravel, Node.js, TypeScript, Mobile Development, IT Support, Hardware and Software Troubleshooting, Computer Networking, Linux Administration',
+    skills: 'Web development, mobile development, IT support, troubleshooting, networking, and Linux administration',
   },
 };
 
@@ -105,13 +114,15 @@ const websiteNode = {
 };
 
 const pageNode = {
-  '@type': path === '/' ? 'ProfilePage' : 'WebPage',
+  '@type': pageType,
   '@id': PAGE_ID,
   url: canonicalUrl,
   name: title,
   description,
   isPartOf: { '@id': WEBSITE_ID },
   about: { '@id': PERSON_ID },
+  ...(pageMainEntityId ? { mainEntity: { '@id': pageMainEntityId } } : {}),
+  ...(dateModified ? { dateModified } : {}),
   ...(breadcrumbNode ? { breadcrumb: { '@id': BREADCRUMB_ID } } : {}),
 };
 
@@ -131,26 +142,19 @@ const graph = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <link rel="canonical" href={canonicalUrl} />
+  {!noindex && <link rel="canonical" href={canonicalUrl} />}
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap-index.xml" />
 
-  <!-- Author & indexing -->
   <meta name="author" content="Haikal Akhalul Azhar" />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <meta name="googlebot" content="index, follow" />
-  <meta name="bingbot" content="index, follow" />
+  <meta
+    name="robots"
+    content={noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'}
+  />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="format-detection" content="telephone=no" />
-  <meta name="rating" content="general" />
 
-  <!-- Language & locale -->
-  <meta http-equiv="content-language" content="en-US" />
-  <link rel="alternate" href={canonicalUrl} hreflang="en" />
-  <link rel="alternate" href={canonicalUrl} hreflang="x-default" />
-
-  <!-- Geographic (GEO) -->
-  <meta name="geo.region" content="ID-JT" />
-  <meta name="geo.placename" content="Tegal, Indonesia" />
+  {!noindex && <link rel="alternate" href={canonicalUrl} hreflang="en" />}
+  {!noindex && <link rel="alternate" href={canonicalUrl} hreflang="x-default" />}
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -161,7 +165,7 @@ const graph = [
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="1200" />
   <meta property="og:image:type" content="image/webp" />
-  <meta property="og:image:alt" content={title} />
+  <meta property="og:image:alt" content="Portrait of Haikal Akhalul Azhar" />
   <meta property="og:site_name" content="Haikal Akhalul Azhar" />
   <meta property="og:locale" content="en_US" />
 
@@ -171,7 +175,7 @@ const graph = [
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
-  <meta name="twitter:image:alt" content={title} />
+  <meta name="twitter:image:alt" content="Portrait of Haikal Akhalul Azhar" />
 
   <!-- Favicon & manifest -->
   <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
@@ -190,10 +194,12 @@ const graph = [
 
   <!-- Fonts: self-hosted via @fontsource-variable/montserrat (imported in global.css) -->
 
-  <script is:inline type="application/ld+json" set:html={JSON.stringify({
-    '@context': 'https://schema.org',
-    '@graph': graph,
-  })} />
+  {!noindex && (
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': graph,
+    })} />
+  )}
 
   <ClientRouter />
 </head>

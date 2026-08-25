@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { PROJECTS, PROJECT_CATEGORIES } from '../data/projects.js';
 
-const pageSchema = {
+const projectListNode = {
   '@type': 'ItemList',
   '@id': 'https://bio.ekalliptus.com/projects/#project-list',
   name: 'Selected portfolio projects',
@@ -20,16 +20,18 @@ const pageSchema = {
 };
 ---
 <BaseLayout
-  title="Projects - Haikal Akhalul Azhar"
-  description={`Portfolio of ${PROJECTS.length} shipped software engineering products: web platforms, donation systems, and developer tools.`}
-  pageNodes={[pageSchema]}
+  title="Software Projects - Haikal Akhalul Azhar"
+  description={`${PROJECTS.length} public web and software projects by Haikal Akhalul Azhar across agency, donation, travel, and developer tooling.`}
+  pageType="CollectionPage"
+  pageMainEntityId="https://bio.ekalliptus.com/projects/#project-list"
+  pageNodes={[projectListNode]}
 >
   <div class="container section">
     <p class="section-label reveal">My Work</p>
-    <h1 class="section-title reveal">Selected<br><span class="accent">work.</span></h1>
+    <h1 class="section-title reveal">Selected <br><span class="accent">work.</span></h1>
     <p class="section-desc reveal">
-      {PROJECTS.length} products shipped to production - digital agency sites, donation
-      platforms, travel booking, and developer tools, each running on its own domain.
+      {PROJECTS.length} public projects across digital agencies, donation platforms,
+      travel services, community organizations, and developer tooling.
     </p>
 
     <!-- Category filters. These are toggle buttons, not ARIA tabs: they filter a
