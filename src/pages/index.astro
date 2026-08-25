@@ -171,13 +171,17 @@ const pillars = [
 }
 
 .hero-heading {
-  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
   font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-  margin-bottom: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  max-width: 960px;
+  margin-bottom: 24px;
 }
-.hero-heading .accent { color: var(--accent); }
+.hero-heading .accent {
+  display: inline-block;
+  color: var(--accent);
+}
 
 .hero-sub {
   font-size: clamp(1.1rem, 2vw, 1.5rem);
