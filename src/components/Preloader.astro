@@ -13,7 +13,12 @@
     try {
       var seen = sessionStorage.getItem('pl-seen') === '1';
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!seen && !reduce) {
+      // Search visitors are the ones Google measures for LCP. Holding their
+      // first paint for the intro tanks Core Web Vitals, so they skip it.
+      var host = '';
+      try { host = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
+      var fromSearch = /(^|\.)(google|bing|duckduckgo|yahoo|yandex|baidu)\.[a-z.]+$/.test(host);
+      if (!seen && !reduce && !fromSearch) {
         document.documentElement.classList.add('pl-first', 'pl-intro');
       }
     } catch (e) { /* sessionStorage blocked → skip the intro */ }
@@ -75,11 +80,11 @@
   /* Reveal: panels slide apart, weighty easing */
   .preloader[data-state="reveal"] .pl-panel-top {
     transform: translateY(-100%);
-    transition: transform 1100ms cubic-bezier(0.85, 0, 0.15, 1) 180ms;
+    transition: transform 720ms cubic-bezier(0.85, 0, 0.15, 1) 90ms;
   }
   .preloader[data-state="reveal"] .pl-panel-bottom {
     transform: translateY(100%);
-    transition: transform 1100ms cubic-bezier(0.85, 0, 0.15, 1) 180ms;
+    transition: transform 720ms cubic-bezier(0.85, 0, 0.15, 1) 90ms;
   }
 
   /* ── Stage (counter cluster) ── */
@@ -141,8 +146,8 @@
   .pl-word.is-out { opacity: 0; transform: translateY(-10px); }
   .pl-words.animate .pl-word {
     transition:
-      opacity 460ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .pl-word-brand {
     font-family: serif;
@@ -199,9 +204,26 @@
     html.classList.add('pl-lock');
     pl.dataset.state = 'counting';
 
-    const STEP = 820;                         // ms per word (460ms crossfade + ~360ms hold)
+    const STEP = 260;                         // ms per word (~200ms crossfade + ~60ms hold)
     const total = words.length * STEP;        // full ticker duration
     const timers: ReturnType<typeof setTimeout>[] = [];
+    let revealed = false;
+
+    function cleanupTimers() {
+      timers.forEach(t => clearTimeout(t));
+      timers.length = 0;
+    }
+
+    // Fast-exit on any user interaction
+    function onUserInteraction() {
+      window.removeEventListener('keydown', onUserInteraction);
+      window.removeEventListener('touchstart', onUserInteraction);
+      window.removeEventListener('wheel', onUserInteraction);
+      if (!revealed) reveal();
+    }
+    window.addEventListener('keydown', onUserInteraction, { once: true, passive: true });
+    window.addEventListener('touchstart', onUserInteraction, { once: true, passive: true });
+    window.addEventListener('wheel', onUserInteraction, { once: true, passive: true });
 
     // First word in immediately (no transition flash), then enable transitions.
     if (words[0]) words[0].classList.add('is-in');
@@ -216,32 +238,32 @@
     // Sequence the words: each step lifts the current out and brings the next in.
     for (let i = 1; i < words.length; i++) {
       timers.push(setTimeout(() => {
-        words[i - 1].classList.remove('is-in');
-        words[i - 1].classList.add('is-out');
-        words[i].classList.add('is-in');
+        if (revealed) return;
+        words[i - 1]?.classList.remove('is-in');
+        words[i - 1]?.classList.add('is-out');
+        words[i]?.classList.add('is-in');
       }, i * STEP));
     }
 
     // After the last word (the brand) has held, reveal the site.
-    timers.push(setTimeout(reveal, total + 360));
+    timers.push(setTimeout(reveal, total + 120));
 
     function reveal() {
+      if (revealed) return;
+      revealed = true;
+      cleanupTimers();
       pl.dataset.state = 'reveal';     // panels split + stage fades
       html.classList.remove('pl-lock');
       // Hand off to the hero opening as the panels lift.
       html.classList.remove('pl-intro');
       html.classList.add('pl-opening');
 
-      // Panels finish at 180ms delay + 1100ms travel = 1280ms, so the overlay
-      // can go away then.
-      timers.push(setTimeout(() => { pl.dataset.state = 'done'; }, 1280));
+      // Overlay completes fast
+      setTimeout(() => { pl.dataset.state = 'done'; }, 600);
 
-      // The hero choreography runs 1300ms with delays up to 1100ms. Dropping
-      // `pl-opening` earlier cancels those animations mid-flight and snaps the
-      // hero into place, so hold the class until the last one has landed.
-      timers.push(setTimeout(() => {
+      setTimeout(() => {
         html.classList.remove('pl-first', 'pl-opening');
-      }, 2500));
+      }, 1400);
     }
   }
 

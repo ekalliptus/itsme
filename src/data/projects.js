@@ -20,7 +20,7 @@ export const PROJECTS = [
     tags: ['Astro', 'TypeScript', 'Supabase', 'Cloudflare'],
     liveUrl: 'https://ekalliptus.com',
     category: 'agency',
-    previewImage: '/img/projects/ekalliptus-com.png',
+    previewImage: '/img/projects/ekalliptus-com.webp',
   },
   {
     icon: '💬',
@@ -29,7 +29,7 @@ export const PROJECTS = [
     tags: ['Astro', 'TypeScript', 'TailwindCSS', 'Cloudflare'],
     liveUrl: 'https://tentaklik.com',
     category: 'platform',
-    previewImage: '/img/projects/tentaklik-com.png',
+    previewImage: '/img/projects/tentaklik-com.webp',
   },
   {
     icon: '✈️',
@@ -38,7 +38,7 @@ export const PROJECTS = [
     tags: ['Astro', 'TypeScript', 'Cloudflare'],
     liveUrl: 'https://jagatrip.com',
     category: 'platform',
-    previewImage: '/img/projects/jagatrip-com.png',
+    previewImage: '/img/projects/jagatrip-com.webp',
   },
   {
     icon: '💚',
@@ -47,7 +47,7 @@ export const PROJECTS = [
     tags: ['React', 'TypeScript', 'Go', 'PostgreSQL'],
     liveUrl: 'https://donasi.niatbaik.org',
     category: 'platform',
-    previewImage: '/img/projects/donasi-niatbaik-org.png',
+    previewImage: '/img/projects/donasi-niatbaik-org.webp',
   },
   {
     icon: '💧',
@@ -56,7 +56,7 @@ export const PROJECTS = [
     tags: ['Astro', 'React', 'Supabase', 'Cloudflare'],
     liveUrl: 'https://sedekahairminum.com',
     category: 'platform',
-    previewImage: '/img/projects/sedekahairminum-com.png',
+    previewImage: '/img/projects/sedekahairminum-com.webp',
   },
   {
     icon: '🔗',
@@ -65,7 +65,7 @@ export const PROJECTS = [
     tags: ['Astro', 'React', 'PostgreSQL', 'Cloudflare'],
     liveUrl: 'https://linknyamana.web.id',
     category: 'tools',
-    previewImage: '/img/projects/linknyamana-web-id.png',
+    previewImage: '/img/projects/linknyamana-web-id.webp',
   },
   {
     icon: '👨‍💻',
@@ -74,7 +74,7 @@ export const PROJECTS = [
     tags: ['Astro', 'React', 'TailwindCSS', 'Cloudflare'],
     liveUrl: 'https://jagoanzaidev.web.id',
     category: 'tools',
-    previewImage: '/img/projects/jagoanzaidev-web-id.png',
+    previewImage: '/img/projects/jagoanzaidev-web-id.webp',
   },
   {
     icon: '🌐',
@@ -83,7 +83,7 @@ export const PROJECTS = [
     tags: ['Astro', 'TypeScript', 'TailwindCSS', 'Cloudflare'],
     liveUrl: 'https://mediapro.work',
     category: 'agency',
-    previewImage: '/img/projects/mediapro-work.png',
+    previewImage: '/img/projects/mediapro-work.webp',
   },
   {
     icon: '📖',
@@ -92,7 +92,7 @@ export const PROJECTS = [
     tags: ['Astro', 'TailwindCSS', 'Cloudflare'],
     liveUrl: 'https://penerbitquran.com',
     category: 'platform',
-    previewImage: '/img/projects/penerbitquran-com.png',
+    previewImage: '/img/projects/penerbitquran-com.webp',
   },
   {
     icon: '🤝',
@@ -101,7 +101,7 @@ export const PROJECTS = [
     tags: ['Astro', 'TailwindCSS', 'Cloudflare'],
     liveUrl: 'https://niatbaik.org',
     category: 'community',
-    previewImage: '/img/projects/niatbaik-org.png',
+    previewImage: '/img/projects/niatbaik-org.webp',
   },
   {
     icon: '🛰️',
@@ -110,6 +110,6 @@ export const PROJECTS = [
     tags: ['Astro', 'Three.js', 'Vitest', 'Cloudflare'],
     liveUrl: 'https://bio.ekalliptus.com',
     category: 'tools',
-    previewImage: '/img/projects/bio-ekalliptus-com.png',
+    previewImage: '/img/projects/bio-ekalliptus-com.webp',
   },
 ];

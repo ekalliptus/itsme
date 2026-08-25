@@ -100,25 +100,49 @@ import { SKILLS_DATA } from '../data/skills.js';
 </style>
 
 <script>
-  import { initSkillsSphere } from '../scripts/skills-sphere.js';
+  // three.js is ~119KB gzipped and only powers this one decorative scene, so it
+  // is imported dynamically once the container is actually near the viewport.
+  type Sphere = { dispose: () => void } | null;
 
-  let sphere: ReturnType<typeof initSkillsSphere> = null;
+  let sphere: Sphere = null;
+  let booting = false;
+  let observer: IntersectionObserver | null = null;
 
-  document.addEventListener('astro:before-swap', () => {
+  function teardown() {
+    observer?.disconnect();
+    observer = null;
     if (sphere) {
       sphere.dispose();
       sphere = null;
     }
-  });
+    booting = false;
+  }
 
-  function boot() {
+  document.addEventListener('astro:before-swap', teardown);
+
+  async function boot() {
     const container = document.getElementById('skills-sphere-container');
-    if (!container || sphere) return;
+    if (!container || sphere || booting) return;
+    booting = true;
 
     const loader = document.getElementById('sphere-loader');
     if (loader) loader.hidden = false;
 
-    sphere = initSkillsSphere('skills-sphere-container', 'dark');
+    try {
+      const { initSkillsSphere } = await import('../scripts/skills-sphere.js');
+      // A navigation may have torn things down while the chunk was in flight.
+      if (!document.getElementById('skills-sphere-container')) return;
+      sphere = initSkillsSphere('skills-sphere-container', 'dark');
+    } catch {
+      // Chunk or WebGL init failed → fall back to the static grid.
+      document.getElementById('skills-sphere-canvas')?.remove();
+      document.getElementById('sphere-loader')?.remove();
+      const fallback = document.getElementById('skills-fallback');
+      if (fallback) fallback.style.display = 'grid';
+      return;
+    } finally {
+      booting = false;
+    }
 
     // Reveal once textures have had a moment to load; rAF keeps it smooth.
     requestAnimationFrame(() => {
@@ -141,8 +165,18 @@ import { SKILLS_DATA } from '../data/skills.js';
       return;
     }
 
-    // Boot the 3D scene automatically on load.
-    boot();
+    // Boot the 3D scene when near viewport via IntersectionObserver
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect();
+          boot();
+        }
+      }, { rootMargin: '250px' });
+      observer.observe(container);
+    } else {
+      boot();
+    }
   }
 
   document.addEventListener('astro:page-load', init);
