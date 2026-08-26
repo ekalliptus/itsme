@@ -29,6 +29,8 @@ dist-ssr
 !docs/superpowers/plans/2026-07-20-portfolio-data-audit.md
 !docs/superpowers/plans/2026-07-21-seo-entity-performance-hardening.md
 *.pdf
+# Hosted CV linked from /about/
+!public/cv/*.pdf
 .astro/
 .superpowers/
 .gstack/
