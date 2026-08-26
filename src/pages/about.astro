@@ -97,15 +97,24 @@ const expertise = [
         <div class="cv-card card reveal">
           <h3 class="cv-title">Resume</h3>
           <p class="cv-desc">Work history, education, technical skills, and selected project experience.</p>
-          <a
-            href="https://anrdart-my.sharepoint.com/:b:/g/personal/salam_ekalliptus_com/IQDTxgH0B1ZKQ6Jm77oC6n5wAVyIOSxSOfjG-QI258s2fjw?e=UMVXyM"
-            class="btn btn-primary"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View Haikal Akhalul Azhar's resume (opens in a new tab)"
-          >
-            View resume <span aria-hidden="true">↗</span>
-          </a>
+          <div class="cv-actions">
+            <a
+              href="https://anrdart-my.sharepoint.com/:b:/g/personal/salam_ekalliptus_com/IQDTxgH0B1ZKQ6Jm77oC6n5wAVyIOSxSOfjG-QI258s2fjw?e=UMVXyM"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Haikal Akhalul Azhar's resume (opens in a new tab)"
+            >
+              View resume <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              href="/cv/Haikal-Akhalul-Azhar-CV-ID.pdf"
+              class="btn btn-outline"
+              aria-label="Download Haikal Akhalul Azhar's CV in Indonesian (PDF)"
+            >
+              CV Bahasa Indonesia
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -120,6 +129,12 @@ const expertise = [
   margin-top: 28px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
+}
+
+.cv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .profile-facts div { min-width: 0; }
