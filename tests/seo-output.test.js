@@ -52,7 +52,8 @@ describe('generated SEO output', () => {
 
     for (const anchor of document.querySelectorAll('a[href^="/"]')) {
       const href = anchor.getAttribute('href').split(/[?#]/)[0];
-      expect(href === '/' || href.endsWith('/')).toBe(true);
+      // Pages end with '/'; hosted static assets (e.g. /cv/*.pdf) are exempt.
+      expect(href === '/' || href.endsWith('/') || /\.\w+$/.test(href)).toBe(true);
     }
   });
 
