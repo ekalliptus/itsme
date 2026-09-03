@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "screenshots": "node scripts/screenshot-projects.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
     "test": "vitest --run",
     "test:seo": "astro build && vitest --run tests/seo-output.test.js"
   },
