@@ -1,227 +1,88 @@
 ---
-// src/components/Nav.astro
-interface Props {
-  currentPath: string;
-}
-
+interface Props { currentPath: string; }
 const { currentPath } = Astro.props;
-
 const links = [
-  { href: '/',         label: 'Home'     },
-  { href: '/about/',    label: 'About'    },
-  { href: '/skills/',   label: 'Skills'   },
+  { href: '/', label: 'Home' },
+  { href: '/about/', label: 'About' },
   { href: '/projects/', label: 'Projects' },
-  { href: '/contact/',  label: 'Contact'  },
+  { href: '/skills/', label: 'Skills' },
+  { href: '/contact/', label: 'Contact' },
 ];
-
-function isActive(href: string) {
-  if (href === '/') return currentPath === '/';
-  return currentPath.startsWith(href);
-}
+const isActive = (href: string) => href === '/' ? currentPath === '/' : currentPath.startsWith(href);
 ---
-<header role="banner">
-  <nav class="nav-pill" role="navigation" aria-label="Main navigation">
-    <a href="/" class="nav-logo" aria-label="Haikal Akhalul Azhar (ekalliptus) - Home"><span class="sr-only">Haikal Akhalul Azhar — </span>єкαℓℓιρтus</a>
-    {links.map(link => (
-      <a
-        href={link.href}
-        class:list={['nav-link', { active: isActive(link.href) }]}
-        aria-current={isActive(link.href) ? 'page' : undefined}
-      >
-        {link.label}
-      </a>
-    ))}
-  </nav>
-
-</header>
-
-<button class="nav-mob-btn" id="nav-mob-btn" aria-label="Toggle menu" aria-expanded="false">
-  <span></span><span></span><span></span>
-</button>
-
-<div class="nav-mob-overlay" id="nav-mob-overlay" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-  <button class="nav-mob-close" id="nav-mob-close" aria-label="Close menu">✕</button>
-  {links.map(link => (
-    <a
-      href={link.href}
-      class:list={['nav-mob-link', { active: isActive(link.href) }]}
-    >
-      {link.label}
+<header class="site-header">
+  <nav class="container navigation" aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="Haikal Akhalul Azhar (ekalliptus) - Home">
+      <span class="logo-mark" aria-hidden="true">e.</span><span>ekalliptus<span class="logo-caption">Haikal Akhalul Azhar</span></span>
     </a>
-  ))}
-</div>
-
+    <div class="nav-links">
+      {links.map(link => <a href={link.href} class:list={['nav-link', { active: isActive(link.href) }]} aria-current={isActive(link.href) ? 'page' : undefined}>{link.label}</a>)}
+    </div>
+    <a href="mailto:salam@ekalliptus.com" class="nav-contact">Let's talk <svg class="link-arrow external" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <button id="nav-mob-btn" class="nav-mob-btn" aria-label="Open menu" aria-controls="nav-mob-overlay" aria-expanded="false">Menu <span aria-hidden="true">☰</span></button>
+  </nav>
+</header>
+<dialog id="nav-mob-overlay" class="nav-mob-overlay" aria-label="Mobile navigation">
+  <div class="menu-top"><span class="menu-brand">ekalliptus</span><button id="nav-mob-close" aria-label="Close menu">Close <span aria-hidden="true">×</span></button></div>
+  <nav class="mobile-links" aria-label="Mobile main navigation">
+    {links.map(link => <a href={link.href} class:list={['nav-mob-link', { active: isActive(link.href) }]} aria-current={isActive(link.href) ? 'page' : undefined}>{link.label}<svg class="link-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8H13.5M13.5 8L9 3.5M13.5 8L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>)}
+  </nav>
+  <a href="mailto:salam@ekalliptus.com" class="menu-email">salam@ekalliptus.com</a>
+</dialog>
 <style>
-header {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 720px;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-}
-
-.nav-pill {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  background: rgba(20, 20, 20, 0.55);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-pill);
-  padding: 8px 10px 8px 18px;
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-}
-
-.nav-logo {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  text-decoration: none;
-  font-family: serif;
-  margin-right: 14px;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-  transition: color var(--transition-fast);
-}
-
-.nav-logo:hover { color: var(--accent); }
-
-.nav-link {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--text-sec);
-  text-decoration: none;
-  padding: 7px 15px;
-  border-radius: var(--radius-pill);
-  border: 1px solid transparent;
-  transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
-  white-space: nowrap;
-}
-
-.nav-link:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.nav-link.active {
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-color: var(--accent-line);
-}
-
-/* Mobile button - hidden on desktop */
-.nav-mob-btn {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: rgba(20, 20, 20, 0.55);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 11px 13px;
-  position: fixed;
-  top: 18px;
-  right: 20px;
-  z-index: 1001;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-.nav-mob-btn span {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background: var(--text);
-  border-radius: 2px;
-}
-
-.nav-mob-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(17, 17, 17, 0.98);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 1002;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  padding: 40px;
-}
-
-.nav-mob-overlay.open {
-  display: flex;
-}
-
-.nav-mob-close {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  background: none;
-  border: none;
-  color: var(--text-sec);
-  font-size: 22px;
-  cursor: pointer;
-}
-
-.nav-mob-link {
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--text-sec);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-.nav-mob-link:hover,
-.nav-mob-link.active {
-  color: var(--accent);
-}
-
-@media (max-width: 640px) {
-  header {
-    display: none;
-  }
-
-  .nav-mob-btn {
-    display: flex;
-  }
-}
+  .site-header { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(16,27,32,.94); backdrop-filter: blur(16px); }
+  .navigation { height: 100px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+  .nav-logo { display: flex; gap: 11px; align-items: center; font: 650 1.05rem/1.3 var(--font-display); letter-spacing: -.04em; }
+  .logo-mark { display: grid; place-items: center; width: 38px; height: 42px; background: var(--accent); color: var(--bg); border-radius: 12px 12px 12px 3px; font-size: 1.75rem; }
+  .logo-caption { display: block; margin-top: 3px; color: var(--text-mut); font: .62rem/1.4 var(--font-mono); letter-spacing: 0; }
+  .nav-links { display: flex; align-items: center; gap: 27px; }
+  .nav-link { position: relative; min-height: 44px; display: flex; align-items: center; font-size: .85rem; color: var(--text-sec); }
+  .nav-link:hover, .nav-link.active { color: var(--text); }
+  .nav-link.active::after { content: ''; position: absolute; bottom: 1px; left: 50%; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+  .nav-contact { display: flex; align-items: center; gap: 12px; font-size: .85rem; padding: 10px 16px; border: 1px solid var(--line-strong); border-radius: 10px; }
+  .nav-contact:hover { border-color: var(--accent); }
+  .nav-mob-btn { display: none; min-height: 44px; gap: 12px; align-items: center; font-size: .85rem; }
+  .nav-mob-overlay { width: min(100% - 28px, 520px); max-height: calc(100dvh - 28px); margin: auto; padding: 28px; border: 1px solid var(--line-strong); border-radius: 24px; background: var(--bg-soft); color: var(--text); }
+  .nav-mob-overlay::backdrop { background: rgba(5,14,18,.8); backdrop-filter: blur(10px); }
+  .menu-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+  .menu-brand { color: var(--accent); font-family: var(--font-display); }
+  .menu-top button { min-height: 44px; display: flex; align-items: center; gap: 12px; }
+  .menu-top button span { font-size: 1.8rem; }
+  .mobile-links { display: flex; flex-direction: column; }
+  .nav-mob-link { display: flex; justify-content: space-between; padding: 12px 0; font: 500 clamp(1.5rem, 6vw, 2rem)/1.3 var(--font-display); border-bottom: 1px solid var(--line); }
+  .nav-mob-link span { font-family: var(--font-body); color: var(--text-faint); }
+  .nav-mob-link.active { color: var(--accent); }
+  .menu-email { display: inline-block; margin-top: 32px; color: var(--text-sec); font-size: .9rem; }
+  @media (max-width: 900px) { .nav-links { gap: 18px; } .nav-contact { display: none; } }
+  @media (max-width: 680px) { .navigation { height: 84px; } .nav-links { display: none; } .nav-mob-btn { display: flex; } }
 </style>
-
 <script>
   function initNav() {
-    const btn = document.getElementById('nav-mob-btn');
-    const overlay = document.getElementById('nav-mob-overlay');
-    const closeBtn = document.getElementById('nav-mob-close');
-    const ac = new AbortController();
-    const { signal } = ac;
-
-    document.addEventListener('astro:before-swap', () => ac.abort(), { once: true });
-
-    function openMenu() {
-      overlay?.classList.add('open');
-      btn?.setAttribute('aria-expanded', 'true');
+    const button = document.getElementById('nav-mob-btn');
+    const menu = document.getElementById('nav-mob-overlay') as HTMLDialogElement | null;
+    const close = document.getElementById('nav-mob-close');
+    if (!button || !menu || !close) return;
+    const controller = new AbortController();
+    const { signal } = controller;
+    const media = window.matchMedia('(min-width: 681px)');
+    const closeMenu = () => menu.close();
+    button.addEventListener('click', () => {
+      menu.showModal();
+      button.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
-      closeBtn?.focus();
-    }
-
-    function closeMenu() {
-      overlay?.classList.remove('open');
-      btn?.setAttribute('aria-expanded', 'false');
+    }, { signal });
+    close.addEventListener('click', closeMenu, { signal });
+    menu.addEventListener('close', () => {
+      button.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
-    }
-
-    btn?.addEventListener('click', openMenu, { signal });
-    closeBtn?.addEventListener('click', closeMenu, { signal });
-    overlay?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu, { signal }));
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); }, { signal });
+    }, { signal });
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu, { signal }));
+    media.addEventListener('change', event => { if (event.matches) closeMenu(); }, { signal });
+    document.addEventListener('astro:before-swap', () => {
+      closeMenu();
+      document.body.style.overflow = '';
+      controller.abort();
+    }, { once: true });
   }
-
   document.addEventListener('astro:page-load', initNav);
 </script>

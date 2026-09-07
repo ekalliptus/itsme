@@ -1,30 +1,24 @@
 ---
-// src/pages/about.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LazyImage from '../components/LazyImage.astro';
 import { PROJECTS } from '../data/projects.js';
 
 const projectCount = PROJECTS.length;
-
 const expertise = [
   {
-    icon: '📱',
-    title: 'Mobile Development',
+    title: 'Mobile development',
     desc: 'Cross-platform Flutter and Dart applications with structured state management and reusable interface components.',
   },
   {
-    icon: '🌐',
-    title: 'Web Development',
+    title: 'Web development',
     desc: 'Websites and web applications built with Astro, React, Next.js, Vue, TypeScript, and Tailwind CSS.',
   },
   {
-    icon: '⚙️',
-    title: 'Backend & Automation',
+    title: 'Backend & automation',
     desc: 'APIs and services using Node.js, Laravel, Go, MySQL, and PostgreSQL, plus Python and shell automation for repetitive tasks.',
   },
   {
-    icon: '🛠️',
-    title: 'IT Support',
+    title: 'IT support',
     desc: 'Hardware, software, and network troubleshooting across Windows and Linux, including installation, configuration, and system diagnostics.',
   },
 ];
@@ -36,269 +30,156 @@ const expertise = [
   pageMainEntityId="https://bio.ekalliptus.com/#person"
 >
   <div class="container section">
-    <p class="section-label reveal">Profile</p>
-    <h1 class="section-title reveal">Software engineering <br><span class="accent">and IT support.</span></h1>
+    <header class="about-heading">
+      <p class="section-label reveal">About me</p>
+      <h1 class="section-title reveal">The person<br><span class="accent">behind the work.</span></h1>
+    </header>
 
     <div class="about-grid">
-      <!-- Profile card -->
-      <div class="profile-card card reveal">
-        <div class="profile-img-wrap">
+      <aside class="profile-panel reveal" aria-label="Profile">
+        <div class="profile-image">
           <LazyImage
             src="/img/ekal.webp"
             alt="Portrait of Haikal Akhalul Azhar"
-            width={280}
-            height={280}
+            width={400}
+            height={440}
             loading="eager"
             fetchpriority="high"
-            radius="50%"
+            radius="18px"
           />
         </div>
         <div class="profile-info">
           <h2 class="profile-name">Haikal Akhalul Azhar</h2>
           <p class="profile-title">Software Engineer · IT Support Specialist · AI Enthusiast</p>
-          <span class="status-badge">
-            <span class="status-dot" aria-hidden="true"></span>
-            Available for Hire
-          </span>
+          <p class="profile-location">Tegal, Central Java, Indonesia</p>
+          <p class="profile-status"><span aria-hidden="true"></span>Available for hire</p>
         </div>
-      </div>
+      </aside>
 
-      <!-- Bio + expertise -->
       <div class="about-content">
-        <div class="card bio-card reveal">
+        <section class="bio-section reveal" aria-labelledby="bio-heading">
+          <p class="section-label">What I do</p>
+          <h2 id="bio-heading" class="bio-heading">Software engineering.<br><em>Practical IT support.</em></h2>
           <p class="bio-text">
             I build mobile applications with Flutter and web products with Astro, React, Next.js, TypeScript, and supporting backend services.
           </p>
           <p class="bio-text">
-            My <strong>{projectCount} public projects</strong> include agency websites, donation platforms, travel services, community organizations, and developer tools.
+            My <a href="/projects/">{projectCount} public projects</a> include agency websites, donation platforms, travel services, community organizations, and developer tools.
           </p>
           <p class="bio-text">
             I also troubleshoot Windows and Linux systems, hardware, software, and network issues. AI-assisted workflows support research, implementation, testing, and automation; technical decisions remain reviewed and verified.
           </p>
+        </section>
 
+        <section class="background-section reveal" aria-labelledby="background-heading">
+          <h2 id="background-heading" class="small-heading">Background & focus</h2>
           <dl class="profile-facts">
-            <div><dt>Primary role</dt><dd>Software Engineer</dd></div>
-            <div><dt>Additional focus</dt><dd>IT Support and AI-assisted development</dd></div>
-            <div><dt>Location</dt><dd>Tegal, Central Java, Indonesia</dd></div>
-            <div><dt>Education</dt><dd>Associate Degree in Information Systems, Universitas Bina Sarana Informatika</dd></div>
-          </dl>
-        </div>
-
-        <div class="expertise-grid">
-          {expertise.map(item => (
-            <div class="expertise-card card reveal">
-              <span class="expertise-icon">{item.icon}</span>
-              <h3 class="expertise-title">{item.title}</h3>
-              <p class="expertise-desc">{item.desc}</p>
+            <div>
+              <dt>Education</dt>
+              <dd>Associate Degree in Information Systems<span>Universitas Bina Sarana Informatika</span></dd>
             </div>
-          ))}
-        </div>
-
-        <div class="cv-card card reveal">
-          <h3 class="cv-title">Resume</h3>
-          <p class="cv-desc">Work history, education, technical skills, and selected project experience.</p>
-          <div class="cv-actions">
-            <a
-              href="https://anrdart-my.sharepoint.com/:b:/g/personal/salam_ekalliptus_com/IQDTxgH0B1ZKQ6Jm77oC6n5wAVyIOSxSOfjG-QI258s2fjw?e=UMVXyM"
-              class="btn btn-primary"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View Haikal Akhalul Azhar's resume in English (opens in a new tab)"
-            >
-              Resume (English) <span aria-hidden="true">↗</span>
-            </a>
-            <a
-              href="/cv/Haikal-Akhalul-Azhar-CV-ID.pdf"
-              class="btn btn-outline"
-              aria-label="Download Haikal Akhalul Azhar's resume in Indonesian (PDF)"
-            >
-              CV (Bahasa Indonesia)
-            </a>
-          </div>
-        </div>
+            <div>
+              <dt>Primary role</dt>
+              <dd>Software Engineer</dd>
+            </div>
+            <div>
+              <dt>Additional focus</dt>
+              <dd>IT Support and AI-assisted development</dd>
+            </div>
+          </dl>
+        </section>
       </div>
     </div>
+
+    <section class="expertise-section" aria-labelledby="expertise-heading">
+      <div class="expertise-intro reveal">
+        <p class="section-label">In practice</p>
+        <h2 id="expertise-heading">From the interface<br>to the infrastructure.</h2>
+      </div>
+      <div class="expertise-list">
+        {expertise.map(item => (
+          <article class="expertise-item reveal">
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="cv-panel reveal" aria-labelledby="cv-heading">
+      <div>
+        <h2 id="cv-heading">The longer version.</h2>
+        <p>Work history, education, technical skills, and selected project experience.</p>
+      </div>
+      <div class="cv-actions">
+        <a
+          href="https://anrdart-my.sharepoint.com/:b:/g/personal/salam_ekalliptus_com/IQDTxgH0B1ZKQ6Jm77oC6n5wAVyIOSxSOfjG-QI258s2fjw?e=UMVXyM"
+          class="btn btn-primary"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View Haikal Akhalul Azhar's resume in English (opens in a new tab)"
+        >
+          Resume (English) <svg class="link-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8H13.5M13.5 8L9 3.5M13.5 8L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a
+          href="/cv/Haikal-Akhalul-Azhar-CV-ID.pdf"
+          class="btn btn-outline"
+          aria-label="Download Haikal Akhalul Azhar's resume in Indonesian (PDF)"
+        >CV (Bahasa Indonesia)</a>
+      </div>
+    </section>
   </div>
 </BaseLayout>
 
 <style>
-.profile-facts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 28px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
+.about-heading { margin-bottom: 56px; }
+.about-grid { display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); gap: clamp(32px, 7vw, 100px); align-items: start; }
+.profile-panel { padding: 14px; border-radius: 28px; background: var(--bg-card); }
+.profile-info { padding: 26px 14px 16px; }
+.profile-name { font-size: 1.375rem; font-weight: 600; line-height: 1.25; letter-spacing: -0.035em; }
+.profile-title { margin-top: 12px; color: var(--text-sec); font-size: 0.75rem; line-height: 1.8; }
+.profile-location { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--text-sec); font: 0.6875rem/1.7 var(--font-mono); }
+.profile-status { display: flex; align-items: center; gap: 9px; margin-top: 14px; color: var(--accent); font: 0.6875rem var(--font-mono); }
+.profile-status span { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.bio-heading { margin-bottom: 28px; font-size: clamp(1.65rem, 3vw, 2.5rem); font-weight: 500; letter-spacing: -0.045em; line-height: 1.3; }
+.bio-heading em { color: var(--accent-secondary, #b3abe7); font-family: Georgia, serif; font-weight: 400; letter-spacing: -0.025em; }
+.bio-text { margin-top: 18px; color: var(--text-sec); font-size: 0.875rem; line-height: 1.85; }
+.bio-text a { color: var(--text); text-decoration: underline; text-decoration-color: var(--accent-line); text-underline-offset: 4px; }
+.bio-text a:hover { color: var(--accent); }
+.background-section { margin-top: 40px; padding: 28px; border-radius: 22px; background: var(--bg-soft); }
+.small-heading { margin-bottom: 24px; font-size: 0.875rem; font-weight: 600; }
+.profile-facts { margin-left: 4px; border-left: 1px solid var(--accent-line); }
+.profile-facts div { position: relative; padding: 0 0 24px 24px; }
+.profile-facts div:last-child { padding-bottom: 0; }
+.profile-facts div::before { content: ''; position: absolute; left: -4px; top: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.profile-facts dt { color: var(--text-sec); font: 0.625rem var(--font-mono); margin-bottom: 8px; }
+.profile-facts dd { font-size: 0.8125rem; line-height: 1.65; margin: 0; }
+.profile-facts dd span { display: block; color: var(--text-sec); }
+.expertise-section { display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); gap: clamp(32px, 7vw, 100px); margin-top: 88px; padding-top: 48px; border-top: 1px solid var(--line); }
+.expertise-intro h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 500; line-height: 1.3; letter-spacing: -0.04em; }
+.expertise-item { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+.expertise-item:first-child { padding-top: 0; }
+.expertise-item h3 { font-size: 0.875rem; font-weight: 500; color: var(--accent); }
+.expertise-item p { font-size: 0.75rem; color: var(--text-sec); line-height: 1.85; }
+.cv-panel { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 36px; margin-top: 72px; background: var(--bg-card); border-radius: 24px; }
+.cv-panel h2 { font-size: 1.375rem; font-weight: 500; letter-spacing: -0.035em; }
+.cv-panel p { max-width: 40ch; margin-top: 10px; font-size: 0.8125rem; color: var(--text-sec); }
+.cv-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+@media (max-width: 960px) {
+  .about-grid, .expertise-section { gap: 36px; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
+  .expertise-item { grid-template-columns: 1fr; gap: 10px; }
+  .cv-panel { align-items: start; flex-direction: column; }
 }
 
-.cv-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.profile-facts div { min-width: 0; }
-.profile-facts dt {
-  color: var(--text-mut);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-}
-.profile-facts dd {
-  color: var(--text);
-  font-size: 0.875rem;
-  line-height: 1.5;
-  margin: 0;
-}
-
-.about-grid {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 32px;
-  align-items: start;
-}
-
-.profile-card {
-  position: sticky;
-  top: 100px;
-  text-align: center;
-  padding: 28px;
-}
-
-.profile-img-wrap {
-  width: 180px;
-  height: 180px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 1px solid var(--accent-line);
-}
-
-.profile-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.profile-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.profile-title {
-  font-size: 12px;
-  color: var(--text-sec);
-  margin-bottom: 14px;
-  line-height: 1.5;
-}
-
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--text-sec);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-pill);
-  padding: 5px 13px;
-}
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-  background: #46d17f;
-  box-shadow: 0 0 0 3px rgba(70, 209, 127, 0.18);
-  border-radius: 50%;
-  animation: pulse 2.4s var(--ease) infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.bio-card {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.bio-text {
-  font-size: 0.95rem;
-  color: var(--text-sec);
-  line-height: 1.75;
-}
-
-.bio-text strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.expertise-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.expertise-card {
-  padding: 20px;
-}
-
-.expertise-icon {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.expertise-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--violet-light);
-}
-
-.expertise-desc {
-  font-size: 12px;
-  color: var(--text-sec);
-  line-height: 1.65;
-}
-
-.cv-card {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.cv-title {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.cv-desc {
-  font-size: 13px;
-  color: var(--text-sec);
-}
-
-@media (max-width: 900px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .profile-card {
-    position: static;
-  }
-
-  .expertise-grid,
-  .profile-facts {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 680px) {
+  .about-heading { margin-bottom: 32px; }
+  .about-grid, .expertise-section { grid-template-columns: 1fr; }
+  .profile-panel { max-width: 420px; }
+  .background-section { padding: 24px; }
+  .expertise-section { margin-top: 56px; padding-top: 32px; }
+  .cv-panel { padding: 28px; margin-top: 48px; }
+  .cv-actions { width: 100%; }
+  .cv-actions .btn { white-space: normal; }
 }
 </style>

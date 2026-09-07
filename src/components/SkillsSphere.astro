@@ -1,181 +1,176 @@
 ---
-// src/components/SkillsSphere.astro
 import { SKILLS_DATA } from '../data/skills.js';
 ---
-<div id="skills-sphere-container" class="skills-sphere-container" aria-label="Interactive 3D skills visualization">
-  <!-- Shimmer loader while the WebGL scene + textures boot -->
-  <div id="sphere-loader" class="sphere-loader" aria-hidden="true" hidden>
-    <span class="skeleton sphere-skeleton"></span>
-    <span class="sphere-loader-label">Loading stack…</span>
-  </div>
-  <canvas id="skills-sphere-canvas" aria-hidden="true"></canvas>
-
-  <noscript>
-    <p class="sphere-noscript">The interactive visualization requires JavaScript. The complete text list remains available below.</p>
-  </noscript>
+<div class="toolkit reveal">
+  <details id="skills-visualization" class="sphere-panel">
+    <summary>
+      <span class="sphere-title">The toolkit, in orbit</span>
+      <span class="sphere-toggle"><span class="show-label">Show visualization</span><span class="hide-label">Hide visualization</span><span class="toggle-mark" aria-hidden="true">+</span></span>
+    </summary>
+    <div class="sphere-layout">
+      <div class="sphere-caption">
+        <p class="section-label">Interactive view</p>
+        <h2>Different tools.<br>Shared space.</h2>
+        <p>Drag to rotate. Hover over an icon to pause the rotation.</p>
+        <a href="#skills-catalog">Browse the complete text list <span aria-hidden="true">↓</span></a>
+      </div>
+      <div id="skills-sphere-container" class="skills-sphere-container" aria-label="Interactive 3D skills visualization">
+        <div id="sphere-loader" class="sphere-loader" aria-hidden="true" hidden>
+          <span class="sphere-skeleton"></span>
+          <span>Loading toolkit…</span>
+        </div>
+        <canvas id="skills-sphere-canvas" aria-hidden="true"></canvas>
+      </div>
+    </div>
+  </details>
+  <p id="sphere-status" class="sphere-status" role="status" hidden></p>
+  <section id="skills-catalog" class="skills-catalog" aria-labelledby="catalog-title" tabindex="-1">
+    <header class="catalog-header">
+      <div><p class="section-label" style="color:var(--lilac)">Text view</p><h2 id="catalog-title">The full toolkit</h2></div>
+      <p>Tools represented in public work.</p>
+    </header>
+    <ul class="skills-list" role="list" aria-label="Technical skills">
+      {SKILLS_DATA.map(skill => (
+        <li class="skill-item">
+          <span class="skill-icon"><img src={skill.icon} alt="" width="28" height="28" loading="lazy" /></span>
+          <span class="skill-name">{skill.name}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
 </div>
-
-<ul class="skills-list" role="list" aria-label="Technical skills">
-  {SKILLS_DATA.map(skill => (
-    <li class="skill-item card">
-      <img
-        src={skill.icon}
-        alt=""
-        width="36"
-        height="36"
-        loading="lazy"
-      />
-      <span class="skill-name">{skill.name}</span>
-    </li>
-  ))}
-</ul>
-
 <style>
-.skills-sphere-container {
-  position: relative;
-  width: 100%;
-  height: 70vh;
-  min-height: 400px;
-  content-visibility: auto;
-  contain-intrinsic-size: 70vh;
-}
-
-#skills-sphere-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-  opacity: 0;
-  transition: opacity 700ms var(--ease);
-}
-.skills-sphere-container.is-ready #skills-sphere-canvas { opacity: 1; }
-
-/* Shimmer loader */
-.sphere-loader {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  z-index: 2;
-  transition: opacity 500ms var(--ease);
-}
-.skills-sphere-container.is-ready .sphere-loader {
-  opacity: 0;
-  pointer-events: none;
-}
-.sphere-skeleton {
-  width: min(260px, 60vw);
-  height: min(260px, 60vw);
-  border-radius: 50%;
-}
-.sphere-loader-label {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--text-mut);
-}
-
-.skills-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-  list-style: none;
-  margin: 32px 0 0;
-  padding: 0;
-}
-
-.skill-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-}
-
-.skill-name {
-  font-size: 12px;
-  color: var(--text-sec);
-  font-weight: 500;
-}
+  .sphere-panel { background: var(--bg-soft); border-radius: 28px; }
+  .sphere-panel[hidden], .sphere-loader[hidden], .sphere-status[hidden] { display: none; }
+  summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 36px; cursor: pointer; list-style: none; border-radius: 28px; border: 1px solid var(--line); }
+  summary::-webkit-details-marker { display: none; }
+  .sphere-title { font-size: .95rem; font-weight: 500; }
+  .sphere-toggle { display: flex; align-items: center; gap: 24px; color: var(--accent); font: .68rem/1.5 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; }
+  .toggle-mark { font-size: 1.6rem; font-weight: 400; line-height: 1; transition: transform var(--transition); }
+  .hide-label, details[open] .show-label { display: none; }
+  details[open] .hide-label { display: inline; }
+  details[open] .toggle-mark { transform: rotate(45deg); }
+  details[open] summary { border-bottom-color: transparent; border-radius: 28px 28px 0 0; }
+  .sphere-layout { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; border: 1px solid var(--line); border-top: none; border-radius: 0 0 28px 28px; }
+  .sphere-caption { padding: 48px; }
+  .sphere-caption h2 { font-size: clamp(1.8rem, 3vw, 2.75rem); font-weight: 500; letter-spacing: -.05em; line-height: 1.15; margin-bottom: 20px; }
+  .sphere-caption > p:not(.section-label) { max-width: 30ch; font-size: .95rem; color: var(--text-sec); line-height: 1.7; }
+  .sphere-caption a { display: inline-flex; align-items: center; gap: 16px; margin-top: 32px; color: var(--accent); font-size: .85rem; }
+  .sphere-caption a:hover { text-decoration: underline; text-underline-offset: 6px; }
+  .skills-sphere-container { position: relative; min-width: 0; width: 100%; height: clamp(380px, 45vw, 560px); }
+  #skills-sphere-canvas { width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 500ms; cursor: grab; }
+  #skills-sphere-canvas:active { cursor: grabbing; }
+  .skills-sphere-container.is-ready #skills-sphere-canvas { opacity: 1; }
+  .sphere-loader { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; color: var(--text-sec); font: .65rem/1.5 var(--font-mono); text-transform: uppercase; letter-spacing: .1em; pointer-events: none; }
+  .sphere-skeleton { width: 180px; height: 180px; border: 1px dashed var(--line-strong); border-radius: 50%; animation: spin 4s linear infinite; }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  .sphere-status { padding: 24px 32px; background: var(--bg-soft); border-radius: 20px; color: var(--text-sec); font-size: .95rem; border: 1px solid var(--line); }
+  .skills-catalog { margin-top: 88px; scroll-margin-top: 130px; }
+  .catalog-header { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 40px; }
+  .catalog-header h2 { font-size: clamp(2rem, 3.5vw, 2.75rem); font-weight: 500; letter-spacing: -.045em; margin-top: 12px; }
+  .catalog-header > p { color: var(--text-sec); font-size: .95rem; }
+  .skills-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; }
+  .skill-item { display: flex; align-items: center; gap: 16px; min-width: 0; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--line); border-radius: 20px; transition: border-color var(--transition-fast); }
+  .skill-item:hover { border-color: var(--line-strong); }
+  .skill-icon { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: var(--bg-soft); }
+  .skill-icon img { object-fit: contain; }
+  .skill-name { color: var(--text); font-size: .9rem; font-weight: 500; overflow-wrap: anywhere; }
+  @media (max-width: 1080px) { .skills-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } .sphere-caption { padding: 36px; } }
+  @media (max-width: 760px) {
+    summary { padding: 22px 24px; align-items: start; }
+    .sphere-title { max-width: 12ch; }
+    .sphere-toggle { gap: 12px; font-size: .6rem; }
+    .sphere-layout { grid-template-columns: 1fr; }
+    .sphere-caption { padding: 32px 24px 0; }
+    .skills-sphere-container { height: 360px; }
+    .skills-catalog { margin-top: 64px; }
+    .catalog-header { flex-direction: column; align-items: start; gap: 16px; margin-bottom: 32px; }
+    .skills-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .skill-item { gap: 12px; padding: 14px 16px; border-radius: 16px; }
+    .skill-icon { width: 36px; height: 36px; border-radius: 10px; }
+    .skill-icon img { width: 22px; height: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sphere-panel { display: none; }
+    #skills-sphere-canvas { transition: none; }
+  }
 </style>
-
 <script>
-  // Load the decorative scene only when its container nears the viewport.
-  type Sphere = { dispose: () => void } | null;
-
-  let sphere: Sphere = null;
-  let booting = false;
-  let observer: IntersectionObserver | null = null;
-
-  function teardown() {
-    observer?.disconnect();
-    observer = null;
-    if (sphere) {
-      sphere.dispose();
-      sphere = null;
-    }
-    booting = false;
-  }
-
-  document.addEventListener('astro:before-swap', teardown);
-
-  async function boot() {
-    const container = document.getElementById('skills-sphere-container');
-    if (!container || sphere || booting) return;
-    booting = true;
-
-    const loader = document.getElementById('sphere-loader');
-    if (loader) loader.hidden = false;
-
-    try {
-      const { initSkillsSphere } = await import('../scripts/skills-sphere.js');
-      // A navigation may have torn things down while the chunk was in flight.
-      if (!document.getElementById('skills-sphere-container')) return;
-      sphere = initSkillsSphere('skills-sphere-container', 'dark');
-    } catch {
-      // Chunk or WebGL init failed → fall back to the static grid.
-      document.getElementById('skills-sphere-canvas')?.remove();
-      document.getElementById('sphere-loader')?.remove();
-      return;
-    } finally {
-      booting = false;
-    }
-
-    // Reveal once textures have had a moment to load; rAF keeps it smooth.
-    requestAnimationFrame(() => {
-      setTimeout(() => container.classList.add('is-ready'), 220);
-    });
-  }
-
+  let cleanup = () => {};
   function init() {
+    cleanup();
+    const panel = document.querySelector<HTMLDetailsElement>('#skills-visualization');
     const container = document.getElementById('skills-sphere-container');
-    if (!container) return;
-
-    // No WebGL → skip the 3D entirely, show the grid fallback.
-    const probe = document.createElement('canvas');
-    const gl = probe.getContext('webgl') || probe.getContext('experimental-webgl');
-    if (!gl) {
-      document.getElementById('skills-sphere-canvas')?.remove();
-      document.getElementById('sphere-loader')?.remove();
-      return;
+    const loader = document.getElementById('sphere-loader');
+    const status = document.getElementById('sphere-status');
+    if (!panel || !container || !loader || !status) return;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let sphere: import('../scripts/skills-sphere.js').SkillsSphere | null = null;
+    let observer: IntersectionObserver | null = null;
+    let generation = 0;
+    let failed = false;
+    function stop() {
+      generation++;
+      observer?.disconnect();
+      observer = null;
+      sphere?.dispose();
+      sphere = null;
+      container!.classList.remove('is-ready');
+      loader!.hidden = true;
     }
-
-    // Boot the 3D scene when near viewport via IntersectionObserver
-    if ('IntersectionObserver' in window) {
-      observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
+    async function boot() {
+      if (sphere || !panel!.open || motion.matches || failed) return;
+      const current = ++generation;
+      loader!.hidden = false;
+      try {
+        const { SkillsSphere } = await import('../scripts/skills-sphere.js');
+        if (current !== generation || !container!.isConnected) return;
+        const scene = new SkillsSphere(container!);
+        sphere = scene;
+        await scene.init();
+        if (current !== generation) return;
+        if (!scene.isInitialized) throw new Error('Skills visualization unavailable');
+        container!.classList.add('is-ready');
+      } catch {
+        if (current !== generation) return;
+        failed = true;
+        stop();
+        panel!.hidden = true;
+        status!.textContent = 'The visualization is unavailable. The complete toolkit is listed below.';
+        status!.hidden = false;
+      } finally {
+        if (current === generation) loader!.hidden = true;
+      }
+    }
+    function sync() {
+      stop();
+      panel!.hidden = motion.matches || failed;
+      if (motion.matches) {
+        status!.textContent = 'Reduced motion is on. Browse the complete toolkit below without animation.';
+        status!.hidden = false;
+        return;
+      }
+      if (failed) return;
+      status!.hidden = true;
+      if (!panel!.open) return;
+      if ('IntersectionObserver' in window) {
+        observer = new IntersectionObserver(entries => {
+          if (!entries.some(entry => entry.isIntersecting)) return;
           observer?.disconnect();
           observer = null;
-          boot();
-        }
-      }, { rootMargin: '250px' });
-      observer.observe(container);
-    } else {
-      boot();
+          void boot();
+        }, { rootMargin: '250px' });
+        observer.observe(container!);
+      } else {
+        void boot();
+      }
     }
+    panel.addEventListener('toggle', sync);
+    motion.addEventListener('change', sync);
+    cleanup = () => { stop(); panel.removeEventListener('toggle', sync); motion.removeEventListener('change', sync); };
+    panel.open = true;
+    sync();
   }
-
+  document.addEventListener('astro:before-swap', () => cleanup());
   document.addEventListener('astro:page-load', init);
 </script>

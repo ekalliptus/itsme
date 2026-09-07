@@ -3,7 +3,6 @@
 import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import Preloader from '../components/Preloader.astro';
 import { PAGE_CONTENT_PATHS, resolveContentDate } from '../lib/content-dates.js';
 import '../styles/global.css';
 
@@ -187,8 +186,8 @@ const graph = [
   <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <meta name="theme-color" content="#111111" />
-  <meta name="msapplication-TileColor" content="#111111" />
+  <meta name="theme-color" content="#101b20" />
+  <meta name="msapplication-TileColor" content="#101b20" />
 
   <!-- PWA / Mobile -->
   <meta name="mobile-web-app-capable" content="yes" />
@@ -208,40 +207,34 @@ const graph = [
   <ClientRouter />
 </head>
 <body>
-  <Preloader />
+  <a href="#main-content" class="skip-link">Skip to content</a>
   <Nav currentPath={Astro.url.pathname} />
   <main id="main-content" role="main">
     <slot />
   </main>
   <Footer />
 
-  <!-- Scroll reveal -->
   <script>
+    let revealObserver: IntersectionObserver | undefined;
     function initReveal() {
-      const els = document.querySelectorAll('.reveal');
-      if (!els.length) return;
-      const obs = new IntersectionObserver(
-        (entries) => entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            obs.unobserve(e.target);
-          }
-        }),
-        { threshold: 0.1 }
-      );
-      els.forEach(el => obs.observe(el));
+      revealObserver?.disconnect();
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.remove('pending');
+          entry.target.classList.add('visible');
+          revealObserver?.unobserve(entry.target);
+        });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) return;
+        el.classList.add('pending');
+        revealObserver?.observe(el);
+      });
     }
     document.addEventListener('astro:page-load', initReveal);
-  </script>
-
-  <!-- Cursor animation (desktop only) -->
-  <script>
-    import { initCursorAnimation } from '../scripts/cursor-animation.js';
-    document.addEventListener('astro:page-load', () => {
-      if (window.matchMedia('(pointer: fine)').matches) {
-        initCursorAnimation();
-      }
-    });
+    document.addEventListener('astro:before-swap', () => revealObserver?.disconnect());
   </script>
 </body>
 </html>

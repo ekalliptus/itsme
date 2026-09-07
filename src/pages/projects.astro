@@ -27,16 +27,23 @@ const projectListNode = {
   pageNodes={[projectListNode]}
 >
   <div class="container section">
-    <p class="section-label reveal">My Work</p>
-    <h1 class="section-title reveal">Selected <br><span class="accent">work.</span></h1>
-    <p class="section-desc reveal">
-      {PROJECTS.length} public projects across digital agencies, donation platforms,
-      travel services, community organizations, and developer tooling.
-    </p>
+    <header class="projects-intro">
+      <div>
+        <p class="section-label reveal">Selected projects</p>
+        <h1 class="section-title reveal">Work, out<br><span class="accent">in the world.</span></h1>
+      </div>
+      <div class="projects-note reveal">
+        <p class="section-desc">
+          {PROJECTS.length} public projects across digital agencies, donation platforms,
+          travel services, community organizations, and developer tooling.
+        </p>
+        <p class="projects-caption">Real websites. Open one to explore.</p>
+      </div>
+    </header>
 
-    <!-- Category filters. These are toggle buttons, not ARIA tabs: they filter a
-         single grid in place rather than swapping tab panels. -->
-    <div class="filter-tabs reveal" role="group" aria-label="Filter projects by category">
+    <div class="filter-bar reveal">
+      <span class="filter-label">Browse by</span>
+      <div class="filter-tabs" role="group" aria-label="Filter projects by category">
       {PROJECT_CATEGORIES.map(cat => (
         <button
           type="button"
@@ -51,6 +58,7 @@ const projectListNode = {
           </span>
         </button>
       ))}
+      </div>
     </div>
 
     <div class="projects-grid" id="projects-grid">
@@ -75,87 +83,66 @@ const projectListNode = {
 </BaseLayout>
 
 <style>
-.filter-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 32px;
+.projects-intro {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(32px, 6vw, 88px);
+  align-items: end;
+  margin-bottom: 56px;
 }
+
+.projects-intro .section-title { margin-bottom: 0; }
+.projects-note { padding-bottom: 8px; }
+.projects-note .section-desc { margin-bottom: 24px; font-size: 0.9375rem; }
+.projects-caption { font-family: Georgia, serif; font-style: italic; color: var(--accent-secondary, #b3abe7); font-size: 1.125rem; }
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 18px 24px;
+  margin-bottom: 32px;
+  border-radius: 20px;
+  background: var(--bg-soft);
+}
+
+.filter-label { color: var(--text-sec); font: 0.6875rem var(--font-mono); white-space: nowrap; }
+.filter-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .filter-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 16px;
-  border-radius: var(--radius-pill);
-  font-size: 13px;
-  font-weight: 600;
-  background: transparent;
-  border: 1px solid var(--border-violet);
+  gap: 14px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
   color: var(--text-sec);
-  cursor: pointer;
-  transition: background var(--transition), border-color var(--transition), color var(--transition);
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
 
-.filter-btn:hover {
-  border-color: var(--border-violet-h);
-  color: var(--text);
-}
+.filter-btn:hover { background: var(--bg-card); color: var(--text); }
+.filter-btn.active { background: var(--accent); color: var(--bg); }
+.filter-count { font: 0.625rem var(--font-mono); }
 
-.filter-btn.active {
-  background: var(--accent-soft);
-  border-color: var(--accent-line);
-  color: var(--accent);
-}
+.projects-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.project-wrap { min-width: 0; transition: opacity 220ms var(--ease), transform 220ms var(--ease); }
+.project-wrap.leaving { opacity: 0; transform: translateY(8px); pointer-events: none; }
+.project-wrap.hidden { display: none; }
+.no-results { text-align: center; color: var(--text-sec); font-size: 0.875rem; padding: 40px 0; }
 
-.filter-count {
-  font-size: 10px;
-  font-family: var(--font-mono);
-  background: rgba(255,255,255,0.08);
-  padding: 1px 6px;
-  border-radius: var(--radius-pill);
-}
-
-.filter-btn.active .filter-count {
-  background: var(--accent-soft);
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.project-wrap {
-  transition: opacity 220ms var(--ease), transform 220ms var(--ease);
-  content-visibility: auto;
-  contain-intrinsic-size: auto 360px;
-}
-
-/* Exiting: still in layout, so the fade is visible. */
-.project-wrap.leaving {
-  opacity: 0;
-  transform: scale(0.97);
-  pointer-events: none;
-}
-
-/* Exited: removed from layout and from the focus order. */
-.project-wrap.hidden {
-  display: none;
+@media (max-width: 760px) {
+  .projects-intro { grid-template-columns: 1fr; gap: 24px; margin-bottom: 32px; }
+  .projects-note .section-desc { margin-bottom: 16px; }
+  .filter-bar { align-items: start; flex-direction: column; gap: 12px; padding: 20px; }
+  .filter-btn { padding-inline: 12px; gap: 10px; }
+  .projects-grid { grid-template-columns: 1fr; gap: 24px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .project-wrap { transition: none; }
+  .project-wrap, .filter-btn { transition: none; }
   .project-wrap.leaving { opacity: 1; transform: none; }
-}
-
-.no-results {
-  text-align: center;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 1px;
-  padding: 40px 0;
 }
 </style>
 

@@ -1,7 +1,5 @@
 ---
-// src/pages/contact.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
-
 const socials = [
   { label: 'GitHub', href: 'https://github.com/ekalliptus' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ekalliptus/' },
@@ -14,177 +12,82 @@ const socials = [
   pageMainEntityId="https://bio.ekalliptus.com/#person"
 >
   <div class="container section">
-    <p class="section-label reveal">Contact</p>
-    <h1 class="section-title reveal">Tell me about <br><span class="accent">the work.</span></h1>
-    <p class="section-desc reveal">
-      Include the scope, timeline, and relevant technical details. I accept inquiries about
-      freelance projects, full-time roles, consulting, and IT support.
-    </p>
-
     <div class="contact-layout">
-      <div class="contact-form-wrap card reveal">
-        <form
-          action="https://formsubmit.co/salam@ekalliptus.com"
-          method="POST"
-          id="contact-form"
-        >
-          <input type="hidden" name="_subject" value="Portfolio Contact Form" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value="https://bio.ekalliptus.com/contact/?sent=true" />
-          <input type="hidden" name="_honey" style="display:none" />
-
-          <div class="form-group">
-            <label for="name">Name <span aria-hidden="true">*</span></label>
-            <input type="text" id="name" name="name" required placeholder="Your name" />
+      <div class="contact-intro">
+        <header>
+          <p class="section-label reveal">Start a conversation</p>
+          <h1 class="reveal">Tell me about<br>the <em>work.</em></h1>
+          <p class="contact-description reveal">Freelance projects, full-time roles, consulting, or IT support. Share what you have in mind.</p>
+        </header>
+        <div class="contact-direct reveal">
+          <p class="contact-label">Prefer email?</p>
+          <a href="mailto:salam@ekalliptus.com" class="email-addr">salam@ekalliptus.com <svg class="link-arrow external" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="social-links" aria-label="Social profiles">
+            {socials.map(s => <a href={s.href} class="social-link" target="_blank" rel="noopener noreferrer" aria-label={`${s.label} profile (opens in a new tab)`}>{s.label}<svg class="link-arrow external" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>)}
           </div>
-
-          <div class="form-group">
-            <label for="email">Email <span aria-hidden="true">*</span></label>
-            <input type="email" id="email" name="email" required placeholder="your@email.com" />
+        </div>
+      </div>
+      <section class="contact-form-wrap reveal" aria-labelledby="form-title">
+        <div class="form-heading">
+          <p class="contact-label">A little context goes a long way</p>
+          <h2 id="form-title">What are you working on?</h2>
+          <p>Include the scope, timeline, and relevant technical details.</p>
+        </div>
+        <form action="https://formsubmit.co/salam@ekalliptus.com" method="POST" id="contact-form">
+          <input type="hidden" name="_subject" value="Portfolio Contact Form">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://bio.ekalliptus.com/contact/?sent=true">
+          <input type="hidden" name="_honey" style="display:none">
+          <p class="required-note">All fields are required.</p>
+          <div class="form-row">
+            <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" autocomplete="name" required placeholder="Your name"></div>
+            <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" autocomplete="email" required placeholder="your@email.com"></div>
           </div>
-
-          <div class="form-group">
-            <label for="subject">Subject <span aria-hidden="true">*</span></label>
-            <input type="text" id="subject" name="subject" required placeholder="Project inquiry" />
-          </div>
-
-          <div class="form-group">
-            <label for="message">Message <span aria-hidden="true">*</span></label>
-            <textarea id="message" name="message" required rows="5" placeholder="Describe your project or support request"></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary submit-btn">
-            Send Message →
-          </button>
+          <div class="form-group"><label for="subject">Subject</label><input type="text" id="subject" name="subject" required placeholder="Project inquiry"></div>
+          <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" required rows="6" placeholder="Describe your project or support request"></textarea></div>
+          <div class="form-footer"><p>Sent via FormSubmit.</p><button type="submit" class="btn btn-primary submit-btn">Send message <svg class="link-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8H13.5M13.5 8L9 3.5M13.5 8L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
         </form>
-      </div>
-
-      <div class="contact-side reveal">
-        <div class="card social-card">
-          <h3 class="social-heading">Find Me Online</h3>
-          <div class="social-links">
-            {socials.map(s => (
-              <a
-                href={s.href}
-                class="social-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${s.label} profile (opens in a new tab)`}
-              >
-                <span class="social-label">{s.label}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div class="card email-card">
-          <p class="email-label section-label" style="margin-bottom:6px">Email</p>
-          <a href="mailto:salam@ekalliptus.com" class="email-addr">
-            salam@ekalliptus.com
-          </a>
-        </div>
-      </div>
+      </section>
     </div>
   </div>
 </BaseLayout>
-
 <style>
-.contact-layout {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 28px;
-  align-items: start;
-}
-
-.submit-btn {
-  width: 100%;
-  margin-top: 4px;
-  padding: 12px;
-  font-size: 15px;
-}
-
-.social-card {
-  margin-bottom: 16px;
-}
-
-.social-heading {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-sec);
-  margin-bottom: 16px;
-  font-family: var(--font-mono);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.social-links {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.social-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  text-decoration: none;
-  border: 1px solid transparent;
-  transition: border-color var(--transition), background var(--transition);
-}
-
-.social-link:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent-line);
-}
-
-.social-icon {
-  font-size: 1.2rem;
-  color: var(--violet-light);
-  width: 24px;
-  text-align: center;
-}
-
-.social-label {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.email-addr {
-  font-size: 14px;
-  color: var(--cyan);
-  text-decoration: none;
-  font-family: var(--font-mono);
-  letter-spacing: 0.5px;
-}
-
-.email-addr:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-  .contact-layout {
-    grid-template-columns: 1fr;
-  }
-}
+  .contact-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(40px, 6vw, 100px); align-items: start; }
+  .contact-intro { padding-top: 16px; min-width: 0; }
+  h1 { font-size: clamp(3.2rem, 6vw, 5.25rem); font-weight: 550; line-height: 1.05; letter-spacing: -.065em; }
+  h1 em { font-family: Georgia, serif; font-weight: 400; color: var(--accent); letter-spacing: -.04em; }
+  .contact-description { margin-top: 32px; max-width: 36ch; color: var(--text-sec); font-size: 1.1rem; line-height: 1.8; }
+  .contact-direct { margin-top: clamp(64px, 8vw, 110px); border-top: 1px solid var(--line); padding-top: 32px; }
+  .contact-label { color: var(--lilac); font: .65rem/1.6 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+  .email-addr { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; font-size: clamp(1.1rem, 2vw, 1.5rem); letter-spacing: -.025em; color: var(--text); overflow-wrap: anywhere; transition: color var(--transition-fast); }
+  .email-addr:hover { color: var(--accent); }
+  .social-links { display: flex; flex-wrap: wrap; gap: 16px 36px; margin-top: 24px; }
+  .social-link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--text-sec); font-size: .9rem; transition: color var(--transition-fast); }
+  .social-link:hover { color: var(--accent); }
+  .contact-form-wrap { background: var(--bg-card); border: 1px solid var(--line); border-radius: 28px; padding: clamp(32px, 4vw, 56px); min-width: 0; }
+  .form-heading { margin-bottom: 40px; }
+  .form-heading h2 { font-size: clamp(1.6rem, 2.5vw, 2.25rem); font-weight: 500; letter-spacing: -.045em; line-height: 1.25; margin-block: 16px; }
+  .form-heading > p:last-child { color: var(--text-sec); font-size: .95rem; max-width: 40ch; }
+  .required-note { color: var(--text-mut); font-size: .8rem; margin-bottom: 24px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 12px; }
+  .form-footer p { color: var(--text-mut); font-size: .75rem; }
+  .submit-btn { flex-shrink: 0; gap: 12px; }
+  @media (max-width: 960px) { .contact-layout { grid-template-columns: 1fr; gap: 56px; } .contact-intro { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: end; } .contact-direct { margin-top: 0; border-top: none; padding-top: 0; } }
+  @media (max-width: 760px) { .contact-intro { grid-template-columns: 1fr; gap: 40px; } .contact-description { max-width: 48ch; } .contact-form-wrap { border-radius: 24px; padding: 28px 24px; } .form-row { grid-template-columns: 1fr; gap: 0; } .form-footer { flex-direction: column-reverse; align-items: start; gap: 20px; } .submit-btn { width: 100%; } }
 </style>
-
 <script>
   document.addEventListener('astro:page-load', () => {
     const form = document.getElementById('contact-form');
     form?.addEventListener('submit', () => sessionStorage.setItem('contact-submitted', '1'), { once: true });
-
     const submitted = sessionStorage.getItem('contact-submitted') === '1';
     if (new URLSearchParams(window.location.search).get('sent') !== 'true' || !submitted || !form) return;
-
     sessionStorage.removeItem('contact-submitted');
     form.innerHTML = `
-      <div role="status" tabindex="-1" style="text-align:center; padding: 40px 0; color: var(--cyan);">
-        <p aria-hidden="true" style="font-size:2rem; margin-bottom: 12px;">✓</p>
-        <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:8px">Message submitted</h3>
-        <p style="color: var(--text-sec); font-size:14px">Thank you. Your message has been sent.</p>
+      <div role="status" tabindex="-1" style="padding: 56px 0; color: var(--accent);">
+        <h3 style="font-size:1.8rem; font-weight:500; margin-bottom:16px; letter-spacing:-.04em;">Message submitted</h3>
+        <p style="color: var(--text-sec); font-size:1.05rem">Thank you. Your message has been sent.</p>
       </div>
     `;
     form.querySelector<HTMLElement>('[role="status"]')?.focus();

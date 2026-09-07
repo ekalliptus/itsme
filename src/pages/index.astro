@@ -1,44 +1,7 @@
 ---
-// src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { PROJECTS } from '../data/projects.js';
-
-const projectCount = PROJECTS.length;
-
-const pillars = [
-  {
-    no: '01',
-    label: 'PROFILE',
-    href: '/about/',
-    title: 'Software engineering and IT support from Tegal, Indonesia.',
-    desc: 'I work across web applications, mobile apps, systems troubleshooting, and technical support.',
-    cta: 'About me',
-  },
-  {
-    no: '02',
-    label: 'SKILLS',
-    href: '/skills/',
-    title: 'Web, mobile, backend, and infrastructure tools.',
-    desc: 'My public work includes Astro, React, Flutter, Go, PostgreSQL, Docker, Cloudflare, and related tools.',
-    cta: 'View skills',
-  },
-  {
-    no: '03',
-    label: 'PROJECTS',
-    href: '/projects/',
-    title: `${projectCount} public projects across several domains.`,
-    desc: 'The catalog covers agency sites, donation platforms, travel services, community organizations, and developer tooling.',
-    cta: 'View projects',
-  },
-  {
-    no: '04',
-    label: 'CONTACT',
-    href: '/contact/',
-    title: 'Discuss a project, role, or support requirement.',
-    desc: 'Send the scope, timeline, and contact details for freelance work, full-time roles, or consulting.',
-    cta: 'Contact me',
-  },
-];
+const featured = [PROJECTS[0], PROJECTS[3], PROJECTS[2]];
 ---
 <BaseLayout
   title="Haikal Akhalul Azhar - Software Engineer in Tegal, Indonesia"
@@ -46,362 +9,200 @@ const pillars = [
   pageType="ProfilePage"
   pageMainEntityId="https://bio.ekalliptus.com/#person"
 >
-  <!-- ── HERO ─────────────────────────────────────────────── -->
-  <section class="hero">
-    <canvas id="hero-field" class="hero-field" aria-hidden="true"></canvas>
-    <div class="hero-field-mask" aria-hidden="true"></div>
-
-    <div class="container hero-inner">
-      <p class="hero-eyebrow reveal">
-        <span class="hero-status-dot" aria-hidden="true"></span>
-        Software Engineer · Tegal, Indonesia
-      </p>
-
-      <h1 class="hero-heading reveal">
-        Haikal Akhalul Azhar<br>
-        <span class="accent">builds web and mobile software.</span>
-      </h1>
-
-      <p class="hero-sub reveal" aria-hidden="true">
-        <span id="typing-text"></span>
-        <span class="typing-cursor">_</span>
-      </p>
-      <p class="sr-only">Software Engineer, IT Support Specialist, and AI Enthusiast.</p>
-
-      <p class="hero-desc reveal">
-        I build web applications and cross-platform mobile apps, support Windows and Linux systems,
-        and use AI-assisted workflows for research, coding, testing, and automation.
-      </p>
-
-      <div class="hero-cta reveal">
-        <a href="/projects/" class="btn btn-primary">View work</a>
-        <a href="/contact/" class="btn btn-outline">Hire me</a>
+  <section class="hero container" aria-labelledby="hero-heading">
+    <div class="hero-copy">
+      <p class="hero-eyebrow"><span aria-hidden="true"></span> Haikal Akhalul Azhar · Software engineer</p>
+      <h1 id="hero-heading"><span class="sr-only">Haikal Akhalul Azhar — </span>From interface<br>to <em>infrastructure.</em></h1>
+      <p class="hero-desc">Hey, I'm Haikal. I build web and mobile apps, untangle IT problems, and connect the pieces that make things work.</p>
+      <div class="hero-actions">
+        <a href="/projects/" class="btn btn-primary">Explore my work <svg class="link-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8H13.5M13.5 8L9 3.5M13.5 8L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="/about/" class="about-link">A little about me <svg class="link-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8H13.5M13.5 8L9 3.5M13.5 8L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
+      <div class="hero-location"><span class="location-symbol" aria-hidden="true">⊕</span><span>Based in Tegal, Indonesia<br><span class="location-note">Building for the web. And beyond.</span></span></div>
     </div>
-
-    <!-- stat strip -->
-    <div class="container">
-      <div class="hero-stats reveal">
-        <div class="hero-stat">
-          <span class="hero-stat-num">8+</span>
-          <span class="hero-stat-label">Years of experience</span>
-        </div>
-        <div class="hero-stat">
-          <span class="hero-stat-num">{projectCount}</span>
-          <span class="hero-stat-label">Public projects</span>
+    <div class="hero-visual" id="hero-workbench">
+      <div class="visual-top"><span class="visual-title">A look under the surface</span></div>
+      <div class="scene-stage">
+        <div class="scene-fallback" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+        <canvas id="hero-field" aria-hidden="true"></canvas>
+      </div>
+      <div class="scene-label label-interface" aria-hidden="true"><span></span>Interface</div>
+      <div class="scene-label label-logic" aria-hidden="true"><span></span>Logic</div>
+      <div class="scene-label label-system" aria-hidden="true"><span></span>Infrastructure</div>
+      <div class="visual-bottom">
+        <p>Different layers.<br><strong>One connected system.</strong></p>
+        <div class="scene-controls">
+          <button id="scene-assemble" aria-pressed="false" disabled>Assemble <span aria-hidden="true">↙</span></button>
+          <button id="scene-motion" aria-label="Pause 3D animation" aria-pressed="false" disabled><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2v10M10 2v10" stroke="currentColor" stroke-width="2"/></svg></button>
         </div>
       </div>
     </div>
-
-    <span class="hero-scroll" aria-hidden="true">Scroll to explore</span>
+    <div class="hero-footnote"><span>Web development <b aria-hidden="true">/</b> Mobile apps <b aria-hidden="true">/</b> IT support</span><a href="#selected-work">Scroll to explore <span aria-hidden="true">↓</span></a></div>
   </section>
 
-  <!-- ── FOUR PILLARS ─────────────────────────────────────── -->
-  <section class="pillars">
-    <div class="container">
-      {pillars.map(p => (
-        <a href={p.href} class="pillar reveal">
-          <span class="pillar-no">{p.no}</span>
-          <div class="pillar-main">
-            <span class="pillar-label">{p.label}</span>
-            <h2 class="pillar-title">{p.title}</h2>
-            <p class="pillar-desc">{p.desc}</p>
-            <span class="pillar-cta">{p.cta} <span class="pillar-arrow">→</span></span>
-          </div>
-        </a>
+  <section class="selected-work container" id="selected-work" aria-labelledby="work-heading">
+    <div class="section-heading reveal">
+      <div><p class="section-label">Out of the editor. Into the world.</p><h2 id="work-heading">A few things<br>I've <em>put together.</em></h2></div>
+      <a href="/projects/" class="text-link">All {PROJECTS.length} projects <svg class="link-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8H13.5M13.5 8L9 3.5M13.5 8L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div class="work-grid">
+      {featured.map((project, index) => (
+        <article class:list={['work-item', 'reveal', { 'work-lead': index === 0 }]}>
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="work-image-link" aria-label={`Visit ${project.name} website (opens in a new tab)`}>
+            <div class="work-image"><img src={project.previewImage} alt={`${project.name} website preview`} width="1280" height="800" loading="lazy" decoding="async" /></div>
+            <span class="work-open" aria-hidden="true">↗</span>
+          </a>
+          <div class="work-meta"><span>{project.category}</span><span>{project.tags.slice(0, 2).join(' / ')}</span></div>
+          <h3><a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`${project.name} (opens in a new tab)`}>{project.name} <svg class="link-arrow external" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>
+          <p>{project.description}</p>
+        </article>
       ))}
     </div>
   </section>
+
+  <section class="about-section container" aria-labelledby="about-heading">
+    <div class="about-panel reveal">
+      <div class="portrait-block"><img src="/img/ekal.webp" alt="Haikal Akhalul Azhar" width="600" height="600" loading="lazy" decoding="async" /><span>Tegal, Indonesia</span></div>
+      <div class="about-copy"><p class="section-label">The person behind the pixels</p><h2 id="about-heading">Curiosity is<br>part of the <em>stack.</em></h2><p>Software engineer. IT support specialist. AI enthusiast. I enjoy understanding how things work, from the first screen to the system underneath.</p><p>My work spans web applications, cross-platform mobile apps, Windows and Linux support, and AI-assisted research, coding, testing, and automation.</p><a href="/about/" class="text-link">Meet Haikal <svg class="link-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8H13.5M13.5 8L9 3.5M13.5 8L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+    </div>
+    <div class="practice-row reveal"><div><span class="section-label">Tools for the whole picture</span><p>Astro & React. Flutter. Go & PostgreSQL.<br>Docker & Cloudflare. The right tool for the job.</p></div><a href="/skills/" class="btn btn-outline">Explore my toolkit <svg class="link-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8H13.5M13.5 8L9 3.5M13.5 8L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+  </section>
 </BaseLayout>
-
 <style>
-/* ── HERO ── */
-.hero {
-  position: relative;
-  min-height: calc(100vh - 96px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 64px 0 96px;
-  isolation: isolate;
-}
-
-/* 3D particle field - sits behind hero content */
-.hero-field {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  display: block;
-  opacity: 0;
-  transition: opacity 1200ms var(--ease);
-}
-.hero-field.ready { opacity: 1; }
-
-/* Radial mask keeps the headline crisp over the field */
-.hero-field-mask {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(80% 70% at 38% 42%, rgba(17,17,17,0.92), rgba(17,17,17,0.55) 45%, transparent 75%),
-    linear-gradient(180deg, rgba(17,17,17,0.4) 0%, transparent 30%, transparent 70%, var(--bg) 100%);
-}
-
-.hero-inner { position: relative; z-index: 1; }
-
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-sec);
-  margin-bottom: 32px;
-}
-.hero-status-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: #46d17f;
-  box-shadow: 0 0 0 4px rgba(70, 209, 127, 0.16);
-}
-
-.hero-heading {
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  max-width: 960px;
-  margin-bottom: 24px;
-}
-.hero-heading .accent {
-  display: inline-block;
-  color: var(--accent);
-}
-
-.hero-sub {
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-weight: 500;
-  min-height: 2rem;
-  margin-bottom: 24px;
-  letter-spacing: 0.01em;
-}
-.typing-cursor { animation: blink 1.1s steps(1) infinite; }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-.hero-desc {
-  font-size: clamp(1rem, 1.5vw, 1.1875rem);
-  color: var(--text-sec);
-  line-height: 1.7;
-  max-width: 58ch;
-  margin-bottom: 40px;
-}
-
-.hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
-
-/* stat strip */
-.hero-stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin-top: 80px;
-  padding-top: 40px;
-  border-top: 1px solid var(--line-soft);
-}
-.hero-stat { display: flex; flex-direction: column; gap: 8px; }
-.hero-stat-num {
-  font-size: clamp(2rem, 4vw, 3.125rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-.hero-stat-label {
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  color: var(--text-mut);
-}
-
-.hero-scroll {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  animation: scrollnudge 2.4s var(--ease) infinite;
-}
-@keyframes scrollnudge {
-  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
-  50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
-}
-
-/* ── PILLARS ── */
-.pillars {
-  padding: 40px 0 80px;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 1400px;
-}
-
-.pillar {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 40px;
-  padding: 56px 0;
-  border-top: 1px solid var(--line-soft);
-  text-decoration: none;
-  transition: padding-left var(--transition);
-}
-.pillar:last-child { border-bottom: 1px solid var(--line-soft); }
-.pillar:hover { padding-left: 16px; }
-
-.pillar-no {
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--text-faint);
-  padding-top: 6px;
-  transition: color var(--transition);
-}
-.pillar:hover .pillar-no { color: var(--accent); }
-
-.pillar-label {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
-  color: var(--text-mut);
-  margin-bottom: 18px;
-}
-.pillar-title {
-  font-size: clamp(1.5rem, 3.4vw, 2.5rem);
-  font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
-  color: var(--text);
-  max-width: 22ch;
-  margin-bottom: 18px;
-  transition: color var(--transition);
-}
-.pillar:hover .pillar-title { color: var(--accent); }
-.pillar-desc {
-  font-size: 0.9375rem;
-  color: var(--text-sec);
-  line-height: 1.7;
-  max-width: 56ch;
-  margin-bottom: 22px;
-}
-.pillar-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text);
-}
-.pillar-arrow { transition: transform var(--transition); }
-.pillar:hover .pillar-arrow { transform: translateX(6px); }
-
-@media (max-width: 768px) {
-  .hero { min-height: auto; padding: 32px 0 64px; }
-  .hero-stats { grid-template-columns: 1fr 1fr; gap: 28px 20px; margin-top: 56px; }
-  .hero-scroll { display: none; }
-  .pillar { grid-template-columns: 1fr; gap: 12px; padding: 40px 0; }
-  .pillar:hover { padding-left: 0; }
-  .pillar-no { padding-top: 0; }
-}
+  .hero { display: grid; grid-template-columns: 1.08fr 1fr; gap: 12px; padding-top: 50px; }
+  .hero-copy { padding-block: 30px 22px; align-self: center; }
+  .hero-eyebrow { display: flex; align-items: center; gap: 8px; color: var(--text-sec); font: .67rem/1.6 var(--font-mono); margin-bottom: 30px; }
+  .hero-eyebrow > span { flex-shrink: 0; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  h1 { font-size: clamp(2.9rem, 4.8vw, 4.55rem); font-weight: 520; line-height: 1.12; letter-spacing: -.06em; margin-bottom: 28px; }
+  em { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; letter-spacing: -.045em; color: var(--accent); }
+  .hero-desc { max-width: 43ch; color: var(--text-sec); font-size: 1.08rem; line-height: 1.75; }
+  .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .about-link { display: inline-flex; align-items: center; gap: 12px; padding-block: 12px; font-size: .85rem; }
+  .about-link:hover, .text-link:hover { color: var(--accent); }
+  .hero-location { display: flex; align-items: center; gap: 12px; margin-top: 42px; font: .68rem/1.7 var(--font-mono); color: var(--text-sec); }
+  .location-symbol { font-size: 1.7rem; color: var(--accent); }
+  .location-note { color: var(--text-mut); }
+  .hero-visual { position: relative; isolation: isolate; min-width: 0; height: 530px; border: 1px solid var(--line); border-radius: 28px; background: #192d34; overflow: hidden; }
+  .visual-top, .visual-bottom { position: absolute; left: 28px; right: 28px; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .visual-top { top: 25px; }
+  .visual-title { color: var(--text-sec); font: .65rem/1.5 var(--font-mono); }
+  .visual-badge { border: 1px solid var(--line-strong); border-radius: 5px; padding: 4px 7px; color: var(--text-mut); font: .56rem/1.5 var(--font-mono); letter-spacing: .1em; }
+  .scene-stage { position: absolute; inset: 32px 0 65px; }
+  #hero-field { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 600ms; }
+  #hero-field.ready { opacity: 1; }
+  .scene-fallback { position: absolute; inset: 15% 18%; transform: rotate(-18deg); transition: opacity 300ms; }
+  .scene-fallback span { position: absolute; inset: 12% 0 38%; border: 15px solid #88d4c5; border-radius: 30%; transform: rotateX(55deg) rotateZ(-25deg); box-shadow: 0 10px 0 #42756f; }
+  .scene-fallback span:nth-child(2) { top: 30%; bottom: 20%; border-color: var(--lilac); box-shadow: 0 10px 0 #6a628e; }
+  .scene-fallback span:nth-child(3) { top: 50%; bottom: 0; border-color: #789aa8; box-shadow: 0 10px 0 #3d626e; }
+  .scene-fallback i { position: absolute; left: 39%; top: 39%; width: 22%; aspect-ratio: 1; border-radius: 50%; background: var(--accent); }
+  .hero-visual:has(.ready) .scene-fallback { opacity: 0; }
+  .scene-label { position: absolute; z-index: 1; display: flex; align-items: center; gap: 6px; font: .58rem/1.5 var(--font-mono); color: var(--text-sec); pointer-events: none; transition: opacity 300ms; }
+  .scene-label > span { width: 18px; height: 1px; background: var(--line-strong); }
+  .label-interface { right: 22px; top: 28%; }
+  .label-logic { left: 22px; top: 48%; }
+  .label-system { right: 22px; top: 67%; }
+  .hero-visual.assembled .scene-label { opacity: 0; }
+  .visual-bottom { bottom: 24px; }
+  .visual-bottom p { font-size: .75rem; color: var(--text-mut); line-height: 1.7; }
+  .visual-bottom strong { color: var(--text-sec); font-weight: 400; }
+  .scene-controls { display: flex; gap: 8px; }
+  .scene-controls button { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 44px; padding: 10px 13px; border: 1px solid var(--line-strong); border-radius: 9px; font-size: .7rem; }
+  .scene-controls button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .scene-controls button:disabled { opacity: .35; }
+  .hero-footnote { grid-column: 1/-1; display: flex; justify-content: space-between; gap: 12px; padding: 22px 0 34px; border-bottom: 1px solid var(--line); color: var(--text-mut); font: .65rem/1.6 var(--font-mono); }
+  .hero-footnote b { margin-inline: 18px; font-weight: 400; color: var(--line-strong); }
+  .hero-footnote a { display: flex; gap: 12px; }
+  .selected-work { padding-top: 96px; }
+  .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 40px; }
+  .section-heading h2, .about-copy h2 { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 500; line-height: 1.13; letter-spacing: -.045em; }
+  .text-link { display: inline-flex; align-items: center; gap: 12px; padding-block: 10px; border-bottom: 1px solid var(--line-strong); font-size: .9rem; }
+  .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 32px; }
+  .work-lead { grid-column: 1/-1; }
+  .work-image-link { position: relative; display: block; overflow: hidden; border-radius: 20px; background: #c1d1cc; }
+  .work-image { padding: 32px 32px 0; aspect-ratio: 1.55; overflow: hidden; }
+  .work-lead .work-image { aspect-ratio: 2.75; padding: 45px 10% 0; }
+  .work-item:nth-child(2) .work-image-link { background: #c1bddd; }
+  .work-item:nth-child(3) .work-image-link { background: #a3c6d3; }
+  .work-image img { width: 100%; height: auto; border-radius: 9px 9px 0 0; box-shadow: 0 10px 35px #101b2033; transition: transform 700ms var(--ease); }
+  .work-image-link:hover img { transform: translateY(-7px); }
+  .work-open { position: absolute; top: 18px; right: 18px; width: 40px; height: 40px; display: grid; place-items: center; background: var(--bg); color: var(--text); border-radius: 50%; font-size: 1.25rem; }
+  .work-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 22px; color: var(--text-mut); font: .65rem/1.5 var(--font-mono); }
+  .work-meta span:first-child { text-transform: capitalize; }
+  .work-item h3 { font-size: 1.45rem; font-weight: 550; letter-spacing: -.035em; margin-block: 10px; }
+  .work-item h3 a { display: flex; justify-content: space-between; }
+  .work-item h3 span { color: var(--accent); font-family: var(--font-body); }
+  .work-item > p { max-width: 75ch; font-size: .93rem; color: var(--text-sec); }
+  .about-section { padding-top: 108px; }
+  .about-panel { display: grid; grid-template-columns: .8fr 1.2fr; gap: 65px; padding: 44px; background: var(--bg-soft); border-radius: 28px; align-items: center; }
+  .portrait-block { position: relative; overflow: hidden; background: #a7bfb9; border-radius: 16px; }
+  .portrait-block img { width: 100%; height: 420px; object-fit: cover; object-position: center; filter: saturate(.65); }
+  .portrait-block > span { position: absolute; bottom: 18px; left: 18px; color: var(--bg); background: var(--text); padding: 6px 10px; border-radius: 6px; font: .65rem/1.5 var(--font-mono); }
+  .about-copy h2 { margin-bottom: 24px; }
+  .about-copy > p:not(.section-label) { font-size: 1rem; color: var(--text-sec); margin-bottom: 16px; }
+  .about-copy .text-link { margin-top: 8px; }
+  .practice-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 42px 0 12px; }
+  .practice-row .section-label { margin-bottom: 12px; }
+  .practice-row p { font-size: 1rem; color: var(--text-sec); }
+  @media (min-width: 1450px) { .hero-visual { height: 580px; } }
+  @media (max-width: 1050px) { .hero { gap: 12px; } h1 { font-size: clamp(2.7rem, 4.8vw, 4rem); } .hero-visual { height: 500px; } .hero-eyebrow { font-size: .6rem; } .scene-label { display: none; } .visual-top, .visual-bottom { left: 18px; right: 18px; } .visual-bottom { align-items: end; } .visual-bottom p { font-size: .65rem; } .about-panel { gap: 32px; padding: 32px; } }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; padding-top: 16px; gap: 28px; } .hero-copy { padding-block: 24px 0; } h1 { font-size: clamp(2.9rem, 8vw, 4.5rem); } .hero-eyebrow { font-size: .63rem; margin-bottom: 24px; } .hero-desc { max-width: 48ch; font-size: 1rem; } .hero-location { margin-top: 26px; } .hero-visual { height: 450px; } .visual-bottom p { font-size: .75rem; } .scene-label { display: flex; } .hero-footnote { padding-block: 0 24px; } .hero-footnote > a { display: none; } .hero-footnote b { margin-inline: 10px; } .selected-work, .about-section { padding-top: 64px; } .section-heading { align-items: start; flex-direction: column; gap: 18px; } .work-grid { gap: 36px; grid-template-columns: 1fr; } .work-lead { grid-column: auto; } .work-image, .work-lead .work-image { aspect-ratio: 1.55; padding: 24px 24px 0; } .about-panel { grid-template-columns: 1fr; padding: 24px; gap: 12px; } .portrait-block img { height: 340px; } .practice-row { align-items: start; flex-direction: column; } }
+  @media (max-width: 390px) { h1 { font-size: 2.65rem; } .hero-actions { gap: 12px; } .hero-visual { height: 405px; } .visual-title { font-size: .58rem; } .visual-bottom p { font-size: .65rem; } .hero-footnote { font-size: .59rem; } }
 </style>
-
 <script>
-  let typingTimeout: ReturnType<typeof setTimeout> | null = null;
-
-  document.addEventListener('astro:before-swap', () => {
-    if (typingTimeout !== null) clearTimeout(typingTimeout);
-    typingTimeout = null;
-  });
-
-  function initTyping() {
-    const el = document.getElementById('typing-text');
-    if (!el) return;
-
-    const texts = ['Software Engineer', 'IT Support Specialist', 'AI Enthusiast'];
-    let ti = 0, ci = 0, del = false;
-
-    function tick() {
-      if (!el) return;
-      const cur = texts[ti];
-      el.textContent = del ? cur.slice(0, ci - 1) : cur.slice(0, ci + 1);
-      del ? ci-- : ci++;
-      let spd = del ? 60 : 130;
-      if (!del && ci === cur.length) { spd = 1800; del = true; }
-      else if (del && ci === 0) { del = false; ti = (ti + 1) % texts.length; }
-      typingTimeout = setTimeout(tick, spd);
-    }
-
-    tick();
-  }
-
-  document.addEventListener('astro:page-load', initTyping);
-
-  // ── 3D hero field ──
-  // Three.js (~469 KB) is heavy, so we DEFER it off the critical path:
-  // the hero text paints first, then the field loads when the browser is idle.
-  let heroField: { dispose: () => void } | null = null;
-  let fieldLoading = false;
-  let fieldGeneration = 0;
-  let idleHandle: number | null = null;
-  let timeoutHandle: number | null = null;
-
-  async function loadField(canvas: HTMLCanvasElement, generation: number) {
-    if (heroField || fieldLoading || !canvas.isConnected) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
-        (navigator as any).connection?.saveData) return;
-
-    fieldLoading = true;
-    try {
-      const { initHeroField } = await import('../scripts/hero-field.js');
-      if (generation !== fieldGeneration || !canvas.isConnected) return;
-      heroField = initHeroField(canvas);
-      if (heroField) requestAnimationFrame(() => canvas.classList.add('ready'));
-    } catch {
-      // CSS background remains as the no-WebGL fallback.
-    } finally {
-      fieldLoading = false;
-    }
-  }
-
-  function scheduleField() {
+  let dispose: (() => void) | undefined;
+  let generation = 0;
+  let idle: number | undefined;
+  let timeout: number | undefined;
+  function scheduleScene() {
     const canvas = document.getElementById('hero-field') as HTMLCanvasElement | null;
     if (!canvas) return;
-    const generation = ++fieldGeneration;
-    const ric = (window as any).requestIdleCallback as
-      | ((cb: () => void, opts?: { timeout: number }) => number)
-      | undefined;
-    if (ric) idleHandle = ric(() => loadField(canvas, generation), { timeout: 2000 });
-    else timeoutHandle = window.setTimeout(() => loadField(canvas, generation), 600);
+    const current = ++generation;
+    const connection = (navigator as Navigator & { connection?: { saveData: boolean } }).connection;
+    if (connection?.saveData) return;
+    const load = async () => {
+      try {
+        const { initHeroField } = await import('../scripts/hero-field.js');
+        if (current !== generation || !canvas.isConnected) return;
+        const scene = initHeroField(canvas);
+        if (!scene) return;
+        canvas.classList.add('ready');
+        const assemble = document.getElementById('scene-assemble') as HTMLButtonElement;
+        const motion = document.getElementById('scene-motion') as HTMLButtonElement;
+        const workbench = document.getElementById('hero-workbench');
+        const controller = new AbortController();
+        const { signal } = controller;
+        assemble.disabled = false;
+        motion.disabled = false;
+        let assembled = false;
+        assemble.addEventListener('click', () => {
+          assembled = !assembled;
+          scene.setAssembled(assembled);
+          workbench?.classList.toggle('assembled', assembled);
+          assemble.setAttribute('aria-pressed', String(assembled));
+          assemble.innerHTML = assembled ? 'Explode <svg class="link-arrow external" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' : 'Assemble <svg class="link-arrow external" style="transform:rotate(180deg)" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        }, { signal });
+        const updateMotion = () => {
+          motion.setAttribute('aria-pressed', String(scene.paused));
+          motion.setAttribute('aria-label', scene.paused ? 'Play 3D animation' : 'Pause 3D animation');
+          motion.innerHTML = scene.paused ? '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l8 5-8 5z" fill="currentColor"/></svg>' : '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2v10M10 2v10" stroke="currentColor" stroke-width="2"/></svg>';
+        };
+        motion.addEventListener('click', () => { scene.setPaused(!scene.paused); updateMotion(); }, { signal });
+        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', updateMotion, { signal });
+        updateMotion();
+        dispose = () => { controller.abort(); scene.dispose(); };
+      } catch {
+        // ponytail: a CSS assembly covers unavailable WebGL; no second rendering engine.
+      }
+    };
+    if ('requestIdleCallback' in window) idle = window.requestIdleCallback(load, { timeout: 1200 });
+    else timeout = window.setTimeout(load, 100);
   }
-
-  function disposeField() {
-    fieldGeneration++;
-    if (idleHandle !== null && (window as any).cancelIdleCallback) {
-      (window as any).cancelIdleCallback(idleHandle);
-    }
-    if (timeoutHandle !== null) clearTimeout(timeoutHandle);
-    idleHandle = null;
-    timeoutHandle = null;
-    if (heroField) { heroField.dispose(); heroField = null; }
-  }
-
-  document.addEventListener('astro:page-load', scheduleField);
-  document.addEventListener('astro:before-swap', disposeField);
+  document.addEventListener('astro:page-load', scheduleScene);
+  document.addEventListener('astro:before-swap', () => {
+    generation++;
+    if (idle !== undefined) window.cancelIdleCallback(idle);
+    if (timeout !== undefined) window.clearTimeout(timeout);
+    dispose?.();
+    dispose = undefined;
+  });
 </script>

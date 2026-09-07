@@ -1,5 +1,4 @@
 ---
-// src/components/ProjectCard.astro
 import LazyImage from './LazyImage.astro';
 
 interface Props {
@@ -11,60 +10,37 @@ interface Props {
   previewImage?: string | null;
 }
 
-const { icon, name, description, tags, liveUrl, previewImage } = Astro.props;
-
-// Accent the tags that identify the primary runtime or framework, so the same
-// technology always looks the same regardless of its position in the array.
-const ACCENT_TAGS = new Set([
-  'astro', 'react', 'vue', 'next.js', 'nuxt', 'flutter', 'three.js',
-  'typescript', 'go', 'laravel', 'node.js',
-]);
+const { name, description, tags, liveUrl, previewImage } = Astro.props;
 ---
-<article class="project-card card reveal">
-
-  <!-- Preview image / placeholder -->
+<article class="project-card reveal">
   <a href={liveUrl} class="proj-preview-link" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-    <div class="proj-preview">
-      <!-- Fake browser chrome -->
-      <div class="browser-bar">
-        <span class="browser-dot" style="background:#ff5f57"></span>
-        <span class="browser-dot" style="background:#febc2e"></span>
-        <span class="browser-dot" style="background:#28c840"></span>
-        <span class="browser-url">{liveUrl.replace('https://', '')}</span>
-      </div>
-
-      {previewImage
-        ? <LazyImage src={previewImage} alt={`${name} preview`} width={400} height={180} class="proj-screenshot" loading="lazy" />
-        : <div class="proj-placeholder">
-            <span class="placeholder-icon" aria-hidden="true">{icon}</span>
-            <span class="placeholder-label">Preview coming soon</span>
-          </div>
-      }
-    </div>
+    {previewImage
+      ? <LazyImage src={previewImage} alt={`${name} preview`} width={800} height={500} class="proj-screenshot" loading="lazy" />
+      : <div class="proj-placeholder"><span>{name}</span><small>Website preview unavailable</small></div>
+    }
   </a>
-
-  <!-- Card content -->
-  <header class="proj-header">
-    <span class="proj-icon" aria-hidden="true">{icon}</span>
-    <h3 class="proj-name">{name}</h3>
-  </header>
-  <p class="proj-desc">{description}</p>
-  <div class="proj-tags">
-    {tags.map(tag => (
-      <span class:list={['tag', { 'tag-cyan': ACCENT_TAGS.has(tag.toLowerCase()) }]}>{tag}</span>
-    ))}
+  <div class="proj-content">
+    <header class="proj-header">
+      <h3 class="proj-name">{name}</h3>
+      <span class="proj-arrow" aria-hidden="true">↗</span>
+    </header>
+    <p class="proj-desc">{description}</p>
+    <ul class="proj-tags" role="list" aria-label={`${name} technologies`}>
+      {tags.map(tag => <li>{tag}</li>)}
+    </ul>
+    <footer class="proj-footer">
+      <a
+        href={liveUrl}
+        class="proj-visit"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Visit ${name} website (opens in a new tab)`}
+      >
+        Visit website <svg class="link-arrow external" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <span class="proj-domain">{new URL(liveUrl).hostname}</span>
+    </footer>
   </div>
-  <footer class="proj-footer">
-    <a
-      href={liveUrl}
-      class="btn btn-primary"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Visit ${name} website (opens in a new tab)`}
-    >
-      Visit website <span aria-hidden="true">↗</span>
-    </a>
-  </footer>
 </article>
 
 <style>
@@ -72,131 +48,82 @@ const ACCENT_TAGS = new Set([
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 0;
   overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
 }
 
-/* Preview area */
 .proj-preview-link {
   display: block;
-  text-decoration: none;
-}
-
-.proj-preview {
+  overflow: hidden;
+  margin: 12px 12px 0;
+  border-radius: 15px;
   background: var(--bg-soft);
-  border-bottom: 1px solid var(--line);
-  overflow: hidden;
 }
 
-.browser-bar {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+.proj-preview-link :global(.lazy-img) {
+  transition: transform 500ms var(--ease);
 }
 
-.browser-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
+.proj-preview-link:hover :global(.lazy-img) { transform: scale(1.025); }
 
-.browser-url {
-  font-size: 10px;
-  font-family: var(--font-mono);
-  color: rgba(255, 255, 255, 0.25);
-  margin-left: 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 1;
-}
-
-.proj-screenshot {
-  height: 180px;
-  aspect-ratio: auto !important;   /* fixed height wins over LazyImage ratio */
-}
-.proj-screenshot :global(.lazy-img) {
-  transition: transform 400ms var(--ease);
-}
-.proj-preview-link:hover .proj-screenshot :global(.lazy-img) {
-  transform: scale(1.03);
-}
-
-/* Placeholder when no real screenshot */
 .proj-placeholder {
-  height: 180px;
+  aspect-ratio: 8 / 5;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 10px;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 18px 18px;
-}
-
-.placeholder-icon {
-  font-size: 2.8rem;
-  opacity: 0.6;
-}
-
-.placeholder-label {
-  font-size: 10px;
-  font-family: var(--font-mono);
-  letter-spacing: 2px;
-  color: var(--text-faint);
-  text-transform: uppercase;
-}
-
-/* Card content padding */
-.proj-header {
-  display: flex;
-  align-items: center;
   gap: 12px;
-  padding: 16px 20px 0;
+  padding: 32px;
+  color: var(--accent);
+  font-size: 1.75rem;
 }
 
-.proj-icon {
-  font-size: 1.4rem;
-  flex-shrink: 0;
-}
+.proj-placeholder small { color: var(--text-sec); font: 0.75rem var(--font-mono); }
 
-.proj-name {
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.3;
-  min-height: 2.6em;
+.proj-content {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  flex: 1;
+  padding: 28px;
 }
 
-.proj-desc {
-  font-size: 13px;
-  color: var(--text-sec);
-  line-height: 1.7;
-  flex: 1;
-  padding: 0 20px;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow: hidden;
-}
+.proj-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+.proj-name { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 600; line-height: 1.25; letter-spacing: -0.04em; }
+.proj-arrow { color: var(--accent); font-size: 1.5rem; line-height: 1; }
+.proj-desc { margin-top: 16px; color: var(--text-sec); font-size: 0.8125rem; line-height: 1.8; }
 
 .proj-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  padding: 12px 20px 0;
-  min-height: 34px;
-  align-content: flex-start;
+  gap: 6px 16px;
+  list-style: none;
+  padding: 20px 0 24px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
 }
 
 .proj-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-top: auto;
-  padding: 4px 20px 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.proj-visit { display: inline-flex; align-items: center; gap: 10px; font-size: 0.8125rem; font-weight: 600; }
+.proj-visit:hover { color: var(--accent); }
+.proj-domain { color: var(--text-sec); font: 0.625rem var(--font-mono); overflow-wrap: anywhere; }
+
+@media (max-width: 600px) {
+  .proj-content { padding: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj-preview-link :global(.lazy-img) { transition: none; transform: none; }
 }
 </style>

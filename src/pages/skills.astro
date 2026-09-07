@@ -1,11 +1,7 @@
 ---
-// src/pages/skills.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SkillsSphere from '../components/SkillsSphere.astro';
-
-const categories = [
-  'Mobile', 'Frontend', 'Backend', 'Database', 'Languages', 'CSS / UI', 'Tools',
-];
+const categories = ['Mobile', 'Frontend', 'Backend', 'Database', 'Languages', 'CSS / UI', 'Tools'];
 ---
 <BaseLayout
   title="Technical Skills - Haikal Akhalul Azhar"
@@ -13,54 +9,36 @@ const categories = [
   pageType="WebPage"
 >
   <div class="container section">
-    <p class="section-label reveal">Technical Skills</p>
-    <h1 class="section-title reveal">Tools represented in <br><span class="accent">public work.</span></h1>
-    <p class="section-desc reveal">
-      Explore the interactive visualization or browse the text list below. The categories cover
-      mobile, frontend, backend, databases, interface tooling, infrastructure, and IT support.
-    </p>
-
-    <SkillsSphere />
-
-    <div class="legend reveal">
-      {categories.map(cat => (
-        <span class="legend-item">
-          <span class="legend-dot"></span>
-          {cat}
-        </span>
-      ))}
+    <header class="skills-intro">
+      <div class="skills-heading">
+        <p class="section-label reveal">Toolkit</p>
+        <h1 class="reveal">Tools behind<br>the <em>work.</em></h1>
+      </div>
+      <div class="skills-context reveal">
+        <p>Web, mobile, and the systems underneath. A toolkit represented in my public work, from interface tooling to infrastructure and IT support.</p>
+        <a href="/projects/" class="text-link">See the tools in practice <svg class="link-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8H13.5M13.5 8L9 3.5M13.5 8L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </header>
+    <div class="skills-scope reveal" aria-label="Skill categories">
+      <p class="scope-label">Across the stack</p>
+      <ul role="list">
+        {categories.map(category => <li>{category}</li>)}
+      </ul>
     </div>
+    <SkillsSphere />
   </div>
 </BaseLayout>
-
 <style>
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  margin-top: 24px;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--text-sec);
-  font-family: var(--font-mono);
-  letter-spacing: 1px;
-}
-
-.legend-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex-shrink: 0;
-  /* Optical alignment: centering on the full line box makes a small dot sit
-     too high relative to the lowercase glyphs. Nudge it down to the text's
-     optical centre (its x-height), not the line-box centre. */
-  transform: translateY(1px);
-}
+  .skills-intro { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(40px, 7vw, 100px); align-items: end; margin-bottom: 64px; }
+  h1 { font-size: clamp(3rem, 7vw, 6rem); font-weight: 550; line-height: 1.05; letter-spacing: -.065em; }
+  h1 em { color: var(--accent); font-family: Georgia, serif; font-weight: 400; letter-spacing: -.04em; }
+  .skills-context { max-width: 46ch; padding-bottom: 8px; }
+  .skills-context p { color: var(--text-sec); font-size: 1.1rem; line-height: 1.8; margin-bottom: 24px; }
+  .text-link { display: inline-flex; align-items: center; gap: 12px; padding-block: 10px; border-bottom: 1px solid var(--line-strong); font-size: .9rem; transition: color var(--transition-fast); }
+  .text-link:hover { color: var(--accent); }
+  .skills-scope { display: flex; align-items: baseline; gap: 28px 64px; padding-block: 28px; margin-bottom: 40px; border-top: 1px solid var(--line); }
+  .scope-label { flex-shrink: 0; color: var(--lilac); font: .65rem/1.6 var(--font-mono); text-transform: uppercase; letter-spacing: .12em; }
+  .skills-scope ul { display: flex; flex-wrap: wrap; gap: 14px 32px; list-style: none; }
+  .skills-scope li { color: var(--text); font-size: .95rem; }
+  @media (max-width: 860px) { .skills-intro { grid-template-columns: 1fr; gap: 32px; margin-bottom: 40px; } .skills-context { max-width: 58ch; } .skills-scope { flex-direction: column; gap: 18px; } .skills-scope ul { gap: 12px 24px; } }
 </style>
