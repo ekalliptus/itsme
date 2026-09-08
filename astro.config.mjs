@@ -25,15 +25,4 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'auto',
   },
-  vite: {
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            three: ['three'],
-          },
-        },
-      },
-    },
-  },
 });

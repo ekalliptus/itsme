@@ -1,4 +1,4 @@
-# Haikal Akhalul Azhar — Portfolio
+# Haikal Akhalul Azhar Portfolio
 
 Astro portfolio deployed at <https://bio.ekalliptus.com>.
 
