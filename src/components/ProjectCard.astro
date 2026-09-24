@@ -22,7 +22,7 @@ const { name, description, tags, liveUrl, previewImage } = Astro.props;
   <div class="proj-content">
     <header class="proj-header">
       <h3 class="proj-name">{name}</h3>
-      <span class="proj-arrow" aria-hidden="true">↗</span>
+      <svg class="link-arrow external proj-arrow" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </header>
     <p class="proj-desc">{description}</p>
     <ul class="proj-tags" role="list" aria-label={`${name} technologies`}>
@@ -90,7 +90,8 @@ const { name, description, tags, liveUrl, previewImage } = Astro.props;
 
 .proj-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
 .proj-name { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 600; line-height: 1.25; letter-spacing: -0.04em; }
-.proj-arrow { color: var(--accent); font-size: 1.5rem; line-height: 1; }
+.proj-arrow { color: var(--accent); font-size: 1.5rem; line-height: 1; transition: transform var(--transition-fast); }
+.project-card:hover .proj-arrow { transform: translate(3px, -3px); }
 .proj-desc { margin-top: 16px; color: var(--text-sec); font-size: 0.8125rem; line-height: 1.8; }
 
 .proj-tags {

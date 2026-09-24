@@ -32,7 +32,7 @@ const featured = [PROJECTS[0], PROJECTS[3], PROJECTS[2]];
       <div class="visual-bottom">
         <p>Different layers.<br><strong>One connected system.</strong></p>
         <div class="scene-controls">
-          <button id="scene-assemble" aria-pressed="false" disabled>Assemble <span aria-hidden="true">↙</span></button>
+          <button id="scene-assemble" aria-pressed="false" disabled>Assemble <svg class="link-arrow external" style="transform:rotate(180deg)" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button id="scene-motion" aria-label="Pause 3D animation" aria-pressed="false" disabled><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2v10M10 2v10" stroke="currentColor" stroke-width="2"/></svg></button>
         </div>
       </div>
@@ -50,7 +50,7 @@ const featured = [PROJECTS[0], PROJECTS[3], PROJECTS[2]];
         <article class:list={['work-item', 'reveal', { 'work-lead': index === 0 }]}>
           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="work-image-link" aria-label={`Visit ${project.name} website (opens in a new tab)`}>
             <div class="work-image"><img src={project.previewImage} alt={`${project.name} website preview`} width="1280" height="800" loading="lazy" decoding="async" /></div>
-            <span class="work-open" aria-hidden="true">↗</span>
+            <svg class="link-arrow external work-open" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <div class="work-meta"><span>{project.category}</span><span>{project.tags.slice(0, 2).join(' / ')}</span></div>
           <h3><a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`${project.name} (opens in a new tab)`}>{project.name} <svg class="link-arrow external" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>
