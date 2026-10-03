@@ -43,6 +43,7 @@ body {
   font: 400 1rem/1.65 var(--font-body);
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
