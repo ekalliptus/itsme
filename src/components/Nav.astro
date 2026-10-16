@@ -19,6 +19,10 @@ const isActive = (href: string) => href === '/' ? currentPath === '/' : currentP
       {links.map(link => <a href={link.href} class:list={['nav-link', { active: isActive(link.href) }]} aria-current={isActive(link.href) ? 'page' : undefined}>{link.label}</a>)}
     </div>
     <a href="mailto:salam@ekalliptus.com" class="nav-contact">Let's talk <svg class="link-arrow external" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light theme" aria-pressed="false">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5 5l1.8 1.8M17.2 17.2 19 19M19 5l-1.8 1.8M6.8 17.2 5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
     <button id="nav-mob-btn" class="nav-mob-btn" aria-label="Open menu" aria-controls="nav-mob-overlay" aria-expanded="false">Menu <span aria-hidden="true">☰</span></button>
   </nav>
 </header>
@@ -30,7 +34,7 @@ const isActive = (href: string) => href === '/' ? currentPath === '/' : currentP
   <a href="mailto:salam@ekalliptus.com" class="menu-email">salam@ekalliptus.com</a>
 </dialog>
 <style>
-  .site-header { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(16,27,32,.94); backdrop-filter: blur(16px); }
+  .site-header { position: fixed; inset: 0 0 auto; z-index: 1000; background: var(--nav-bg); backdrop-filter: blur(16px); }
   .navigation { height: 100px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
   .nav-logo { display: flex; gap: 11px; align-items: center; font: 650 1.05rem/1.3 var(--font-display); letter-spacing: -.04em; }
   .logo-mark { display: grid; place-items: center; width: 38px; height: 42px; background: var(--accent); color: var(--bg); border-radius: 12px 12px 12px 3px; font-size: 1.75rem; }
@@ -57,10 +61,35 @@ const isActive = (href: string) => href === '/' ? currentPath === '/' : currentP
   @media (max-width: 680px) { .navigation { height: 84px; } .nav-links { display: none; } .nav-mob-btn { display: flex; } }
 </style>
 <script>
+  function applyThemeMeta() {
+    const light = document.documentElement.classList.contains('light');
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) {
+      toggle.setAttribute('aria-pressed', String(light));
+      toggle.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+    }
+  }
+
+  function switchTheme() {
+    const root = document.documentElement;
+    const light = !root.classList.contains('light');
+    const commit = () => {
+      root.classList.toggle('light', light);
+      try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch {}
+      applyThemeMeta();
+    };
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && document.startViewTransition) document.startViewTransition(commit);
+    else commit();
+  }
+
   function initNav() {
     const button = document.getElementById('nav-mob-btn');
     const menu = document.getElementById('nav-mob-overlay') as HTMLDialogElement | null;
     const close = document.getElementById('nav-mob-close');
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) themeToggle.addEventListener('click', switchTheme);
+    applyThemeMeta();
     if (!button || !menu || !close) return;
     const controller = new AbortController();
     const { signal } = controller;

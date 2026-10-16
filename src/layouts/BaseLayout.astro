@@ -197,6 +197,15 @@ const graph = [
 
   <!-- Fonts: self-hosted via @fontsource-variable/montserrat (imported in global.css) -->
 
+  <script is:inline>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem('theme'); } catch (e) {}
+      var light = stored ? stored === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (light) document.documentElement.classList.add('light');
+    })();
+  </script>
+
   {!noindex && (
     <script is:inline type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
@@ -235,6 +244,16 @@ const graph = [
     }
     document.addEventListener('astro:page-load', initReveal);
     document.addEventListener('astro:before-swap', () => revealObserver?.disconnect());
+  </script>
+  <script is:inline>
+    (function () {
+      var meta = document.querySelector('meta[name="theme-color"]');
+      var set = function () {
+        if (meta) meta.setAttribute('content', document.documentElement.classList.contains('light') ? '#f2f5f0' : '#101b20');
+      };
+      set();
+      new MutationObserver(set).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    })();
   </script>
 </body>
 </html>
